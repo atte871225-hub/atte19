@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>소리쏙쏙 음운인식 v27</title>
+<style>
+  :root{
+    --bg:#f3f8e8;
+    --card:#fff;
+    --green:#86b93b;
+    --green2:#5e8f22;
+    --blue:#4aa3d8;
+    --purple:#8179bd;
+    --mint:#64c0b8;
+    --line:#dce8cf;
+    --red:#e66;
+    --yellow:#fff2b8;
+    --shadow:0 8px 20px rgba(55,80,30,.12);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:#222;
+    font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans KR", sans-serif;
+  }
+  header{
+    position:sticky; top:0; z-index:20;
+    background:#ffffffef; backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 16px; gap:12px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:900;color:var(--green2)}
+  .logo{
+    width:42px;height:42px;border-radius:14px;
+    display:grid;place-items:center;color:#fff;font-size:22px;font-weight:900;
+    background:linear-gradient(135deg,var(--green),var(--blue));
+    box-shadow:var(--shadow);
+  }
+  button, input, select, textarea{font-family:inherit;font-size:16px}
+  button{
+    border:2px solid var(--green); background:#fff; color:var(--green2);
+    border-radius:12px; padding:10px 14px; font-weight:900; cursor:pointer;
+  }
+  button:hover{transform:translateY(-1px); box-shadow:var(--shadow)}
+  .primary{background:var(--green); color:#fff}
+  .blue{background:var(--blue); color:#fff; border-color:var(--blue)}
+  .purple{background:var(--purple); color:#fff; border-color:var(--purple)}
+  .mint{background:var(--mint); color:#fff; border-color:var(--mint)}
+  .red{background:var(--red); color:#fff; border-color:var(--red)}
+  .gray{background:#eef1ea; color:#444; border-color:#d4dacd}
+  .small{padding:7px 10px; font-size:14px}
+  main{max-width:1280px; margin:0 auto; padding:18px}
+  .layout{display:grid; grid-template-columns:330px 1fr; gap:18px; align-items:start}
+  @media(max-width:940px){.layout{grid-template-columns:1fr} header{position:static}}
+  .card{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+    border:1px solid #edf3e7; padding:18px;
+  }
+  .title{
+    display:inline-block; color:#fff; font-weight:900;
+    border-radius:0 18px 18px 0; padding:9px 18px; margin:0 0 14px -18px;
+  }
+  .green{background:var(--green)}
+  .bluebg{background:var(--blue)}
+  .purplebg{background:var(--purple)}
+  .mintbg{background:var(--mint)}
+  .field{margin:10px 0}
+  label{display:block; font-weight:800; margin-bottom:6px; color:#30461b}
+  input, select, textarea{
+    width:100%; padding:10px 12px; border:2px solid #dde7d3; border-radius:12px; background:#fff;
+  }
+  textarea{min-height:70px; resize:vertical}
+  .row{display:flex; gap:8px}
+  .student-pill{
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+    background:#f7faf1; border:1px solid #dce8cf; border-radius:14px; padding:10px; margin:8px 0;
+  }
+  .student-pill.active{border:3px solid var(--green); background:#f1f8e2}
+  .muted{color:#666; font-size:14px}
+  .tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px}
+  .tab{background:#fff; border-color:#d2ddc6; color:#333}
+  .tab.active{background:var(--green); border-color:var(--green); color:#fff}
+  .lesson-list{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px;
+  }
+  .lesson{
+    border:2px solid #dce8cf; border-radius:14px; padding:12px; background:#fff; cursor:pointer;
+  }
+  .lesson:hover{border-color:var(--green); box-shadow:var(--shadow)}
+  .lesson.selected{border-color:var(--green); background:#f0f8df}
+  .badge{
+    display:inline-block; background:var(--green); color:#fff; font-size:13px; font-weight:900;
+    border-radius:999px; padding:4px 8px; margin-bottom:6px;
+  }
+  .summary-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:12px;
+  }
+  .summary-item{
+    background:#f7faf1; border:1px solid #dce8cf; border-radius:16px; padding:12px;
+  }
+  .num{font-size:28px; font-weight:1000; color:var(--green2)}
+  .progress{height:14px; background:#edf3e5; border-radius:999px; overflow:hidden; border:1px solid #dce8cf}
+  .bar{height:100%; width:0%; background:var(--green)}
+  .teacher-note{
+    background:#fff9dd; border:2px solid #f0dd87; border-radius:16px; padding:12px; line-height:1.5; font-size:15px;
+  }
+  .question{text-align:center; font-weight:1000; font-size:24px; margin:10px 0}
+  .feedback{
+    display:none;
+    position:fixed;
+    top:92px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:9999;
+    text-align:center;
+    min-height:34px;
+    font-size:34px;
+    font-weight:1000;
+    margin:0;
+    padding:16px 28px;
+    border-radius:22px;
+    width:fit-content;
+    max-width:90vw;
+    box-shadow:0 10px 28px rgba(0,0,0,.18);
+    border:3px solid transparent;
+  }
+  .feedback:not(:empty){display:none}
+  .good{color:var(--green2); background:#edf8dc; border-color:var(--green)}
+  .bad{color:var(--red); background:#ffe8e8; border-color:var(--red)}
+  .target-area{
+    display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:16px;
+    margin:10px 0 18px;
+  }
+  .picture-big{
+    width:min(100%, 300px); min-height:220px;
+    border:3px dashed #b7cf87; border-radius:22px;
+    background:linear-gradient(180deg,#fff,#f2f8e9); padding:14px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .emoji-big{font-size:88px; line-height:1}
+  .word-big{font-size:34px; font-weight:1000; margin-top:8px}
+  .choices-pic{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px;
+  }
+  .pic-card-wrap{
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .pic-card{
+    min-height:200px; border-radius:22px; border:3px solid #dce8cf; background:#fff;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-size:30px; gap:8px;
+  }
+  .pic-card .emoji{font-size:64px}
+  .pic-card .word{font-size:28px; font-weight:1000}
+  .pic-card.correct{background:#e9f9d8; border-color:var(--green)}
+  .pic-card.wrong{background:#ffe5e5; border-color:var(--red)}
+  .pic-audio{
+    align-self:center;
+    width:56px; height:56px; border-radius:999px;
+    display:grid; place-items:center;
+    font-size:24px; font-weight:900;
+    background:#eef6ff; color:#236ea3; border:2px solid #b8d7ef;
+    padding:0;
+  }
+  .same-diff-area{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:14px;
+  }
+  .sound-box{
+    border:3px solid #dce8cf; border-radius:22px; background:linear-gradient(180deg,#fff,#f4faf0);
+    padding:16px; text-align:center;
+  }
+  .sound-box .n{font-size:24px; font-weight:1000; color:#3d5b22}
+  .sound-box .preview{
+    font-size:42px; font-weight:1000; min-height:64px; margin:8px 0 10px;
+  }
+  .sound-box .preview.blank{
+    width:100%;
+    min-height:90px;
+    border:3px dashed #cfe2b8;
+    border-radius:18px;
+    background:#f9fcf5;
+  }
+  .toggle-area{display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:18px}
+  .anim-wrap{
+    display:flex; flex-direction:column; align-items:center; gap:20px; min-height:320px;
+    justify-content:center; overflow:hidden;
+  }
+  .anim-stage{
+    width:min(100%,680px); min-height:290px; border-radius:24px; border:3px dashed #b7cf87;
+    background:linear-gradient(180deg,#fff,#f2f8e9); position:relative; overflow:hidden;
+  }
+  .syllable-box{
+    position:absolute;
+    width:180px; height:180px;
+    border:3px solid #8e8e8e;
+    background:#f7f7f7;
+    box-shadow:0 2px 0 rgba(0,0,0,.04) inset;
+  }
+  .syllable-box .top-area{
+    position:absolute; left:0; top:0; width:100%; height:60%;
+    background:#d6e2d3;
+    border-bottom:2px solid rgba(0,0,0,.08);
+  }
+  .syllable-box .initial-area{
+    position:absolute;
+    background:#e6d1d5;
+    border-right:2px solid rgba(0,0,0,.08);
+    border-bottom:2px solid rgba(0,0,0,.08);
+  }
+  .syllable-box .final-area{
+    position:absolute; left:0; bottom:0; width:100%; height:40%;
+    background:#e8e1d4;
+  }
+  .syllable-box .slot{
+    position:absolute; display:flex; align-items:center; justify-content:center;
+    font-size:58px; font-weight:1000; color:#222; transition:all .9s ease;
+  }
+
+  /* ㅏ, ㅓ, ㅣ 계열: 초성 왼쪽 / 모음 오른쪽 */
+  .syllable-box.v-vertical .initial-area{left:0; top:0; width:44%; height:60%}
+  .syllable-box.v-vertical .slot.initial{left:0; top:0; width:44%; height:60%}
+  .syllable-box.v-vertical .slot.vowel{left:44%; top:0; width:56%; height:60%}
+
+  /* ㅗ, ㅜ, ㅡ 계열: 초성 위 / 모음 아래. 예: 눔 = ㄴ 아래에 ㅜ */
+  .syllable-box.v-horizontal .initial-area{left:0; top:0; width:100%; height:34%}
+  .syllable-box.v-horizontal .slot.initial{left:0; top:0; width:100%; height:34%}
+  .syllable-box.v-horizontal .slot.vowel{left:0; top:34%; width:100%; height:26%; font-size:52px}
+
+  .syllable-box .slot.final{left:0; bottom:0; width:100%; height:40%; font-size:54px}
+  .result-box{
+    left:calc(50% - 90px); top:56px; transform:scale(.95); opacity:.45; transition:all .9s ease;
+  }
+  .result-box .slot{opacity:0}
+  .merge-piece{
+    position:absolute;
+    width:92px; height:92px;
+    border-radius:22px; background:#fff; border:3px solid #cfe2b8;
+    display:grid; place-items:center; font-size:46px; font-weight:1000;
+    transition:all .9s ease; z-index:3;
+  }
+  .merge-piece.initial{left:70px; top:84px}
+  .merge-piece.vowel{right:70px; top:84px}
+  .merge-piece.final{left:calc(50% - 46px); bottom:22px}
+  .anim-stage.play .merge-piece.initial{left:260px; top:70px}
+  .anim-stage.play .merge-piece.vowel{right:220px; top:98px}
+  .anim-stage.play .merge-piece.final{bottom:74px}
+  .anim-stage.showResult .merge-piece{opacity:0; transform:scale(.8)}
+  .anim-stage.showResult .result-box{opacity:1; transform:scale(1.02)}
+  .anim-stage.showResult .result-box .slot{opacity:1}
+  .split-stage .whole-box{
+    left:calc(50% - 90px); top:56px; opacity:1; transition:all .9s ease;
+  }
+  .split-piece{
+    position:absolute;
+    width:92px; height:92px;
+    border-radius:22px; background:#fff; border:3px solid #cfe2b8;
+    display:grid; place-items:center; font-size:46px; font-weight:1000;
+    opacity:0; transition:all .9s ease; z-index:3;
+  }
+  .split-piece.initial{left:70px; top:84px}
+  .split-piece.vowel{right:70px; top:84px}
+  .split-piece.final{left:calc(50% - 46px); bottom:22px}
+  .split-stage.play .whole-box{opacity:.18; transform:scale(.96)}
+  .split-stage.play .whole-box .slot{opacity:.25}
+  .split-stage.play .split-piece{opacity:1}
+  .split-note{font-size:15px; color:#4a4a4a; text-align:center}
+  table{width:100%; border-collapse:collapse; font-size:14px}
+  th, td{border-bottom:1px solid #e8efdf; padding:9px; text-align:left; vertical-align:top}
+  th{background:#f0f8df; color:#30461b}
+  .scroll{max-height:360px; overflow:auto; border:1px solid #e8efdf; border-radius:14px}
+  .tag{display:inline-block; margin:2px; padding:3px 8px; border-radius:999px; background:#edf3e5; font-size:12px; font-weight:900}
+  .footer-actions{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
+
+  .global-feedback{
+    display:none;
+    position:fixed;
+    top:96px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:99999;
+    font-size:42px;
+    font-weight:1000;
+    padding:20px 34px;
+    border-radius:26px;
+    box-shadow:0 12px 32px rgba(0,0,0,.22);
+    border:4px solid transparent;
+    text-align:center;
+    max-width:92vw;
+    white-space:nowrap;
+  }
+  .global-feedback.show{display:block}
+  .global-feedback.good{background:#edf8dc;color:var(--green2);border-color:var(--green)}
+  .global-feedback.bad{background:#ffe8e8;color:var(--red);border-color:var(--red)}
+
+
+  .teacher-only{display:none}
+  body.teacher-mode .teacher-only{display:block}
+  .teacher-action{display:none}
+  body.teacher-mode .teacher-action{display:inline-block}
+  .teacher-closed{
+    background:#fff;
+    border:2px dashed #cfe2b8;
+    border-radius:18px;
+    padding:18px;
+    text-align:center;
+    color:#4d6d2b;
+    font-weight:900;
+    box-shadow:var(--shadow);
+    margin-top:18px;
+  }
+  body.teacher-mode .teacher-closed{display:none}
+
+
+  .activity-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .activity-header .title{margin-bottom:14px}
+  .summary-grid.collapsed .hide-when-collapsed{display:none}
+  .summary-grid.collapsed{
+    grid-template-columns:minmax(180px, 260px);
+    justify-content:end;
+  }
+  .summary-grid.collapsed .progress-always{display:block}
+
+
+  .anim-stage.v-horizontal.play .merge-piece.initial{left:calc(50% - 46px); top:60px}
+  .anim-stage.v-horizontal.play .merge-piece.vowel{left:calc(50% - 46px); top:118px}
+  .anim-stage.v-horizontal.play .merge-piece.final{left:calc(50% - 46px); bottom:66px}
+  .anim-stage.v-vertical.play .merge-piece.initial{left:260px; top:82px}
+  .anim-stage.v-vertical.play .merge-piece.vowel{right:220px; top:82px}
+  .anim-stage.v-vertical.play .merge-piece.final{left:calc(50% - 46px); bottom:66px}
+
+
+  .multi-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+    margin-top:8px;
+  }
+  .multi-word-card{
+    min-width:220px;
+    padding:14px 22px;
+    border-radius:20px;
+    background:#f7faf1;
+    border:3px dashed #b7cf87;
+    text-align:center;
+  }
+  .multi-word-card .hint{
+    color:#597438;
+    font-weight:900;
+    font-size:16px;
+  }
+  .multi-word-card .word{
+    font-size:46px;
+    font-weight:1000;
+    letter-spacing:6px;
+  }
+  .elkonin-board{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    width:min(100%,860px);
+    min-height:220px;
+    padding:18px;
+    border-radius:24px;
+    border:3px dashed #b7cf87;
+    background:linear-gradient(180deg,#fff,#f2f8e9);
+  }
+
+  /* 다음절 합성용: 1음소 = 위치가 보이는 3칸 엘코닌 상자 1개
+     예: 심사 → [ㅅ초성] [ㅣ중성] [ㅁ받침] [ㅅ초성] [ㅏ중성] = 5상자 */
+  .elkonin-phone-box{
+    width:104px;
+    height:124px;
+    border:3px solid #8e8e8e;
+    background:#fff;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    position:relative;
+    transition:.25s ease;
+  }
+  .elkonin-phone-box.hidden-sound::after{
+    content:"";
+    position:absolute;
+    inset:10px;
+    border-radius:10px;
+    background:#ffffffea;
+    border:2px dashed #cbd8bf;
+    z-index:4;
+  }
+  .elkonin-phone-box.active-sound{
+    outline:5px solid #4aa3d8;
+    z-index:2;
+    transform:scale(1.06);
+  }
+  .phone-slot{
+    display:grid;
+    place-items:center;
+    font-size:36px;
+    font-weight:1000;
+    color:#222;
+    border:1.5px solid rgba(0,0,0,.14);
+    min-width:0;
+    min-height:0;
+  }
+  .phone-slot.initial{
+    background:#e6d1d5;
+    grid-column:1;
+    grid-row:1;
+  }
+  .phone-slot.vowel{
+    background:#d6e2d3;
+    grid-column:2;
+    grid-row:1;
+  }
+  .phone-slot.final{
+    background:#e8e1d4;
+    grid-column:1 / span 2;
+    grid-row:2;
+  }
+  .phone-slot.empty{
+    color:transparent;
+  }
+  .syllable-gap{
+    width:14px;
+    height:124px;
+    display:grid;
+    place-items:center;
+    color:#9bad83;
+    font-size:28px;
+    font-weight:1000;
+  }
+  .multi-progress{
+    font-size:20px;
+    font-weight:1000;
+    color:var(--green2);
+  }
+  .cover-card{
+    width:88px;
+    height:110px;
+    border-radius:10px;
+    background:#d9a094;
+    border:3px solid #b88478;
+    box-shadow:0 8px 16px rgba(0,0,0,.18);
+    position:absolute;
+    transform:translate(72px,-58px) rotate(-2deg);
+    opacity:.92;
+    pointer-events:none;
+  }
+
+
+  /* 다음절 엘코닌 소리상자: ㅗ, ㅛ, ㅜ, ㅠ, ㅡ는 아래쪽 모음 자리로 표시 */
+  .elkonin-phone-box.horizontal-vowel .phone-slot.initial{
+    grid-column:1 / span 2;
+    grid-row:1;
+  }
+  .elkonin-phone-box.horizontal-vowel .phone-slot.vowel{
+    grid-column:1 / span 2;
+    grid-row:2;
+    align-items:start;
+    padding-top:4px;
+    font-size:34px;
+  }
+  .elkonin-phone-box.horizontal-vowel .phone-slot.final{
+    display:none;
+  }
+
+
+  .student-manage{
+    margin-top:8px;
+    padding:10px;
+    border-radius:16px;
+    background:#f7faf1;
+    border:1px solid #dce8cf;
+  }
+
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">쏙</div>소리쏙쏙 음운인식 v27</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()">교사용 기록 보기</button>
+    <button class="small gray teacher-action" onclick="window.print()">인쇄</button>
+    <button class="small blue teacher-action" onclick="exportCSV()">기록 CSV 저장</button>
+    <button class="small purple teacher-action" onclick="downloadJSON()">전체 백업</button>
+  </div>
+</header>
+<div id="globalFeedback" class="global-feedback"></div>
+
+<main>
+  <div class="layout">
+    <aside class="card">
+      <h2 class="title green">학생 선택</h2>
+      <div class="field">
+        <label>현재 학생</label>
+        <select id="studentSelect"></select>
+      </div>
+      <div class="muted" id="studentGuide">교사용 화면에서 우리 반 학생 목록을 먼저 설정할 수 있습니다.</div>
+
+      <div class="teacher-only student-manage">
+        <hr style="border:0;border-top:1px solid #e7eedf;margin:14px 0">
+        <div class="field">
+          <label>우리 반 학생 목록</label>
+          <textarea id="classStudentNames" placeholder="학생 이름을 한 줄에 한 명씩 입력하세요.&#10;예:&#10;현렬&#10;서우&#10;민준"></textarea>
+        </div>
+        <button class="primary" onclick="saveClassStudents()">학생 목록 저장</button>
+        <div class="muted" style="margin-top:8px">저장한 학생만 선택 목록에 보입니다. 학생 화면에서는 이름 추가 칸이 보이지 않습니다.</div>
+      </div>
+
+      <div id="studentList"></div>
+
+      <hr style="border:0;border-top:1px solid #e7eedf;margin:18px 0">
+
+      <h2 class="title purplebg">오늘 지도 설정</h2>
+      <div class="field">
+        <label>활동 유형</label>
+        <select id="activityType" onchange="updateActivityOptions(); newQuestion()">
+          <option value="recognition">1. 음소 인식: 그림으로 첫소리 찾기</option>
+          <option value="discrimination">2. 음소 변별: 소리 듣고 같은가요/다른가요?</option>
+          <option value="synthesis">3. 음소 합성: 자·모음 합치기 애니메이션</option>
+          <option value="segmentation">4. 음소 분절: 음소 나누기 애니메이션</option>
+          <option value="multisyllableSynthesis">5. 합성 연습: 다음절 엘코닌</option>
+          <option value="review">6. 누적 복습: 틀린 부분 중심</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>목표 시행 수</label>
+        <select id="targetTrials" onchange="renderProgress()">
+          <option>5</option><option selected>10</option><option>20</option><option>40</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>교사용 메모</label>
+        <textarea id="teacherMemo" placeholder="예: ㄱ/ㅋ 혼동, 첫소리 정확하나 반응시간 지연"></textarea>
+      </div>
+    </aside>
+
+    <section>
+      <div class="card">
+        <h2 class="title bluebg">지도할 배움 고르기</h2>
+        <div class="tabs">
+          <button class="tab active" data-tab="vowels" onclick="setTab('vowels')">모음</button>
+          <button class="tab" data-tab="consonants" onclick="setTab('consonants')">자음</button>
+          <button class="tab" data-tab="words" onclick="setTab('words')">받침 없는 단어</button>
+          <button class="tab" data-tab="complexVowels" onclick="setTab('complexVowels')">다양한 모음</button>
+          <button class="tab" data-tab="finals" onclick="setTab('finals')">받침</button>
+          <button class="tab" data-tab="complexFinals" onclick="setTab('complexFinals')">다양한 받침</button>
+        </div>
+        <div id="lessonList" class="lesson-list"></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <div class="activity-header">
+          <h2 class="title mintbg">활동하기</h2>
+          <button class="small gray" id="summaryToggleBtn" onclick="toggleActivitySummary()">상세 기록 접기</button>
+        </div>
+        <div class="summary-grid" id="activitySummary">
+          <div class="summary-item hide-when-collapsed"><div class="muted">오늘 맞은 수</div><div class="num" id="correctCount">0</div></div>
+          <div class="summary-item hide-when-collapsed"><div class="muted">오늘 틀린 수</div><div class="num" id="wrongCount">0</div></div>
+          <div class="summary-item hide-when-collapsed"><div class="muted">정확도</div><div class="num" id="accuracy">0%</div></div>
+          <div class="summary-item progress-always">
+            <div class="muted">진행</div>
+            <div class="num"><span id="trialCount">0</span>/<span id="targetCount">10</span></div>
+            <div class="progress"><div class="bar" id="progressBar"></div></div>
+          </div>
+        </div>
+        <div id="activityPanel"></div>
+      </div>
+
+      <div class="teacher-closed">
+        누적 기록은 교사용 화면에서만 보입니다.
+      </div>
+
+      <div class="card teacher-only" style="margin-top:18px">
+        <h2 class="title purplebg">교사용 누적 기록 보기</h2>
+        <div class="summary-grid" id="recordSummary"></div>
+        <div class="scroll" style="margin-top:12px">
+          <table>
+            <thead>
+              <tr><th>날짜</th><th>학생</th><th>배움</th><th>활동</th><th>문항</th><th>정답</th><th>반응</th><th>결과</th><th>메모</th></tr>
+            </thead>
+            <tbody id="recordTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+const lessons = {
+  vowels: [
+    {id:"V1", lesson:"배움 1", title:"ㅏ, ㅜ", phonemes:["ㅏ","ㅜ"], tags:["모음"]},
+    {id:"V2", lesson:"배움 2", title:"ㅓ, ㅗ", phonemes:["ㅓ","ㅗ"], tags:["모음"]},
+    {id:"V3", lesson:"배움 3", title:"ㅏ, ㅓ, ㅗ, ㅜ", phonemes:["ㅏ","ㅓ","ㅗ","ㅜ"], tags:["누적"]},
+    {id:"V4", lesson:"배움 4", title:"ㅣ, ㅐ", phonemes:["ㅣ","ㅐ"], tags:["모음"]},
+    {id:"V5", lesson:"배움 5", title:"ㅡ, ㅔ", phonemes:["ㅡ","ㅔ"], tags:["모음"]},
+    {id:"V6", lesson:"배움 6", title:"ㅣ, ㅐ, ㅡ, ㅔ", phonemes:["ㅣ","ㅐ","ㅡ","ㅔ"], tags:["누적"]},
+    {id:"V7", lesson:"배움 7", title:"ㅑ, ㅕ", phonemes:["ㅑ","ㅕ"], tags:["이중모음"]},
+    {id:"V8", lesson:"배움 8", title:"ㅛ, ㅠ", phonemes:["ㅛ","ㅠ"], tags:["이중모음"]},
+    {id:"V9", lesson:"배움 9", title:"ㅑ, ㅕ, ㅛ, ㅠ", phonemes:["ㅑ","ㅕ","ㅛ","ㅠ"], tags:["누적"]},
+    {id:"V10", lesson:"배움 10", title:"ㅖ, ㅒ", phonemes:["ㅖ","ㅒ"], tags:["이중모음"]},
+    {id:"V11", lesson:"배움 11", title:"ㅑ, ㅕ, ㅛ, ㅠ, ㅖ, ㅒ", phonemes:["ㅑ","ㅕ","ㅛ","ㅠ","ㅖ","ㅒ"], tags:["누적"]}
+  ],
+  consonants: [
+    {id:"C12", lesson:"배움 12", title:"ㄱ, ㅋ, ㄲ", phonemes:["ㄱ","ㅋ","ㄲ"], tags:["자음"]},
+    {id:"C13", lesson:"배움 13", title:"ㄱ, ㅋ, ㄲ 소리 합치기", phonemes:["ㄱ","ㅋ","ㄲ"], tags:["합성"]},
+    {id:"C14", lesson:"배움 14", title:"ㄴ, ㄷ, ㅌ, ㄸ", phonemes:["ㄴ","ㄷ","ㅌ","ㄸ"], tags:["자음"]},
+    {id:"C15", lesson:"배움 15", title:"ㄴ, ㄷ, ㅌ, ㄸ 소리 합치기", phonemes:["ㄴ","ㄷ","ㅌ","ㄸ"], tags:["합성"]},
+    {id:"C16", lesson:"배움 16", title:"ㅁ, ㅂ, ㅍ, ㅃ", phonemes:["ㅁ","ㅂ","ㅍ","ㅃ"], tags:["자음"]},
+    {id:"C17", lesson:"배움 17", title:"ㅁ, ㅂ, ㅍ, ㅃ 소리 합치기", phonemes:["ㅁ","ㅂ","ㅍ","ㅃ"], tags:["합성"]},
+    {id:"C18", lesson:"배움 18", title:"ㅅ, ㅈ, ㅊ", phonemes:["ㅅ","ㅈ","ㅊ"], tags:["자음"]},
+    {id:"C19", lesson:"배움 19", title:"ㅅ, ㅈ, ㅊ 소리 합치기", phonemes:["ㅅ","ㅈ","ㅊ"], tags:["합성"]},
+    {id:"C20", lesson:"배움 20", title:"ㅅ, ㅆ / ㅈ, ㅉ", phonemes:["ㅅ","ㅆ","ㅈ","ㅉ"], tags:["경음"]},
+    {id:"C21", lesson:"배움 21", title:"ㅅ, ㅆ / ㅈ, ㅉ 소리 합치기", phonemes:["ㅅ","ㅆ","ㅈ","ㅉ"], tags:["합성"]},
+    {id:"C22", lesson:"배움 22", title:"ㅎ, ㄹ", phonemes:["ㅎ","ㄹ"], tags:["자음"]},
+    {id:"C23", lesson:"배움 23", title:"ㅎ, ㄹ 소리 합치기", phonemes:["ㅎ","ㄹ"], tags:["합성"]}
+  ],
+  words: [
+    {id:"W24", lesson:"배움 24", title:"ㄱ, ㅋ, ㄲ 단어 읽기", phonemes:["ㄱ","ㅋ","ㄲ"], tags:["단어"]},
+    {id:"W25", lesson:"배움 25", title:"ㄴ, ㄷ, ㅌ, ㄸ 단어 읽기", phonemes:["ㄴ","ㄷ","ㅌ","ㄸ"], tags:["단어"]},
+    {id:"W26", lesson:"배움 26", title:"ㅁ, ㅂ, ㅍ, ㅃ 단어 읽기", phonemes:["ㅁ","ㅂ","ㅍ","ㅃ"], tags:["단어"]},
+    {id:"W27", lesson:"배움 27", title:"ㅅ, ㅈ, ㅊ 단어 읽기", phonemes:["ㅅ","ㅈ","ㅊ"], tags:["단어"]},
+    {id:"W28", lesson:"배움 28", title:"ㅅ, ㅆ / ㅈ, ㅉ 단어 읽기", phonemes:["ㅅ","ㅆ","ㅈ","ㅉ"], tags:["단어"]},
+    {id:"W29", lesson:"배움 29", title:"ㅎ, ㄹ 단어 읽기", phonemes:["ㅎ","ㄹ"], tags:["단어"]},
+    {id:"W30", lesson:"배움 30", title:"ㅑ, ㅕ, ㅛ, ㅠ 단어 읽기", phonemes:["ㅑ","ㅕ","ㅛ","ㅠ"], tags:["단어"]}
+  ],
+  complexVowels: [
+    {id:"CV1", lesson:"배움 1", title:"ㅔ, ㅖ", phonemes:["ㅔ","ㅖ"], tags:["다양한 모음"]},
+    {id:"CV3", lesson:"배움 3", title:"ㅐ, ㅒ", phonemes:["ㅐ","ㅒ"], tags:["다양한 모음"]},
+    {id:"CV5", lesson:"배움 5", title:"ㅝ, ㅞ, ㅟ", phonemes:["ㅝ","ㅞ","ㅟ"], tags:["다양한 모음"]},
+    {id:"CV7", lesson:"배움 7", title:"ㅘ, ㅙ, ㅚ", phonemes:["ㅘ","ㅙ","ㅚ"], tags:["다양한 모음"]},
+    {id:"CV9", lesson:"배움 9", title:"ㅡ, ㅢ", phonemes:["ㅡ","ㅢ"], tags:["다양한 모음"]},
+    {id:"CV10", lesson:"배움 10", title:"ㅘ, ㅝ, ㅢ 단어 읽기", phonemes:["ㅘ","ㅝ","ㅢ"], tags:["단어"]},
+    {id:"CV11", lesson:"배움 11", title:"ㅐ, ㅔ, ㅖ 단어 읽기", phonemes:["ㅐ","ㅔ","ㅖ"], tags:["단어"]}
+  ],
+  finals: [
+    {id:"F13", lesson:"배움 13", title:"받침 ㅁ, ㅂ", phonemes:["ㅁ","ㅂ"], finals:["ㅁ","ㅂ"], tags:["받침"]},
+    {id:"F15", lesson:"배움 15", title:"받침 ㅇ, ㄱ", phonemes:["ㅇ","ㄱ"], finals:["ㅇ","ㄱ"], tags:["받침"]},
+    {id:"F17", lesson:"배움 17", title:"받침 ㄴ, ㄷ", phonemes:["ㄴ","ㄷ"], finals:["ㄴ","ㄷ"], tags:["받침"]},
+    {id:"F19", lesson:"배움 19", title:"받침 ㄹ", phonemes:["ㄹ"], finals:["ㄹ"], tags:["받침"]}
+  ],
+  complexFinals: [
+    {id:"CF25", lesson:"배움 25", title:"다양한 받침 가족 ㄱ: ㄱ, ㅋ, ㄲ", phonemes:["ㄱ","ㅋ","ㄲ"], finals:["ㄱ","ㅋ","ㄲ"], tags:["받침 가족"]},
+    {id:"CF26", lesson:"배움 26", title:"다양한 받침 가족 ㅂ: ㅂ, ㅍ", phonemes:["ㅂ","ㅍ"], finals:["ㅂ","ㅍ"], tags:["받침 가족"]},
+    {id:"CF27", lesson:"배움 27", title:"다양한 받침 가족 ㄷ: ㄷ, ㅅ, ㅆ, ㅈ, ㅊ, ㅌ, ㅎ", phonemes:["ㄷ","ㅅ","ㅆ","ㅈ","ㅊ","ㅌ","ㅎ"], finals:["ㄷ","ㅅ","ㅆ","ㅈ","ㅊ","ㅌ","ㅎ"], tags:["받침 가족"]}
+  ]
+};
+
+const initials = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+const vowels = ["ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"];
+const initialIndex = {"ㄱ":0,"ㄲ":1,"ㄴ":2,"ㄷ":3,"ㄸ":4,"ㄹ":5,"ㅁ":6,"ㅂ":7,"ㅃ":8,"ㅅ":9,"ㅆ":10,"ㅇ":11,"ㅈ":12,"ㅉ":13,"ㅊ":14,"ㅋ":15,"ㅌ":16,"ㅍ":17,"ㅎ":18};
+const vowelIndex = {"ㅏ":0,"ㅐ":1,"ㅑ":2,"ㅒ":3,"ㅓ":4,"ㅔ":5,"ㅕ":6,"ㅖ":7,"ㅗ":8,"ㅘ":9,"ㅙ":10,"ㅚ":11,"ㅛ":12,"ㅜ":13,"ㅝ":14,"ㅞ":15,"ㅟ":16,"ㅠ":17,"ㅡ":18,"ㅢ":19,"ㅣ":20};
+const finalIndex = {"":0,"ㄱ":1,"ㄲ":2,"ㄳ":3,"ㄴ":4,"ㄵ":5,"ㄶ":6,"ㄷ":7,"ㄹ":8,"ㄺ":9,"ㄻ":10,"ㄼ":11,"ㄽ":12,"ㄾ":13,"ㄿ":14,"ㅀ":15,"ㅁ":16,"ㅂ":17,"ㅄ":18,"ㅅ":19,"ㅆ":20,"ㅇ":21,"ㅈ":22,"ㅊ":23,"ㅋ":24,"ㅌ":25,"ㅍ":26,"ㅎ":27};
+
+const pictureBankInitial = {
+  "ㄱ":[{word:"감자",emoji:"🥔"},{word:"가지",emoji:"🍆"},{word:"기린",emoji:"🦒"},{word:"고구마",emoji:"🍠"}],
+  "ㄲ":[{word:"꿀",emoji:"🍯"},{word:"꽈리",emoji:"🫑"},{word:"꽂이",emoji:"📌"}],
+  "ㄴ":[{word:"나비",emoji:"🦋"},{word:"나무",emoji:"🌳"},{word:"노트",emoji:"📓"}],
+  "ㄷ":[{word:"달",emoji:"🌙"},{word:"도끼",emoji:"🪓"},{word:"다리",emoji:"🦵"}],
+  "ㄸ":[{word:"딸기",emoji:"🍓"},{word:"떡",emoji:"🍡"},{word:"똥",emoji:"💩"}],
+  "ㄹ":[{word:"로봇",emoji:"🤖"},{word:"레몬",emoji:"🍋"},{word:"라면",emoji:"🍜"}],
+  "ㅁ":[{word:"무",emoji:"🥬"},{word:"모자",emoji:"🧢"},{word:"문",emoji:"🚪"}],
+  "ㅂ":[{word:"바나나",emoji:"🍌"},{word:"버스",emoji:"🚌"},{word:"배",emoji:"🍐"}],
+  "ㅃ":[{word:"빵",emoji:"🍞"},{word:"뿔",emoji:"🦌"},{word:"뽀뽀",emoji:"💋"}],
+  "ㅅ":[{word:"사과",emoji:"🍎"},{word:"소",emoji:"🐄"},{word:"수박",emoji:"🍉"}],
+  "ㅆ":[{word:"쌀",emoji:"🍚"},{word:"쑥",emoji:"🌿"},{word:"쌍안경",emoji:"🔭"}],
+  "ㅇ":[{word:"오리",emoji:"🦆"},{word:"우산",emoji:"☂️"},{word:"아기",emoji:"👶"}],
+  "ㅈ":[{word:"자동차",emoji:"🚗"},{word:"지갑",emoji:"👛"},{word:"주스",emoji:"🧃"}],
+  "ㅉ":[{word:"짜장면",emoji:"🍜"},{word:"쨈",emoji:"🍓"},{word:"쭈꾸미",emoji:"🐙"}],
+  "ㅊ":[{word:"치즈",emoji:"🧀"},{word:"초",emoji:"🕯️"},{word:"치마",emoji:"👗"}],
+  "ㅋ":[{word:"코끼리",emoji:"🐘"},{word:"컵",emoji:"🥤"},{word:"키위",emoji:"🥝"}],
+  "ㅌ":[{word:"토끼",emoji:"🐰"},{word:"토마토",emoji:"🍅"},{word:"타이어",emoji:"🛞"}],
+  "ㅍ":[{word:"포도",emoji:"🍇"},{word:"피자",emoji:"🍕"},{word:"풍선",emoji:"🎈"}],
+  "ㅎ":[{word:"호랑이",emoji:"🐯"},{word:"하트",emoji:"❤️"},{word:"해",emoji:"☀️"}]
+};
+
+const pictureBankVowel = {
+  "ㅏ":[{word:"아기",emoji:"👶"},{word:"아이스크림",emoji:"🍦"}],
+  "ㅓ":[{word:"어묵",emoji:"🍢"},{word:"얼룩말",emoji:"🦓"}],
+  "ㅗ":[{word:"오리",emoji:"🦆"},{word:"오이",emoji:"🥒"}],
+  "ㅜ":[{word:"우유",emoji:"🥛"},{word:"우산",emoji:"☂️"}],
+  "ㅣ":[{word:"이불",emoji:"🛏️"},{word:"이",emoji:"🦷"}],
+  "ㅐ":[{word:"애벌레",emoji:"🐛"},{word:"애기",emoji:"👶"}],
+  "ㅔ":[{word:"에어컨",emoji:"❄️"},{word:"엘리베이터",emoji:"🛗"}],
+  "ㅡ":[{word:"으뜸",emoji:"🥇"},{word:"음료",emoji:"🧃"}],
+  "ㅑ":[{word:"야구",emoji:"⚾"},{word:"약",emoji:"💊"}],
+  "ㅕ":[{word:"여우",emoji:"🦊"},{word:"여름",emoji:"🏖️"}],
+  "ㅛ":[{word:"요요",emoji:"🪀"},{word:"요리",emoji:"🍳"}],
+  "ㅠ":[{word:"유모차",emoji:"🍼"},{word:"유리",emoji:"🪟"}],
+  "ㅖ":[{word:"예배",emoji:"⛪"},{word:"예술",emoji:"🎨"}],
+  "ㅒ":[{word:"얘기",emoji:"💬"},{word:"얘",emoji:"👧"}],
+  "ㅘ":[{word:"과자",emoji:"🍪"},{word:"왕관",emoji:"👑"}],
+  "ㅙ":[{word:"왜가리",emoji:"🪶"},{word:"왜",emoji:"❓"}],
+  "ㅚ":[{word:"외투",emoji:"🧥"},{word:"외계인",emoji:"👽"}],
+  "ㅝ":[{word:"원숭이",emoji:"🐵"},{word:"월요일",emoji:"📅"}],
+  "ㅞ":[{word:"웨하스",emoji:"🍘"},{word:"웹",emoji:"💻"}],
+  "ㅟ":[{word:"위",emoji:"⬆️"},{word:"위성",emoji:"🛰️"}],
+  "ㅢ":[{word:"의자",emoji:"🪑"},{word:"의사",emoji:"🩺"}]
+};
+
+let state = {
+  tab:"vowels",
+  selectedLesson:null,
+  currentQuestion:null,
+  todayCorrect:0,
+  todayWrong:0,
+  todayTotal:0
+};
+
+function loadData(){
+  const raw = localStorage.getItem("soriAppDataV2");
+  if(raw) return JSON.parse(raw);
+  return {students:[], selectedStudentId:null, records:[]};
+}
+function saveData(){ localStorage.setItem("soriAppDataV2", JSON.stringify(data)); }
+let data = loadData();
+
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7) }
+function todayStr(){ return new Date().toLocaleString("ko-KR") }
+function sample(arr){ return arr[Math.floor(Math.random()*arr.length)] }
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-0.5) }
+function uniq(arr){ return [...new Set(arr)] }
+function levelN(){ return 2; }
+function choicesFrom(pool, answer, n){
+  const rest = uniq(pool.filter(x=>JSON.stringify(x)!==JSON.stringify(answer)));
+  return shuffle([answer, ...shuffle(rest).slice(0, n-1)]);
+}
+function activityName(t){
+  return {
+    recognition:"음소 인식",
+    discrimination:"음소 변별",
+    synthesis:"음소 합성",
+    segmentation:"음소 분절",
+    multisyllableSynthesis:"다음절 합성",
+    review:"누적 복습"
+  }[t] || t;
+}
+function speakText(text){
+  if(!("speechSynthesis" in window)){ alert("이 브라우저는 음성 기능을 지원하지 않습니다."); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ko-KR";
+  u.rate = 0.75;
+  u.pitch = 1;
+  speechSynthesis.speak(u);
+}
+
+function addStudent(){
+  // v27부터 학생 추가는 교사용 '우리 반 학생 목록'에서만 관리합니다.
+  alert("교사용 화면에서 우리 반 학생 목록을 저장해 주세요.");
+}
+
+function saveClassStudents(){
+  const textarea = document.getElementById("classStudentNames");
+  if(!textarea) return;
+  const names = textarea.value
+    .split(/\n|,/)
+    .map(n => n.trim())
+    .filter(Boolean);
+
+  if(names.length === 0){
+    alert("학생 이름을 한 명 이상 입력해 주세요.");
+    return;
+  }
+
+  const uniqueNames = [...new Set(names)];
+  const oldByName = {};
+  data.students.forEach(st => oldByName[st.name] = st);
+
+  data.students = uniqueNames.map(name => {
+    return oldByName[name] || {id:uid(), name, createdAt:todayStr()};
+  });
+
+  if(!data.students.find(st => st.id === data.selectedStudentId)){
+    data.selectedStudentId = data.students[0].id;
+  }
+
+  saveData();
+  renderStudents();
+  renderRecords();
+  resetToday();
+  newQuestion();
+  alert("우리 반 학생 목록을 저장했어요.");
+}
+function getStudent(){ return data.students.find(s=>s.id===data.selectedStudentId) || null }
+function selectStudent(id){
+  data.selectedStudentId = id;
+  saveData(); renderStudents(); renderRecords(); resetToday(); newQuestion();
+}
+function renderStudents(){
+  const sel = document.getElementById("studentSelect");
+  sel.innerHTML = "";
+
+  const textarea = document.getElementById("classStudentNames");
+  if(textarea){
+    textarea.value = data.students.map(st => st.name).join("\n");
+  }
+
+  const guide = document.getElementById("studentGuide");
+
+  if(data.students.length===0){
+    const opt = document.createElement("option");
+    opt.textContent = "교사용 화면에서 학생 목록 설정";
+    sel.appendChild(opt);
+    if(guide) guide.textContent = "아직 학생 목록이 없습니다. 교사용 기록 보기에서 우리 반 학생 목록을 저장해 주세요.";
+  }else{
+    if(guide) guide.textContent = "저장된 우리 반 학생 중에서 선택하세요.";
+    data.students.forEach(st=>{
+      const opt = document.createElement("option");
+      opt.value = st.id; opt.textContent = st.name;
+      if(st.id===data.selectedStudentId) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+  sel.onchange = ()=>selectStudent(sel.value);
+  const list = document.getElementById("studentList");
+  list.innerHTML = "";
+  data.students.forEach(st=>{
+    const div = document.createElement("div");
+    div.className = "student-pill teacher-only" + (st.id===data.selectedStudentId ? " active":"");
+    div.innerHTML = `<div><div style="font-weight:900">${st.name}</div><div class="muted">등록: ${st.createdAt}</div></div>
+      <button class="small gray" onclick="selectStudent('${st.id}')">선택</button>`;
+    list.appendChild(div);
+  });
+}
+
+
+function updateActivityOptions(){
+  const select = document.getElementById("activityType");
+  if(!select) return;
+  const multiOption = Array.from(select.options).find(opt => opt.value === "multisyllableSynthesis");
+  if(!multiOption) return;
+
+  const enabled = state.tab !== "vowels";
+  multiOption.disabled = !enabled;
+  multiOption.textContent = enabled
+    ? "5. 합성 연습: 다음절 엘코닌"
+    : "5. 합성 연습: 다음절 엘코닌 (자음 이후)";
+
+  if(!enabled && select.value === "multisyllableSynthesis"){
+    select.value = "recognition";
+  }
+}
+
+function setTab(tab){
+  state.tab = tab;
+  state.selectedLesson = lessons[tab] && lessons[tab].length ? lessons[tab][0] : null;
+  state.multiSession = null;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active", t.dataset.tab===tab));
+  updateActivityOptions();
+  renderLessons();
+  resetToday();
+  newQuestion();
+}
+function renderLessons(){
+  const box = document.getElementById("lessonList");
+  box.innerHTML = "";
+  lessons[state.tab].forEach(item=>{
+    const div = document.createElement("div");
+    div.className = "lesson" + (state.selectedLesson && state.selectedLesson.id===item.id ? " selected" : "");
+    div.onclick = ()=>{ state.selectedLesson = item; state.multiSession = null; renderLessons(); resetToday(); newQuestion(); };
+    div.innerHTML = `<span class="badge">${item.lesson}</span>
+      <div style="font-size:20px;font-weight:1000">${item.title}</div>
+      <div>${(item.tags||[]).map(t=>`<span class="tag">${t}</span>`).join("")}</div>`;
+    box.appendChild(div);
+  });
+  if(!state.selectedLesson && lessons[state.tab].length) state.selectedLesson = lessons[state.tab][0];
+}
+
+function resetToday(){ state.todayCorrect=0; state.todayWrong=0; state.todayTotal=0; renderProgress(); }
+function renderProgress(){
+  document.getElementById("correctCount").textContent = state.todayCorrect;
+  document.getElementById("wrongCount").textContent = state.todayWrong;
+  document.getElementById("trialCount").textContent = state.todayTotal;
+  const target = parseInt(document.getElementById("targetTrials").value || 10);
+  document.getElementById("targetCount").textContent = target;
+  const acc = state.todayTotal ? Math.round(state.todayCorrect / state.todayTotal * 100) : 0;
+  document.getElementById("accuracy").textContent = acc + "%";
+  document.getElementById("progressBar").style.width = Math.min(100, state.todayTotal / target * 100) + "%";
+}
+
+function composeHangul(initial, vowel, final=""){
+  const code = 0xAC00 + (initialIndex[initial]*21 + vowelIndex[vowel]) * 28 + finalIndex[final];
+  return String.fromCharCode(code);
+}
+function splitHangul(ch){
+  if(!ch || ch.length!==1) return [ch];
+  const code = ch.charCodeAt(0) - 0xAC00;
+  if(code<0 || code>11171) return [ch];
+  const ini = Math.floor(code / (21*28));
+  const vow = Math.floor((code % (21*28)) / 28);
+  const fin = code % 28;
+  const initial = Object.keys(initialIndex).find(k=>initialIndex[k]===ini);
+  const vowel = Object.keys(vowelIndex).find(k=>vowelIndex[k]===vow);
+  const final = Object.keys(finalIndex).find(k=>finalIndex[k]===fin);
+  return final ? [initial, vowel, final] : [initial, vowel];
+}
+function lessonHasFinal(lesson){ return lesson.finals && lesson.finals.length > 0 }
+function isConsonant(x){ return Object.keys(initialIndex).includes(x) }
+function isVowel(x){ return Object.keys(vowelIndex).includes(x) }
+
+function getPictureSetForPhoneme(p){
+  if(pictureBankInitial[p]) return pictureBankInitial[p];
+  if(pictureBankVowel[p]) return pictureBankVowel[p];
+  return null;
+}
+
+function makeRecognitionQuestion(lesson){
+  // 음소 인식 기준
+  // 모음 단원: 첫 음절의 모음이 같은 그림 찾기
+  // 자음 단원: 첫 음절의 자음이 같은 그림 찾기
+  // 받침 단원: 첫 음절의 받침이 같은 그림 찾기
+  const focus = lessonHasFinal(lesson)
+    ? "final"
+    : (lesson.phonemes.some(isVowel) ? "vowel" : "initial");
+
+  const finalPictureBank = {
+    "ㄱ":[{word:"국",emoji:"🍲"},{word:"약",emoji:"💊"},{word:"책",emoji:"📚"},{word:"목",emoji:"🦒"}],
+    "ㅋ":[{word:"부엌",emoji:"🍳"},{word:"동녘",emoji:"🌅"}],
+    "ㄲ":[{word:"밖",emoji:"🏡"},{word:"깎두기",emoji:"🥗"}],
+    "ㄴ":[{word:"눈",emoji:"👀"},{word:"손",emoji:"✋"},{word:"돈",emoji:"💰"},{word:"산",emoji:"⛰️"}],
+    "ㄷ":[{word:"곧",emoji:"➡️"},{word:"닫기",emoji:"🚪"}],
+    "ㄹ":[{word:"달",emoji:"🌙"},{word:"별",emoji:"⭐"},{word:"물",emoji:"💧"},{word:"말",emoji:"🐴"}],
+    "ㅁ":[{word:"감자",emoji:"🥔"},{word:"밤",emoji:"🌰"},{word:"곰",emoji:"🐻"},{word:"잠",emoji:"😴"}],
+    "ㅂ":[{word:"밥",emoji:"🍚"},{word:"컵",emoji:"🥤"},{word:"집",emoji:"🏠"},{word:"입",emoji:"👄"}],
+    "ㅍ":[{word:"잎",emoji:"🍃"},{word:"앞",emoji:"⬅️"}],
+    "ㅇ":[{word:"공",emoji:"⚽"},{word:"강아지",emoji:"🐶"},{word:"병",emoji:"🧴"},{word:"방",emoji:"🚪"}],
+    "ㅅ":[{word:"옷",emoji:"👕"},{word:"붓",emoji:"🖌️"}],
+    "ㅆ":[{word:"있다",emoji:"✅"},{word:"쌌다",emoji:"🎒"}],
+    "ㅈ":[{word:"낮",emoji:"☀️"},{word:"빚",emoji:"💳"}],
+    "ㅊ":[{word:"꽃",emoji:"🌸"},{word:"빛",emoji:"💡"}],
+    "ㅌ":[{word:"밭",emoji:"🌾"},{word:"끝",emoji:"🔚"}],
+    "ㅎ":[{word:"좋다",emoji:"👍"},{word:"놓다",emoji:"📦"}],
+    "ㄳ":[{word:"몫",emoji:"➗"},{word:"넋",emoji:"💭"}],
+    "ㄵ":[{word:"앉다",emoji:"🪑"}],
+    "ㄶ":[{word:"많다",emoji:"➕"}],
+    "ㄺ":[{word:"닭",emoji:"🐔"},{word:"흙",emoji:"🟫"}],
+    "ㄻ":[{word:"삶",emoji:"🌱"}],
+    "ㄼ":[{word:"여덟",emoji:"8️⃣"}],
+    "ㄽ":[{word:"곬",emoji:"〰️"}],
+    "ㄾ":[{word:"핥다",emoji:"👅"}],
+    "ㅀ":[{word:"싫다",emoji:"🙅"}],
+    "ㅄ":[{word:"값",emoji:"💵"},{word:"없다",emoji:"🚫"}]
+  };
+
+  function getBank(kind, unit){
+    if(kind === "initial") return pictureBankInitial[unit] || [];
+    if(kind === "vowel") return pictureBankVowel[unit] || [];
+    if(kind === "final") return finalPictureBank[unit] || [];
+    return [];
+  }
+
+  function uniqueItems(items){
+    const seen = new Set();
+    return items.filter(item=>{
+      const key = item.word + "|" + item.emoji;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  const units = (focus === "final")
+    ? (lesson.finals || lesson.phonemes)
+    : lesson.phonemes;
+
+  const usableUnits = units.filter(u => getBank(focus, u).length >= 2);
+  const answerUnit = sample(usableUnits.length ? usableUnits : units);
+  const targetSet = getBank(focus, answerUnit);
+  const safeTargetSet = targetSet.length ? targetSet : [{word:answerUnit, emoji:"🔤"}];
+
+  const target = sample(safeTargetSet);
+
+  // 정답 선택지는 같은 기준 단위이지만, 보기와 같은 낱말/그림은 제외
+  let answerCandidates = uniqueItems(safeTargetSet)
+    .filter(item => item.word !== target.word && item.emoji !== target.emoji);
+
+  // 같은 단위 그림이 부족하면, 안전 보충 자료 사용
+  const fallbackByFocus = {
+    initial: {
+      "ㄱ":[{word:"고래",emoji:"🐳"},{word:"곰",emoji:"🐻"}],
+      "ㄴ":[{word:"냄비",emoji:"🍲"},{word:"눈",emoji:"👀"}],
+      "ㅁ":[{word:"마이크",emoji:"🎤"},{word:"물고기",emoji:"🐟"}],
+      "ㅅ":[{word:"시계",emoji:"⏰"},{word:"선물",emoji:"🎁"}],
+      "ㅇ":[{word:"악어",emoji:"🐊"},{word:"양말",emoji:"🧦"}],
+      "ㅈ":[{word:"종",emoji:"🔔"},{word:"잠자리",emoji:"🪰"}],
+      "ㅋ":[{word:"카메라",emoji:"📷"},{word:"쿠키",emoji:"🍪"}],
+      "ㅌ":[{word:"택시",emoji:"🚕"},{word:"텐트",emoji:"⛺"}],
+      "ㅍ":[{word:"펭귄",emoji:"🐧"},{word:"풀",emoji:"🌱"}],
+      "ㅎ":[{word:"햄버거",emoji:"🍔"},{word:"화분",emoji:"🪴"}]
+    },
+    vowel: {
+      "ㅏ":[{word:"아빠",emoji:"👨"},{word:"아파트",emoji:"🏢"}],
+      "ㅓ":[{word:"어항",emoji:"🐠"},{word:"어린이",emoji:"🧒"}],
+      "ㅗ":[{word:"오렌지",emoji:"🍊"},{word:"오토바이",emoji:"🏍️"}],
+      "ㅜ":[{word:"우산",emoji:"☂️"},{word:"우주",emoji:"🚀"}],
+      "ㅡ":[{word:"음표",emoji:"🎵"},{word:"은행",emoji:"🏦"}],
+      "ㅣ":[{word:"이모",emoji:"👩"},{word:"이야기",emoji:"💬"}],
+      "ㅐ":[{word:"애벌레",emoji:"🐛"},{word:"액자",emoji:"🖼️"}],
+      "ㅔ":[{word:"에어컨",emoji:"❄️"},{word:"엑스레이",emoji:"🩻"}]
+    },
+    final: finalPictureBank
+  };
+
+  if(answerCandidates.length === 0){
+    answerCandidates = uniqueItems(fallbackByFocus[focus][answerUnit] || [])
+      .filter(item => item.word !== target.word && item.emoji !== target.emoji);
+  }
+
+  const answerItem = sample(answerCandidates.length ? answerCandidates : safeTargetSet);
+
+  // 오답은 기준 단위가 다르고, 보기/정답과 낱말·그림이 모두 달라야 함
+  let wrongCandidates = [];
+  const allUnits = focus === "initial"
+    ? Object.keys(pictureBankInitial)
+    : focus === "vowel"
+      ? Object.keys(pictureBankVowel)
+      : Object.keys(finalPictureBank);
+
+  allUnits.forEach(unit=>{
+    if(unit === answerUnit) return;
+    const items = getBank(focus, unit);
+    items.forEach(item=>{
+      if(item.word === target.word || item.word === answerItem.word) return;
+      if(item.emoji === target.emoji || item.emoji === answerItem.emoji) return;
+      wrongCandidates.push({unit, ...item, isAnswer:false});
+    });
+  });
+
+  wrongCandidates = uniqueItems(wrongCandidates);
+  const wrongItem = sample(wrongCandidates.length ? wrongCandidates : [
+    {unit:"기타", word:"카메라", emoji:"📷", isAnswer:false},
+    {unit:"기타", word:"택시", emoji:"🚕", isAnswer:false},
+    {unit:"기타", word:"펭귄", emoji:"🐧", isAnswer:false}
+  ].filter(item => item.word !== target.word && item.word !== answerItem.word && item.emoji !== target.emoji && item.emoji !== answerItem.emoji));
+
+  const focusText = focus === "vowel" ? "첫 음절의 모음"
+    : focus === "final" ? "첫 음절의 받침"
+    : "첫 음절의 자음";
+
+  const choices = [
+    {unit:answerUnit, ...answerItem, isAnswer:true},
+    wrongItem
+  ];
+
+  return {
+    type:"recognition",
+    lesson,
+    prompt:`그림을 보고, ${focusText}이 같은 그림을 고르세요.`,
+    target,
+    answer:answerItem.word,
+    answerPhoneme:answerUnit,
+    choices:shuffle(choices)
+  };
+}
+
+function makeDiscriminationQuestion(lesson){
+  const pool = lesson.phonemes;
+  const same = Math.random() < 0.5;
+  let a,b;
+  if(same){
+    a = sample(pool);
+    b = a;
+  }else{
+    a = sample(pool);
+    const others = pool.filter(x=>x!==a);
+    b = sample(others.length ? others : initials.filter(x=>x!==a));
+  }
+  const pairA = soundExampleForPhoneme(a, lesson);
+  const pairB = soundExampleForPhoneme(b, lesson);
+  return {
+    type:"discrimination",
+    lesson,
+    prompt:"1번과 2번 소리를 듣고, 같은지 다른지 고르세요.",
+    box1:pairA,
+    box2:pairB,
+    answer:same ? "같아요" : "달라요"
+  };
+}
+
+function soundExampleForPhoneme(p, lesson){
+  if(lessonHasFinal(lesson)){
+    const final = lesson.finals.includes(p) ? p : sample(lesson.finals);
+    const word = composeHangul("ㅇ","ㅏ", final);
+    return {show:word, speak:word};
+  }
+  if(isConsonant(p)){
+    const syll = composeHangul(p, sample(["ㅏ","ㅗ","ㅜ","ㅣ"]));
+    return {show:syll, speak:syll};
+  }
+  if(isVowel(p)){
+    const syll = composeHangul("ㅇ", p);
+    return {show:syll, speak:syll};
+  }
+  return {show:p, speak:p};
+}
+
+function makeSynthesisQuestion(lesson){
+  if(lessonHasFinal(lesson)){
+    const final = sample(lesson.finals);
+    const initial = sample(["ㄱ","ㄴ","ㅁ","ㅂ","ㅅ","ㅈ","ㅎ"]);
+    const vowel = sample(["ㅏ","ㅗ","ㅜ","ㅣ"]);
+    const answer = composeHangul(initial, vowel, final);
+    return {type:"synthesis", lesson, prompt:"애니메이션을 보고 합쳐서 읽어요.", parts:[initial, vowel, final], answer};
+  }
+  const consonants = lesson.phonemes.filter(isConsonant);
+  const vowelsInLesson = lesson.phonemes.filter(isVowel);
+  const initial = sample(consonants.length ? consonants : ["ㄱ","ㄴ","ㅁ","ㅅ","ㅈ"]);
+  const vowel = sample(vowelsInLesson.length ? vowelsInLesson : ["ㅏ","ㅗ","ㅜ","ㅣ"]);
+  const answer = composeHangul(initial, vowel);
+  return {type:"synthesis", lesson, prompt:"애니메이션을 보고 합쳐서 읽어요.", parts:[initial, vowel], answer};
+}
+
+function makeSegmentationQuestion(lesson){
+  if(lessonHasFinal(lesson)){
+    const final = sample(lesson.finals);
+    const initial = sample(["ㄱ","ㄴ","ㅁ","ㅂ","ㅅ","ㅈ","ㅎ"]);
+    const vowel = sample(["ㅏ","ㅗ","ㅜ","ㅣ"]);
+    const word = composeHangul(initial, vowel, final);
+    return {type:"segmentation", lesson, prompt:"글자가 나뉘는 모습을 보고 소리로 나누어 읽어요.", whole:word, split:[initial, vowel, final], answer:word};
+  }
+  const consonants = lesson.phonemes.filter(isConsonant);
+  const vowelsInLesson = lesson.phonemes.filter(isVowel);
+  const initial = sample(consonants.length ? consonants : ["ㄱ","ㄴ","ㅁ","ㅅ","ㅈ"]);
+  const vowel = sample(vowelsInLesson.length ? vowelsInLesson : ["ㅏ","ㅗ","ㅜ","ㅣ"]);
+  const word = composeHangul(initial, vowel);
+  return {type:"segmentation", lesson, prompt:"글자가 나뉘는 모습을 보고 소리로 나누어 읽어요.", whole:word, split:[initial, vowel], answer:word};
+}
+
+
+const multisyllableTwoSyllableWords = [
+  "심사","감자","우산","가지","나비",
+  "모자","사과","토끼","포도","수박",
+  "기린","치즈","오리","우유","라면"
+];
+
+const multisyllableThreeSyllableWords = [
+  "바나나","토마토","고구마","자동차","카메라",
+  "강아지","고양이","물고기","햄버거","무지개",
+  "피아노","마이크","선풍기","자전거","컴퓨터"
+];
+
+function makeMultisyllableWordSet(lesson){
+  const focus = lessonHasFinal(lesson)
+    ? "final"
+    : (lesson.phonemes.some(isVowel) ? "vowel" : "initial");
+  const targetUnits = (focus === "final") ? (lesson.finals || lesson.phonemes) : lesson.phonemes;
+
+  function matchesLesson(word){
+    const units = wordUnitsForFocus(word, focus);
+    return units.some(u => targetUnits.includes(u));
+  }
+
+  let two = multisyllableTwoSyllableWords.filter(matchesLesson);
+  let three = multisyllableThreeSyllableWords.filter(matchesLesson);
+
+  // 단원 음소와 맞는 낱말이 부족하면 전체 목록에서 보충
+  two = uniq([...two, ...multisyllableTwoSyllableWords]).slice(0, 15);
+  three = uniq([...three, ...multisyllableThreeSyllableWords]).slice(0, 15);
+
+  const selectedTwo = shuffle(two).slice(0, 5);
+  const selectedThree = shuffle(three).slice(0, 5);
+
+  return shuffle([
+    ...selectedTwo.map(word => ({word, syllableCount:2})),
+    ...selectedThree.map(word => ({word, syllableCount:3}))
+  ]);
+}
+
+function getMultisyllableSession(lesson){
+  if(!state.multiSession || state.multiSession.lessonId !== lesson.id || state.multiSession.words.length === 0){
+    state.multiSession = {
+      lessonId: lesson.id,
+      words: makeMultisyllableWordSet(lesson),
+      index: 0
+    };
+  }
+  return state.multiSession;
+}
+
+function resetMultisyllableSession(){
+  if(state.selectedLesson){
+    state.multiSession = {
+      lessonId: state.selectedLesson.id,
+      words: makeMultisyllableWordSet(state.selectedLesson),
+      index: 0
+    };
+    state.currentQuestion = makeMultisyllableSynthesisQuestion(state.selectedLesson);
+    renderQuestion();
+  }
+}
+
+function nextMultisyllableWord(){
+  const q = state.currentQuestion;
+  if(!q || q.type !== "multisyllableSynthesis") return;
+  const session = getMultisyllableSession(q.lesson);
+  if(session.index < session.words.length - 1){
+    session.index += 1;
+    state.currentQuestion = makeMultisyllableSynthesisQuestion(q.lesson);
+    renderQuestion();
+  }else{
+    showFeedback(true, "10개 낱말을 모두 읽었어요! 🌟");
+  }
+}
+
+function decomposeWordToSyllables(word){
+  return [...word].map(ch => splitHangul(ch));
+}
+
+function wordUnitsForFocus(word, focus){
+  return decomposeWordToSyllables(word).map(parts=>{
+    if(focus === "initial") return parts[0];
+    if(focus === "vowel") return parts[1];
+    if(focus === "final") return parts[2] || "";
+    return parts.join("");
+  }).filter(Boolean);
+}
+
+function makeMultisyllableSynthesisQuestion(lesson){
+  const session = getMultisyllableSession(lesson);
+  const item = session.words[session.index] || {word:"심사", syllableCount:2};
+  const word = item.word;
+  const syllables = decomposeWordToSyllables(word);
+  const flatSounds = syllables.flat();
+
+  return {
+    type:"multisyllableSynthesis",
+    lesson,
+    prompt:"초성·중성·종성 자리를 보며 엘코닌 상자를 한 칸씩 열어 읽어요.",
+    word,
+    syllables,
+    flatSounds,
+    answer:word,
+    step:0,
+    wordIndex: session.index,
+    totalWords: session.words.length,
+    syllableCount: item.syllableCount
+  };
+}
+
+
+function isHorizontalVowelForElkonin(sound){
+  return ["ㅗ","ㅛ","ㅜ","ㅠ","ㅡ"].includes(sound);
+}
+
+function renderElkoninBoard(q){
+  // 다음절 합성은 1음소마다 '초성/중성/종성 자리'가 보이는 3칸 상자 1개로 제시.
+  // 예: 심사 → ㅅ(초성칸) | ㅣ(중성칸) | ㅁ(받침칸) | ㅅ(초성칸) | ㅏ(중성칸)
+  let soundIndex = 0;
+  const cells = q.syllables.map((parts, syllableIndex)=>{
+    const syllableCells = parts.map((sound, partIndex)=>{
+      const shown = soundIndex < q.step;
+      const active = soundIndex === q.step - 1;
+      const cls = partIndex === 0 ? "initial" : partIndex === 1 ? "vowel" : "final";
+      const horizontalClass = (cls === "vowel" && isHorizontalVowelForElkonin(sound)) ? "horizontal-vowel" : "";
+
+      const box = `
+        <div class="elkonin-phone-box ${horizontalClass} ${shown ? "" : "hidden-sound"} ${active ? "active-sound" : ""}" data-sound="${sound}">
+          <div class="phone-slot initial ${cls === "initial" ? "" : "empty"}">${cls === "initial" ? sound : ""}</div>
+          <div class="phone-slot vowel ${cls === "vowel" ? "" : "empty"}">${cls === "vowel" ? sound : ""}</div>
+          <div class="phone-slot final ${cls === "final" ? "" : "empty"}">${cls === "final" ? sound : ""}</div>
+        </div>`;
+      soundIndex += 1;
+      return box;
+    }).join("");
+
+    const gap = syllableIndex < q.syllables.length - 1 ? `<div class="syllable-gap">|</div>` : "";
+    return syllableCells + gap;
+  }).join("");
+
+  return `<div class="elkonin-board">${cells}</div>`;
+}
+
+function renderMultisyllablePanel(){
+  const q = state.currentQuestion;
+  const board = document.getElementById("elkoninBoardHost");
+  const progress = document.getElementById("multiProgress");
+  if(!q || !board || !progress) return;
+  board.innerHTML = renderElkoninBoard(q);
+  progress.textContent = `낱말 ${q.wordIndex + 1}/${q.totalWords} · 열린 소리상자 ${Math.min(q.step, q.flatSounds.length)} / ${q.flatSounds.length}`;
+}
+
+function nextElkoninSound(){
+  const q = state.currentQuestion;
+  if(!q || q.type !== "multisyllableSynthesis") return;
+  if(q.step < q.flatSounds.length){
+    q.step += 1;
+    renderMultisyllablePanel();
+    const sound = q.flatSounds[q.step - 1];
+    setTimeout(()=>speakText(sound), 80);
+  }
+}
+
+function resetElkoninSound(){
+  const q = state.currentQuestion;
+  if(!q || q.type !== "multisyllableSynthesis") return;
+  q.step = 0;
+  renderMultisyllablePanel();
+}
+
+function showAllElkoninSounds(){
+  const q = state.currentQuestion;
+  if(!q || q.type !== "multisyllableSynthesis") return;
+  q.step = q.flatSounds.length;
+  renderMultisyllablePanel();
+  setTimeout(()=>speakText(q.word), 100);
+}
+
+
+function makeQuestion(){
+  let lesson = state.selectedLesson || lessons[state.tab][0];
+  const mode = document.getElementById("activityType").value;
+  if(mode==="review"){
+    const st = getStudent();
+    const wrongs = st ? data.records.filter(r=>r.studentId===st.id && !r.isCorrect) : [];
+    if(wrongs.length){
+      const pick = sample(wrongs);
+      const all = Object.values(lessons).flat();
+      lesson = all.find(x=>x.id===pick.lessonId) || lesson;
+    }
+    const types = ["recognition","discrimination","synthesis","segmentation","multisyllableSynthesis"];
+    return { ...makeSpecificQuestion(lesson, sample(types)), type:"review", baseType:types[0] };
+  }
+  return makeSpecificQuestion(lesson, mode);
+}
+
+function makeSpecificQuestion(lesson, type){
+  if(type==="recognition") return makeRecognitionQuestion(lesson);
+  if(type==="discrimination") return makeDiscriminationQuestion(lesson);
+  if(type==="synthesis") return makeSynthesisQuestion(lesson);
+  if(type==="segmentation") return makeSegmentationQuestion(lesson);
+  if(type==="multisyllableSynthesis") return makeMultisyllableSynthesisQuestion(lesson);
+  return makeRecognitionQuestion(lesson);
+}
+
+function newQuestion(){
+  if(!state.selectedLesson) return;
+  state.currentQuestion = makeQuestion();
+  renderQuestion();
+}
+
+
+function getVowelBoxClass(vowel){
+  // 가로모음은 초성 아래에 배치: ㅗ, ㅛ, ㅜ, ㅠ, ㅡ
+  // 그 외 세로/복합 모음은 기존처럼 오른쪽에 배치
+  const horizontalVowels = ["ㅗ","ㅛ","ㅜ","ㅠ","ㅡ"];
+  return horizontalVowels.includes(vowel) ? "v-horizontal" : "v-vertical";
+}
+
+function renderQuestion(){
+  const q = state.currentQuestion;
+  const panel = document.getElementById("activityPanel");
+  if(!q){ panel.innerHTML = ""; return; }
+
+  let html = `<div class="teacher-note">
+    <b>교사/학부모 안내</b><br>
+    ① 먼저 소리 듣기 또는 애니메이션 재생을 눌러 주세요.
+    ② 학생이 말로 반응하게 한 뒤 선택하거나, 교사가 맞음/어려움을 체크하세요.
+    ③ 메모에는 혼동한 음소, 반응시간, 단서 제공 여부를 남길 수 있습니다.
+  </div>
+  <div class="question">${q.prompt}</div>
+  <div id="feedback" class="feedback"></div>`;
+
+  if(q.type==="recognition"){
+    html += `
+    <div class="target-area">
+      <div class="picture-big">
+        <div class="emoji-big">${q.target.emoji}</div>
+      </div>
+    </div>
+    <div class="footer-actions" style="margin-bottom:14px">
+      <button class="blue" onclick="speakText('${q.target.word}')">🔊 소리 듣기</button>
+      <button class="gray" onclick="newQuestion()">문항 바꾸기</button>
+    </div>
+    <div class="choices-pic">
+      ${q.choices.map(c=>`
+      <div class="pic-card-wrap">
+        <button class="pic-card" data-word="${c.word}" onclick="answerRecognition('${escapeJS(c.word)}', this)">
+          <div class="emoji">${c.emoji}</div>
+        </button>
+        <button class="pic-audio" onclick="playChoiceAudio('${escapeJS(c.word)}')" aria-label="${c.word} 소리 듣기" title="${c.word} 소리 듣기">🔊</button>
+      </div>`).join("")}
+    </div>`;
+  }
+
+  if(q.type==="discrimination"){
+    html += `
+    <div class="same-diff-area">
+      <div class="sound-box">
+        <div class="n">1번 박스</div>
+        <div class="preview blank"></div>
+        <button class="blue" onclick="speakText('${q.box1.speak}')">🔊 1번 듣기</button>
+      </div>
+      <div class="sound-box">
+        <div class="n">2번 박스</div>
+        <div class="preview blank"></div>
+        <button class="blue" onclick="speakText('${q.box2.speak}')">🔊 2번 듣기</button>
+      </div>
+    </div>
+    <div class="footer-actions" style="margin-top:14px">
+      <button class="gray" onclick="playBoth()">순서대로 다시 듣기</button>
+      <button class="gray" onclick="newQuestion()">문항 바꾸기</button>
+    </div>
+    <div class="toggle-area">
+      <button class="primary" onclick="answerChoice('같아요', this)">같아요</button>
+      <button class="purple" onclick="answerChoice('달라요', this)">달라요</button>
+    </div>`;
+  }
+
+  if(q.type==="synthesis"){
+    const third = q.parts[2] || "";
+    const vowelClass = getVowelBoxClass(q.parts[1]);
+    html += `
+    <div class="anim-wrap">
+      <div id="mergeStage" class="anim-stage ${vowelClass}">
+        <div class="merge-piece initial">${q.parts[0]}</div>
+        <div class="merge-piece vowel">${q.parts[1]}</div>
+        ${third ? `<div class="merge-piece final">${third}</div>` : ""}
+        <div class="syllable-box result-box ${vowelClass}">
+          <div class="top-area"></div>
+          <div class="initial-area"></div>
+          <div class="final-area"></div>
+          <div class="slot initial">${q.parts[0]}</div>
+          <div class="slot vowel">${q.parts[1]}</div>
+          <div class="slot final">${third}</div>
+        </div>
+      </div>
+      <div class="split-note">음절상자 안에 초성, 중성, 종성이 들어가며 한 글자가 완성돼요.</div>
+      <div class="footer-actions">
+        <button class="blue" onclick="playMerge()">▶ 합치기 애니메이션</button>
+        <button class="gray" onclick="speakBlend()">🔊 소리 들려주기</button>
+        <button class="gray" onclick="newQuestion()">문항 바꾸기</button>
+      </div>
+      <div class="footer-actions">
+        <button class="primary" onclick="markTeacher(true, '학생이 읽음')">학생이 읽었어요</button>
+        <button class="red" onclick="markTeacher(false, '학생이 어려워함')">어려워요</button>
+      </div>
+    </div>`;
+  }
+
+  if(q.type==="segmentation"){
+    const split3 = q.split[2] || "";
+    const vowelClass = getVowelBoxClass(q.split[1]);
+    html += `
+    <div class="anim-wrap">
+      <div id="splitStage" class="anim-stage split-stage ${vowelClass}">
+        <div class="syllable-box whole-box ${vowelClass}">
+          <div class="top-area"></div>
+          <div class="initial-area"></div>
+          <div class="final-area"></div>
+          <div class="slot initial">${q.split[0]}</div>
+          <div class="slot vowel">${q.split[1]}</div>
+          <div class="slot final">${split3}</div>
+        </div>
+        <div class="split-piece initial">${q.split[0]}</div>
+        <div class="split-piece vowel">${q.split[1]}</div>
+        ${split3 ? `<div class="split-piece final">${split3}</div>` : ""}
+      </div>
+      <div class="split-note">한 글자 안에 있던 소리가 음절상자에서 나뉘어 나와요.</div>
+      <div class="footer-actions">
+        <button class="blue" onclick="playSplit()">▶ 나누기 애니메이션</button>
+        <button class="gray" onclick="speakText('${q.whole}')">🔊 글자 듣기</button>
+        <button class="gray" onclick="newQuestion()">문항 바꾸기</button>
+      </div>
+      <div class="footer-actions">
+        <button class="primary" onclick="markTeacher(true, '학생이 분절함')">학생이 나누어 읽었어요</button>
+        <button class="red" onclick="markTeacher(false, '학생이 어려워함')">어려워요</button>
+      </div>
+    </div>`;
+  }
+
+
+  if(q.type==="multisyllableSynthesis"){
+    html += `
+    <div class="multi-wrap">
+      <div class="multi-progress">다음절 합성 ${q.wordIndex + 1} / ${q.totalWords} · ${q.syllableCount}음절</div>
+      <div id="elkoninBoardHost">${renderElkoninBoard(q)}</div>
+      <div class="multi-progress"><span id="multiProgress">낱말 ${q.wordIndex + 1}/${q.totalWords} · 열린 소리상자 0 / ${q.flatSounds.length}</span></div>
+      <div class="footer-actions">
+        <button class="blue" onclick="nextElkoninSound()">다음 소리 열기</button>
+        <button class="gray" onclick="resetElkoninSound()">처음으로</button>
+        <button class="gray" onclick="showAllElkoninSounds()">전체 보기</button>
+        <button class="gray" onclick="nextMultisyllableWord()">다음 낱말</button>
+        <button class="gray" onclick="resetMultisyllableSession()">새 10개 세트</button>
+      </div>
+      <div class="footer-actions">
+        <button class="primary" onclick="markTeacher(true, '학생이 다음절 합성함')">학생이 합쳐 읽었어요</button>
+        <button class="red" onclick="markTeacher(false, '학생이 다음절 합성을 어려워함')">어려워요</button>
+      </div>
+    </div>`;
+  }
+
+
+  html += `<div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px">
+    <span class="tag">${q.lesson.lesson}</span>
+    <span class="tag">${q.lesson.title}</span>
+    <span class="tag">${activityName(q.type==="review" ? (q.baseType || "review") : q.type)}</span>
+  </div>`;
+  panel.innerHTML = html;
+}
+
+function escapeJS(s){ return String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'") }
+
+function playBoth(){
+  const q = state.currentQuestion;
+  speakText(q.box1.speak);
+  setTimeout(()=>speakText(q.box2.speak), 1200);
+}
+function playChoiceAudio(word){
+  speakText(word);
+}
+function speakBlend(){
+  const q = state.currentQuestion;
+  if(!q || q.type!=="synthesis") return;
+  speakText(q.parts.join(" "));
+  setTimeout(()=>speakText(q.answer), 1500);
+}
+function playMerge(){
+  const stage = document.getElementById("mergeStage");
+  if(!stage) return;
+  stage.classList.remove("play","showResult");
+  void stage.offsetWidth;
+  stage.classList.add("play");
+  setTimeout(()=>stage.classList.add("showResult"), 1000);
+}
+function playSplit(){
+  const stage = document.getElementById("splitStage");
+  if(!stage) return;
+  stage.classList.remove("play");
+  void stage.offsetWidth;
+  stage.classList.add("play");
+}
+
+function answerRecognition(selectedWord, btn){
+  const q = state.currentQuestion;
+  const correctWord = q.choices.find(c=>c.isAnswer).word;
+  document.querySelectorAll(".pic-card").forEach(card=>{
+    const word = card.getAttribute("data-word");
+    if(word===correctWord) card.classList.add("correct");
+  });
+  const ok = selectedWord === correctWord;
+  if(!ok) btn.classList.add("wrong");
+  showFeedback(ok, ok ? "잘했어요! 🌟" : `다시 해보자.`);
+  record(ok, selectedWord);
+  setTimeout(newQuestion, ok ? 2600 : 2600);
+}
+function answerChoice(selected, btn){
+  const q = state.currentQuestion;
+  const ok = selected === q.answer;
+  showFeedback(ok, ok ? "맞았어요 🌟" : `정답은 "${q.answer}"`);
+  record(ok, selected);
+  setTimeout(newQuestion, ok ? 900 : 1400);
+}
+function markTeacher(ok, response){
+  showFeedback(ok, ok ? "좋아요! 교사 확인 완료 🌟" : "추가 지도가 필요해요.");
+  record(ok, response);
+  setTimeout(newQuestion, 1100);
+}
+let feedbackTimer = null;
+function showFeedback(ok, message){
+  const local = document.getElementById("feedback");
+  if(local){
+    local.textContent = "";
+    local.className = "feedback";
+  }
+
+  const fb = document.getElementById("globalFeedback");
+  if(fb){
+    fb.textContent = message;
+    fb.className = "global-feedback show " + (ok ? "good":"bad");
+    clearTimeout(feedbackTimer);
+    feedbackTimer = setTimeout(()=>{
+      fb.className = "global-feedback";
+      fb.textContent = "";
+    }, 2300);
+  }
+
+  if(ok && message.includes("잘했어요")){
+    setTimeout(()=>speakText("잘했어요"), 80);
+  }
+}
+
+function record(ok, response){
+  const student = getStudent();
+  if(!student){ return; }
+  const q = state.currentQuestion;
+  const memo = document.getElementById("teacherMemo").value.trim();
+  data.records.push({
+    id:uid(),
+    date:todayStr(),
+    studentId:student.id,
+    studentName:student.name,
+    lessonId:q.lesson.id,
+    lesson:q.lesson.lesson + " " + q.lesson.title,
+    activity:activityName(q.type),
+    prompt:q.prompt,
+    answer:q.answer || q.whole || "",
+    response:response,
+    isCorrect:ok,
+    memo
+  });
+  if(ok) state.todayCorrect++; else state.todayWrong++;
+  state.todayTotal++;
+  saveData();
+  renderProgress();
+  renderRecords();
+}
+
+function renderRecords(){
+  const student = getStudent();
+  const records = student ? data.records.filter(r=>r.studentId===student.id) : data.records;
+  document.getElementById("recordTable").innerHTML = records.slice().reverse().slice(0,100).map(r=>`
+    <tr>
+      <td>${r.date}</td><td>${r.studentName}</td><td>${r.lesson}</td><td>${r.activity}</td><td>${r.prompt}</td><td>${r.answer}</td><td>${r.response}</td><td>${r.isCorrect?"○":"△"}</td><td>${r.memo||""}</td>
+    </tr>
+  `).join("");
+
+  const total = records.length;
+  const correct = records.filter(r=>r.isCorrect).length;
+  const wrong = total - correct;
+  const acc = total ? Math.round(correct/total*100) : 0;
+  const wrongBy = {};
+  records.filter(r=>!r.isCorrect).forEach(r=>{
+    const k = r.lesson.split(" ").slice(1).join(" ");
+    wrongBy[k] = (wrongBy[k] || 0) + 1;
+  });
+  const topWrong = Object.entries(wrongBy).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  document.getElementById("recordSummary").innerHTML = `
+    <div class="summary-item"><div class="muted">누적 시행</div><div class="num">${total}</div></div>
+    <div class="summary-item"><div class="muted">누적 정답</div><div class="num">${correct}</div></div>
+    <div class="summary-item"><div class="muted">누적 오답</div><div class="num">${wrong}</div></div>
+    <div class="summary-item"><div class="muted">누적 정확도</div><div class="num">${acc}%</div></div>
+    <div class="summary-item" style="grid-column:1/-1"><div class="muted">혼동/오답이 많은 부분</div>
+    <div>${topWrong.length ? topWrong.map(([k,v])=>`<span class="tag">${k}: ${v}회</span>`).join(" ") : "아직 기록이 없습니다."}</div></div>`;
+}
+
+function exportCSV(){
+  const rows = [["날짜","학생","배움","활동","문항","정답","반응","결과","메모"]];
+  data.records.forEach(r=>rows.push([r.date,r.studentName,r.lesson,r.activity,r.prompt,r.answer,r.response,r.isCorrect?"정답":"오답",r.memo||""]));
+  const csv = rows.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob = new Blob(["\uFEFF"+csv], {type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "소리쏙쏙_음운인식_기록_v2.csv";
+  a.click();
+}
+function downloadJSON(){
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "소리쏙쏙_전체백업_v2.json";
+  a.click();
+}
+
+
+
+function toggleActivitySummary(){
+  const box = document.getElementById("activitySummary");
+  const btn = document.getElementById("summaryToggleBtn");
+  if(!box || !btn) return;
+  const isCollapsed = box.classList.toggle("collapsed");
+  btn.textContent = isCollapsed ? "상세 기록 펼치기" : "상세 기록 접기";
+}
+
+function toggleTeacherMode(){
+  const isOn = document.body.classList.toggle("teacher-mode");
+  const btn = document.getElementById("teacherModeBtn");
+  if(btn){
+    btn.textContent = isOn ? "학생 화면으로 돌아가기" : "교사용 기록 보기";
+  }
+}
+
+renderStudents();
+updateActivityOptions();
+renderLessons();
+renderProgress();
+renderRecords();
+if(!state.selectedLesson && lessons[state.tab].length) state.selectedLesson = lessons[state.tab][0];
+newQuestion();
+</script>
+</body>
+</html>
