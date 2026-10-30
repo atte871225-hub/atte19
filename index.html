@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v86</title>
+<title>소리쏙쏙 음운인식 v87</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -5099,18 +5099,18 @@ function renderQuestion(){
         <div class="clean-prompt">${q.prompt}</div>
         <div class="sub-target">
           <button class="sub-target-pic" title="처음 낱말 소리 듣기" aria-label="처음 낱말 소리 듣기" onclick="speakText('${escapeJS(q.source.word)}')">${q.source.emoji}</button>
-          <div class="sub-muted">위 그림을 누르면 처음 낱말을 들을 수 있어요.</div>
+          <div class="sub-muted">${q.lesson?.isCustom?"위 글자를 누르면 처음 소리를 들을 수 있어요.":"위 그림을 누르면 처음 낱말을 들을 수 있어요."}</div>
         </div>
         <div class="sub-command">
           <button class="sub-listen" onclick="playSubstitutionPrompt()">🔊 소리 바꾸기 듣기</button>
           <button class="gray next-arrow-btn" onclick="newQuestion()" aria-label="문항 바꾸기">→</button>
         </div>
-        <div class="clean-prompt" style="font-size:21px">어떤 그림이 될까요?</div>
+        <div class="clean-prompt" style="font-size:21px">${q.lesson?.isCustom?"어느 쪽 소리일까요?":"어떤 그림이 될까요?"}</div>
         <div class="sub-choice-grid">
-        ${q.choices.map(c=>`
+        ${q.choices.map((c,i)=>`
           <div class="sub-choice-wrap">
-            <button class="sub-choice-sound" title="그림 소리 듣기" aria-label="그림 소리 듣기" onclick="speakText('${escapeJS(c.word)}')">🔊</button>
-            <button class="sub-choice" data-word="${c.word}" onclick="answerSubstitution('${escapeJS(c.word)}',this)" aria-label="그림 선택">${c.emoji}</button>
+            <button class="sub-choice-sound" title="${i+1}번 소리 듣기" aria-label="${i+1}번 소리 듣기" onclick="speakText('${escapeJS(c.word)}')">🔊</button>
+            <button class="sub-choice ${q.lesson?.isCustom?"numbered":""}" data-word="${c.word}" onclick="answerSubstitution('${escapeJS(c.word)}',this)" aria-label="${i+1}번 정답 선택">${q.lesson?.isCustom?`${i+1}번`:c.emoji}</button>
           </div>`).join("")}
         </div>
         <div class="sub-teacher-guide teacher-only">
