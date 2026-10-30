@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v82</title>
+<title>소리쏙쏙 음운인식 v83</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1895,7 +1895,7 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
 </head>
 <body>
 <header>
-  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v82</span><span class="brand-home-mark">⌂ 홈</span></button>
+  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v83</span><span class="brand-home-mark">⌂ 홈</span></button>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="small home-direct" type="button" onclick="goHomeScreen()" title="학습 홈으로 돌아가기">🏠 홈으로</button>
     <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
@@ -2011,7 +2011,7 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
           <div id="confusionChips" class="confusion-chips" aria-label="고를 수 있는 글자"></div>
           <p class="confusion-preview" id="confusionPreview">헷갈리는 글자를 두 개 이상 골라 주세요.</p>
           <button type="button" class="confusion-start" onclick="startConfusionPractice()">🎯 선택한 글자로 집중 연습 시작 →</button>
-          <p class="confusion-help">※ 선택한 글자는 학생별로 저장됩니다. 자음·모음은 글자 하나씩, 받침은 완성된 음절 중심으로 복습합니다. 그림 활동은 예시 단어를 사용합니다.</p>
+          <p class="confusion-help">※ 선택한 글자는 학생별로 저장됩니다. 혼동 자음의 점검은 자음마다 모음을 바꿔 10개씩 확인합니다. 누적 읽기는 자음만 / 자음+모음 모드를 선택할 수 있어요.</p>
         </section>
         <div id="reviewBasket" class="review-basket"></div>
       </div>
@@ -2853,7 +2853,7 @@ function renderReviewBasket(){
     </span>`).join("");
   box.innerHTML = `
     <div class="review-basket-title">누적학습 목록 ${ids.length}개</div>
-    <div class="muted">선택한 배움을 복습 목록에 저장합니다. 누적 읽기는 처음 배운 글자부터 현재 선택한 배움까지 누적합니다. 받침 단원에서는 받침 있는 글자가 포함됩니다.</div>
+    <div class="muted">선택한 배움을 복습 목록에 저장합니다. 누적 읽기는 자음만 읽기와 자음+모음 합쳐 읽기를 선택할 수 있어요. 받침은 완성된 음절로 제시합니다.</div>
     <div class="review-basket-list">${chips || "<span class='muted'>아직 담은 배움이 없습니다.</span>"}</div>
     <div class="mini-actions">
       <button class="gray" onclick="addWrongTopToReview()">오답 많은 배움 담기</button>
@@ -3774,13 +3774,22 @@ function makeLearnedSyllableCatalog(){
   return units;
 }
 
-// 읽기 '점검' 전용 간추림: 모음 1개 / 초성 2개 / 받침 2개.
+// 혼동하는 자음 점검에서 사용되는 서로 다른 모음 10개.
+// 평가 항목은 ㄱ,ㅋ,ㄲ 각각 가·거·고·구·그·기·개·게·갸·겨처럼 10개씩 생성합니다.
+const CONFUSION_ASSESSMENT_VOWELS=["ㅏ","ㅓ","ㅗ","ㅜ","ㅡ","ㅣ","ㅐ","ㅔ","ㅑ","ㅕ"];
+
+// 일반 배움의 읽기 점검은 기존 대표 표본(모음 1개·자음 2개·받침 2개)을 유지합니다.
 // 기존 누적학습 30문항의 어휘 목록과는 분리하여 연습량을 줄입니다.
 function makeAssessmentSyllableCatalog(){
   if(state.selectedLesson?.isCustom){
     const lesson=state.selectedLesson;
     if(lesson.focus==='final')return lesson.phonemes.flatMap(f=>[finalReviewSyllable(f), ...[...new Set((FINAL_SYLLABLE_BANK[f]||[]).flatMap(w=>[...w]).filter(ch=>splitHangul(ch)[2]===f))].filter(x=>x!==finalReviewSyllable(f)).slice(0,1)]);
-    if(lesson.focus==='initial')return lesson.phonemes.flatMap(c=>[composeHangul(c,'ㅏ'),composeHangul(c,'ㅗ')]);
+    if(lesson.focus==='initial'){
+      // 혼동 자음 점검: 선택한 각 자음마다 서로 다른 모음 10개를 결합합니다.
+      // 모음 순서와 자음 순서는 점검을 시작할 때마다 바뀝니다.
+      const vowels=shuffle(CONFUSION_ASSESSMENT_VOWELS);
+      return vowels.flatMap(v=>shuffle(lesson.phonemes).map(c=>composeHangul(c,v)));
+    }
     return lesson.phonemes.map(v=>composeHangul('ㅇ',v));
   }
   const taughtVowels = [];
@@ -3900,7 +3909,8 @@ function learnedItemsForCumulative(){
 }
 const REVIEW_GROUPS = [
   {id:"vowels",label:"모음",name:"모음 소리 알기"},
-  {id:"consonants",key:"initials",label:"자음",name:"자음 소리 알기"},
+  {id:"consonants",key:"initials",label:"자음만",name:"자음 소리 알기"},
+  {id:"syllables",label:"자음+모음",name:"자음과 모음 합쳐 읽기"},
   {id:"finals",label:"받침 음절",name:"받침 음절 읽기"}
 ];
 function reviewDefaultGroup(){
@@ -3910,11 +3920,15 @@ function reviewDefaultGroup(){
 }
 function reviewAvailableGroups(){
   if(state.selectedLesson?.isCustom){
-    const key=state.selectedLesson.focus==='final'?'finals':state.selectedLesson.focus==='initial'?'consonants':'vowels';
-    return REVIEW_GROUPS.filter(g=>g.id===key);
+    const focus=state.selectedLesson.focus;
+    const allowed=focus==='initial'?['consonants','syllables']
+      :focus==='final'?['finals']:['vowels'];
+    return REVIEW_GROUPS.filter(g=>allowed.includes(g.id));
   }
   const catalog = makeLearnedJamoCatalog();
-  return REVIEW_GROUPS.filter(g => (catalog[g.key || g.id] || []).length > 0);
+  return REVIEW_GROUPS.filter(g => g.id==='syllables'
+    ? catalog.initials.length>0 && catalog.vowels.length>0
+    : (catalog[g.key || g.id] || []).length > 0);
 }
 function currentReviewGroup(){
   const available = reviewAvailableGroups();
@@ -3961,10 +3975,16 @@ function makeCumulativeSession(){
   const group = currentReviewGroup();
   // 자음·모음 복습: 배운 낱자 그대로 제시합니다.
   // 받침 복습: ㅁ·ㅂ 같은 낱자 대신 암·압 등의 음절을 제시합니다.
-  const pool = state.selectedLesson?.isCustom
-    ? (group==="finals" ? state.selectedLesson.phonemes.map(finalReviewSyllable) : state.selectedLesson.phonemes.slice())
-    : (group === "finals" ? [...new Set(catalog.finals.map(finalReviewSyllable))]
-      : (catalog[group === "consonants" ? "initials" : group] || []).slice());
+  const isCustom=!!state.selectedLesson?.isCustom;
+  const initials=isCustom?state.selectedLesson.phonemes:catalog.initials;
+  // 일반 배움은 실제 배운 모음만, 혼동 자음 맞춤 연습은 모음을 바꿔 가며 읽습니다.
+  const vowels=isCustom?CONFUSION_ASSESSMENT_VOWELS:catalog.vowels;
+  const pool = group === "syllables"
+    ? initials.flatMap(c=>vowels.map(v=>composeHangul(c,v))).filter(Boolean)
+    : isCustom
+      ? (group==="finals" ? state.selectedLesson.phonemes.map(finalReviewSyllable) : state.selectedLesson.phonemes.slice())
+      : (group === "finals" ? [...new Set(catalog.finals.map(finalReviewSyllable))]
+        : (catalog[group === "consonants" ? "initials" : group] || []).slice());
   const questions=[];
   const seen=new Set();
   const seqKey = seq=>seq.join("|");
@@ -4388,10 +4408,16 @@ function renderAssessmentUI(){
   if(!host)return;
   const s=assessmentSession;
   const count=makeAssessmentSyllableCatalog().length;
+  const customInitial=!!(state.selectedLesson?.isCustom && state.selectedLesson.focus==='initial');
+  const guide=customInitial
+    ? `혼동하는 자음 <b>${state.selectedLesson.phonemes.length}개</b>마다 서로 다른 모음 <b>10개씩</b> 결합하여 총 <b>${count}개 글자</b>를 점검합니다. (예: 가·거·고·구·그·기·개·게·갸·겨)`
+    : state.selectedLesson?.isCustom
+      ? `선택한 혼동 글자를 중심으로 총 <b>${count}개 글자</b>를 점검해요.`
+      : `처음 배운 글자부터 현재 배움까지 대표 글자 <b>${count}개</b>를 점검해요.<br>모음은 각 1개, 자음은 각 2개, 받침도 각 2개씩 제시합니다.`;
   if(!s){
     host.innerHTML=`<div class="assess-shell">
       <div class="assess-headline">⏱️ 글자 읽기 점검</div>
-      <div class="assess-desc">처음 배운 글자부터 현재 배움까지 대표 글자 <b>${count}개</b>만 점검해요.<br>모음은 각 1개, 자음은 각 2개(기본+랜덤 모음), 받침도 각 2개(기본+다른 음절)로 제시합니다.</div>
+      <div class="assess-desc">${guide}</div>
       <div class="assess-mode-row">
         <button class="assess-action primary-action" onclick="assessmentStart('single')">① 글자 1개씩 점검</button>
         <button class="assess-action primary-action" onclick="assessmentStart('minute')">② 1분 전체 읽기</button>
@@ -4911,11 +4937,13 @@ function renderQuestion(){
     <div class="cumulative-stage">
       <div class="clean-prompt">누적 읽기 · ${REVIEW_GROUPS.find(g=>g.id===q.reviewGroup)?.name||"소리 알기"}</div>
       <div class="review-group-buttons" role="group" aria-label="누적 읽기 글자 종류 선택">
-        ${reviewAvailableGroups().map(g=>`<button type="button" class="review-group-btn ${q.reviewGroup===g.id?"active":""}" aria-pressed="${q.reviewGroup===g.id}" onclick="setReviewGroup('${g.id}')">${g.label}만</button>`).join("")}
+        ${reviewAvailableGroups().map(g=>`<button type="button" class="review-group-btn ${q.reviewGroup===g.id?"active":""}" aria-pressed="${q.reviewGroup===g.id}" onclick="setReviewGroup('${g.id}')">${g.label}</button>`).join("")}
       </div>
       <div class="clean-subprompt">${q.reviewGroup==="finals"
         ? "받침은 암·압처럼 음절로 만들어 4개씩 읽어요."
-        : "같은 종류의 낱자 4개씩 읽어요. 자음과 모음은 따로 복습해요."}</div>
+        : q.reviewGroup==="syllables"
+          ? "선택한 자음과 모음을 합쳐 가·거·고·구처럼 4글자씩 읽어요."
+          : "배운 글자 자체를 4개씩 읽어요. 자음과 모음은 따로 복습해요."}</div>
       <div class="cumulative-progress">
         <span>${q.cumulativeIndex + 1}/${q.cumulativeTotal}</span>
         <div class="bar"><div class="fill" style="width:${percent}%"></div></div>
