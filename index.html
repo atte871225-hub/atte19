@@ -1856,6 +1856,13 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
 .drawer-section .collect-name{font-size:14px}
 .drawer-section .collect-caption{font-size:11px}
 @media(max-width:720px){.learning-steps{grid-template-columns:1fr}.learning-step{padding:12px 14px}.learning-hero{min-height:0}}
+@media(max-width:550px){
+ .learning-hero{display:block;position:relative}
+ .learning-hero>div:first-child{width:100%}
+ .learning-hero .collection-main-animal{position:absolute;right:12px;top:31px;opacity:.18;font-size:65px;pointer-events:none}
+ .learning-hero h1{font-size:clamp(21px,5.6vw,25px);letter-spacing:-.45px;overflow-wrap:keep-all;word-break:keep-all}
+ .learning-hero .collection-top-action button{font-size:17px;padding:12px 14px;white-space:nowrap;letter-spacing:-.6px}
+}
 @media(max-width:550px){.learning-hero .learning-intro{font-size:14px}.learning-hero .collection-top-action button{width:100%;padding:13px 16px;min-height:60px}.learning-hero .collection-main-animal{font-size:57px}.learning-reward-strip .reward-title{font-size:17px}.collection-album>summary{font-size:17px;padding:15px}.collection-album .album-inside{padding:0 9px 12px}.collection-dock{bottom:12px;right:12px;min-height:58px;padding:6px 10px;border-radius:18px}.collection-dock .dock-art{font-size:32px}.collection-dock .dock-name{font-size:14px}.collection-dock .dock-count{font-size:11px}.collection-drawer-panel{padding:16px 13px 25px}.drawer-heading h2{font-size:22px}}
 </style>
 </head>
