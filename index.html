@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v81</title>
+<title>소리쏙쏙 음운인식 v82</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1895,7 +1895,7 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
 </head>
 <body>
 <header>
-  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v81</span><span class="brand-home-mark">⌂ 홈</span></button>
+  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v82</span><span class="brand-home-mark">⌂ 홈</span></button>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="small home-direct" type="button" onclick="goHomeScreen()" title="학습 홈으로 돌아가기">🏠 홈으로</button>
     <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
@@ -4477,14 +4477,41 @@ function exportAssessmentCSV(){
   const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="소리쏙쏙_읽기점검_기록.csv";link.click();URL.revokeObjectURL(link.href);
 }
 
-// 맞춤 집중 연습: 선택한 혼동 글자가 문항의 실제 목표가 되도록 생성합니다.
+// 맞춤 집중 연습: 같은 자음을 반복하더라도 모음은 문제마다 달라집니다.
+// 한 사이클에서는 배운 기본 모음이 한 번씩 나오고, 이후 다시 섞어 출제합니다.
+const customPracticeVowelDeck = {key:'',remaining:[],last:''};
+function nextCustomPracticeVowel(lesson,focus){
+  const pool=focus==='final'
+    ? ['ㅏ','ㅓ','ㅗ','ㅜ','ㅣ']
+    : ['ㅏ','ㅓ','ㅗ','ㅜ','ㅣ','ㅡ','ㅐ','ㅔ'];
+  const key=`${lesson.id || lesson.title || ''}|${focus}`;
+  if(customPracticeVowelDeck.key!==key){
+    customPracticeVowelDeck.key=key;
+    customPracticeVowelDeck.remaining=[];
+    customPracticeVowelDeck.last='';
+  }
+  if(!customPracticeVowelDeck.remaining.length){
+    customPracticeVowelDeck.remaining=shuffle(pool);
+    // 새 사이클 첫 문제도 직전 문제와 다른 모음으로 시작합니다.
+    if(customPracticeVowelDeck.remaining[0]===customPracticeVowelDeck.last){
+      const next=customPracticeVowelDeck.remaining.findIndex(x=>x!==customPracticeVowelDeck.last);
+      if(next>0)[customPracticeVowelDeck.remaining[0],customPracticeVowelDeck.remaining[next]]=[customPracticeVowelDeck.remaining[next],customPracticeVowelDeck.remaining[0]];
+    }
+  }
+  const vowel=customPracticeVowelDeck.remaining.shift();
+  customPracticeVowelDeck.last=vowel;
+  return vowel;
+}
 function makeCustomSubstitutionQuestion(lesson){
   const u=lesson.phonemes;
   const from=sample(u);
   const to=sample(u.filter(x=>x!==from));
   const focus=lesson.focus;
-  const syllable=x=>focus==='initial'?composeHangul(x,'ㅏ')
-    :focus==='vowel'?composeHangul('ㄱ',x):composeHangul('ㄱ','ㅏ',x);
+  // 모음 집중 연습에서는 선택된 모음 자체가 문항마다 바뀝니다.
+  // 자음·받침 집중 연습에서는 바탕 모음도 매 문항 바뀝니다.
+  const vowel=focus==='vowel'?null:nextCustomPracticeVowel(lesson,focus);
+  const syllable=x=>focus==='initial'?composeHangul(x,vowel)
+    :focus==='vowel'?composeHangul('ㄱ',x):composeHangul('ㄱ',vowel,x);
   const before=syllable(from),answer=syllable(to);
   const alternative=before;
   return {type:'substitution',lesson,
@@ -4497,11 +4524,12 @@ function makeCustomDeletionQuestion(lesson){
   const f=sample(lesson.phonemes);
   const others=lesson.phonemes.filter(x=>x!==f);
   const other=sample(others);
-  const before=focus==='final'?composeHangul('ㄱ','ㅏ',f)
-    :focus==='vowel'?composeHangul('ㄱ',f):composeHangul(f,'ㅏ');
-  const answer=focus==='final'?'가':focus==='vowel'?'ㄱ':'아';
-  const otherWord=focus==='final'?composeHangul('ㄱ','ㅏ',other)
-    :focus==='vowel'?composeHangul('ㄱ',other):composeHangul(other,'ㅏ');
+  const vowel=focus==='vowel'?null:nextCustomPracticeVowel(lesson,focus);
+  const before=focus==='final'?composeHangul('ㄱ',vowel,f)
+    :focus==='vowel'?composeHangul('ㄱ',f):composeHangul(f,vowel);
+  const answer=focus==='final'?composeHangul('ㄱ',vowel):focus==='vowel'?'ㄱ':composeHangul('ㅇ',vowel);
+  const otherWord=focus==='final'?composeHangul('ㄱ',vowel,other)
+    :focus==='vowel'?composeHangul('ㄱ',other):composeHangul(other,vowel);
   return {type:'deletion',lesson,
     prompt:'선택한 글자의 소리를 빼면 무엇이 남을까요?',
     source:{word:before,emoji:before},removed:f,role:focus,answer,
