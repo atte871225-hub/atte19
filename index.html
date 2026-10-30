@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v84</title>
+<title>소리쏙쏙 음운인식 v85</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1694,7 +1694,7 @@ body.assessment-mode #growthPanel{display:none!important}
 @media(max-width:650px){.assess-grid{grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px}.assess-grid button{min-height:59px;font-size:26px}.assess-shell{padding:12px}.assess-two-buttons button{font-size:18px}}
 
 
-  /* v75: 누적 읽기에서 글자 바로 아래에 OX, 음성 확인은 그다음에 배치 */
+  /* v75: 연속 읽기에서 글자 바로 아래에 OX, 음성 확인은 그다음에 배치 */
   .cumulative-judge-row{
     width:min(100%,620px);
     grid-template-columns:repeat(2,minmax(0,1fr));
@@ -1714,7 +1714,7 @@ body.assessment-mode #growthPanel{display:none!important}
   }
 
 
-/* v76: 누적 읽기 자음/모음/받침을 별도 복습 */
+/* v76: 연속 읽기 자음/모음/받침을 별도 복습 */
 .review-group-buttons{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
 .review-group-btn{border:2px solid #d8e6c6;background:#f8fbf4;color:#42632d;border-radius:15px;padding:10px 22px;min-width:88px;font-size:18px;font-weight:900}
 .review-group-btn.active{background:#3f6e6a;color:#fff;border-color:#3f6e6a}
@@ -1934,11 +1934,27 @@ body.homework-landing #homeworkLanding{display:block}
 #homeworkLanding{display:none}
 body.homework-active header .brand-home-link{pointer-events:none}
 @media(max-width:600px){.home-quick-switch{gap:10px;padding:12px}.home-switch-field{flex:1 1 100%}.home-quick-switch .manage-mini{width:100%}.homework-dialog-box{padding:18px 15px}}
+
+/* v85: 연속 읽기 글자 수 + 종류 설정 */
+.review-settings{display:flex;flex-direction:column;align-items:center;gap:8px;margin:6px 0 13px}
+.review-settings-caption{font-size:15px;font-weight:900;color:#45655d}
+.review-length-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.review-length-btn{border:2px solid #d8e6c6;background:#f8fbf4;color:#42632d;border-radius:15px;padding:10px 22px;min-width:72px;font-weight:950;font-size:18px}
+.review-length-btn.active{background:#3f6e6a;color:white;border-color:#3f6e6a}
+.review-length-btn:focus-visible{outline:3px solid #4aa3d8;outline-offset:3px}
+.cumulative-seq.length-2{gap:clamp(30px,8vw,68px)}
+.cumulative-seq.length-3{gap:clamp(18px,5vw,42px)}
+.cumulative-seq.length-4{gap:clamp(8px,3vw,26px)}
+.homework-review-settings{padding:13px;border-radius:14px;background:#f3f9ef;border:1px solid #d4e5ce;margin-top:11px}
+.homework-review-settings[hidden]{display:none!important}
+.homework-review-settings label{margin:5px 0 5px}
+body.homework-active .review-settings{display:none!important}
+@media(max-width:480px){.review-length-btn{padding:9px 14px;min-width:63px}.cumulative-seq.length-4{gap:11px}.cum-letter{font-size:clamp(35px,9vw,48px)}}
 </style>
 </head>
 <body>
 <header>
-  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v84</span><span class="brand-home-mark">⌂ 홈</span></button>
+  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v85</span><span class="brand-home-mark">⌂ 홈</span></button>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="small home-direct" type="button" onclick="goHomeScreen()" title="학습 홈으로 돌아가기">🏠 홈으로</button>
     <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
@@ -1956,9 +1972,17 @@ body.homework-active header .brand-home-link{pointer-events:none}
   <h2 id="homeworkDialogTitle">🔗 숙제 링크 만들기</h2>
   <div id="homeworkDialogLesson" class="homework-detail"></div>
   <label for="homeworkTaskType">숙제로 낼 활동</label>
-  <select id="homeworkTaskType"></select>
+  <select id="homeworkTaskType" onchange="syncHomeworkReviewSettings(true)"></select>
   <label for="homeworkTaskCount">숙제 문항 수</label>
   <select id="homeworkTaskCount"><option value="5">5문항</option><option value="10" selected>10문항</option><option value="20">20문항</option><option value="30">30문항</option></select>
+  <div id="homeworkReviewSettings" class="homework-review-settings" hidden>
+    <div style="font-weight:1000;color:#335e48">🔁 연속 읽기 출제 설정</div>
+    <label for="homeworkReviewGroup">읽기 종류 (한 가지 선택)</label>
+    <select id="homeworkReviewGroup"><option value="vowels">모음</option><option value="consonants">자음</option><option value="syllables">음절</option></select>
+    <label for="homeworkReviewLength">한 문항의 글자 수</label>
+    <select id="homeworkReviewLength"><option value="2">2글자</option><option value="3">3글자</option><option value="4">4글자</option></select>
+    <div class="muted" style="margin-top:8px">설정한 종류와 글자 수가 숙제 링크에 그대로 저장됩니다.</div>
+  </div>
   <div class="homework-caution">학생이 링크를 열고 이름을 입력해 시작합니다. 기록은 각 기기에만 저장되므로, 완료 후 <b>결과 복사</b>로 선생님께 보내야 합니다. 교사의 정오 판단이 필요한 활동은 보호자와 함께 해 주세요. 링크에는 학생 이름이 포함되지 않습니다.</div>
   <label for="homeworkGeneratedUrl">숙제 주소</label>
   <textarea id="homeworkGeneratedUrl" readonly placeholder="아래 '링크 만들기'를 눌러 주세요."></textarea>
@@ -2022,7 +2046,7 @@ body.homework-active header .brand-home-link{pointer-events:none}
           <option value="substitution">4. 음소 대치: 소리 하나 바꾸기</option>
           <option value="deletion">5. 음소 탈락: 소리 하나 빼기</option>
           <option value="multisyllableSynthesis">6. 합성 연습: 다음절 엘코닌</option>
-          <option value="review">7. 누적 읽기: 지금까지 배운 글자</option>
+          <option value="review">7. 연속 읽기: 지금까지 배운 글자</option>
           <option value="assessment">8. 읽기 점검: 1분 / 1개씩</option>
         </select>
       </div>
@@ -2070,7 +2094,7 @@ body.homework-active header .brand-home-link{pointer-events:none}
           <div id="confusionChips" class="confusion-chips" aria-label="고를 수 있는 글자"></div>
           <p class="confusion-preview" id="confusionPreview">헷갈리는 글자를 두 개 이상 골라 주세요.</p>
           <button type="button" class="confusion-start" onclick="startConfusionPractice()">🎯 선택한 글자로 집중 연습 시작 →</button>
-          <p class="confusion-help">※ 선택한 글자는 학생별로 저장됩니다. 혼동 자음의 점검은 자음마다 모음을 바꿔 10개씩 확인합니다. 누적 읽기는 자음만 / 자음+모음 모드를 선택할 수 있어요.</p>
+          <p class="confusion-help">※ 선택한 글자는 학생별로 저장됩니다. 혼동 자음의 점검은 자음마다 모음을 바꿔 10개씩 확인합니다. 연속 읽기는 모음·자음·음절 중 한 종류와 2~4글자를 선택할 수 있어요.</p>
         </section>
         <div id="reviewBasket" class="review-basket"></div>
       </div>
@@ -2247,6 +2271,7 @@ let state = {
   recognitionTargets:[],
   cumulativeSession:null,
   reviewGroup:null,
+  reviewLength:4,
   customMode:false,
   confusionFocus:"initial"
 };
@@ -2581,8 +2606,8 @@ function activityName(t){
     synthesis:"음소 합성",
     segmentation:"음소 분절",
     multisyllableSynthesis:"다음절 합성",
-    cumulativeReading:"누적 읽기",
-    review:"누적 복습"
+    cumulativeReading:"연속 읽기",
+    review:"연속 읽기"
   }[t] || t;
 }
 let audioSequenceToken = 0;
@@ -2690,8 +2715,25 @@ function openHomeworkShare(lessonId){
   select.innerHTML=ACTIVITY_MODE_META.filter(m=>homeworkActivityAllowed(lesson,m.value)).map(m=>
     `<option value="${m.value}" ${m.value===chosen?'selected':''}>${m.icon} ${m.label} · ${m.desc}</option>`).join('');
   document.getElementById('homeworkGeneratedUrl').value='';
+  syncHomeworkReviewSettings(true);
   modal.hidden=false;
   select.focus();
+}
+// 숙제 공유 창에서도 교사가 정한 연속 읽기 설정을 확인하고 수정합니다.
+function syncHomeworkReviewSettings(forcePreferred=false){
+  const isReview=document.getElementById('homeworkTaskType')?.value==='review';
+  const wrap=document.getElementById('homeworkReviewSettings');
+  if(!wrap)return;
+  wrap.hidden=!isReview;
+  if(!isReview)return;
+  const lesson=homeworkShareLesson||state.selectedLesson;
+  const select=document.getElementById('homeworkReviewGroup');
+  const available=reviewGroupsForLesson(lesson);
+  const previous=forcePreferred?null:select.value;
+  select.innerHTML=available.map(g=>`<option value="${g.id}">${g.label}</option>`).join('');
+  const preferred=(lesson?.id===state.selectedLesson?.id ? currentReviewGroup():reviewDefaultGroupForLesson(lesson));
+  select.value=(!forcePreferred&&available.some(g=>g.id===previous))?previous:(available.some(g=>g.id===preferred)?preferred:available[0]?.id||'vowels');
+  document.getElementById('homeworkReviewLength').value=String([2,3,4].includes(Number(state.reviewLength))?state.reviewLength:4);
 }
 function closeHomeworkShare(){document.getElementById('homeworkShareDialog').hidden=true;}
 function generateHomeworkLink(){
@@ -2700,6 +2742,14 @@ function generateHomeworkLink(){
   const mode=document.getElementById('homeworkTaskType').value;
   const trials=Number(document.getElementById('homeworkTaskCount').value)||10;
   const payload={v:1,...li,mode,trials};
+  if(mode==='review'){
+    payload.reviewGroup=document.getElementById('homeworkReviewGroup').value;
+    payload.reviewLength=Number(document.getElementById('homeworkReviewLength').value);
+    const groups=reviewGroupsForLesson(homeworkShareLesson||state.selectedLesson);
+    if(!groups.some(g=>g.id===payload.reviewGroup)||![2,3,4].includes(payload.reviewLength)){
+      alert('연속 읽기 설정을 다시 선택해 주세요.');return;
+    }
+  }
   const link=homeworkBaseUrl()+'#hw='+encodeURIComponent(JSON.stringify(payload));
   document.getElementById('homeworkGeneratedUrl').value=link;
 }
@@ -2715,6 +2765,12 @@ function parseHomeworkLink(){
   try{
     const v=JSON.parse(decodeURIComponent(raw));
     if(v.v!==1||!ACTIVITY_MODE_META.some(x=>x.value===v.mode)||![5,10,20,30].includes(Number(v.trials)))return null;
+    if(v.mode==='review'){
+      // 예전에 생성한 숙제 링크도 기본 설정으로 열립니다.
+      if(v.reviewLength===undefined)v.reviewLength=4;
+      if(v.reviewGroup!==undefined&&!['vowels','consonants','syllables'].includes(v.reviewGroup))return null;
+      if(![2,3,4].includes(Number(v.reviewLength)))return null;
+    }
     if(v.custom){
       if(!['initial','vowel','final'].includes(v.focus)||!Array.isArray(v.phonemes)||v.phonemes.length<2||v.phonemes.length>8)return null;
       if(!v.phonemes.every(ch=>CONFUSION_CHOICES[v.focus].includes(ch)))return null;
@@ -2728,13 +2784,20 @@ function homeworkLessonFromPayload(payload){
 }
 function initializeHomeworkFromLink(){
   const payload=parseHomeworkLink();if(!payload)return;
+  if(payload.mode==='review'){
+    const lesson=homeworkLessonFromPayload(payload);
+    const opts=reviewGroupsForLesson(lesson);
+    if(!opts.length)return;
+    if(!opts.some(g=>g.id===payload.reviewGroup))payload.reviewGroup=reviewDefaultGroupForLesson(lesson);
+    if(!opts.some(g=>g.id===payload.reviewGroup))payload.reviewGroup=opts[0].id;
+  }
   homeworkAssigned=payload;
   const lesson=homeworkLessonFromPayload(payload);
   document.body.classList.add('homework-landing');
   const box=document.getElementById('homeworkLanding');
   box.innerHTML=`<section class="homework-landing-card">
     <div class="homework-icon">🏠📚</div><h1>소리쏙쏙 음운인식 숙제</h1>
-    <p>오늘의 과제: <b>${safeHTML(lesson.title)}</b><br><b>${safeHTML(ACTIVITY_MODE_META.find(m=>m.value===payload.mode).label)}</b> · ${payload.mode==='assessment'?'읽기 점검':payload.trials+'문항'}<br>이름을 적고 시작 버튼을 눌러 주세요.</p>
+    <p>오늘의 과제: <b>${safeHTML(lesson.title)}</b><br><b>${safeHTML(ACTIVITY_MODE_META.find(m=>m.value===payload.mode).label)}</b> · ${payload.mode==='assessment'?'읽기 점검':payload.trials+'문항'}${payload.mode==='review'?`<br><b>${reviewLabel(payload.reviewGroup)} · ${payload.reviewLength}글자씩 읽기</b>`:''}<br>이름을 적고 시작 버튼을 눌러 주세요.</p>
     <label for="homeworkStudentName" style="display:block;font-weight:1000">학생 이름 또는 별명</label>
     <input id="homeworkStudentName" maxlength="18" autocomplete="name" placeholder="예: 민준" onkeydown="if(event.key==='Enter')beginHomeworkFromLink()">
     <button type="button" onclick="beginHomeworkFromLink()">▶ 숙제 시작하기</button>
@@ -2752,8 +2815,9 @@ function beginHomeworkFromLink(){
   document.body.classList.remove('teacher-mode');
   state.selectedLesson=homeworkLessonFromPayload(cfg);
   state.customMode=!!cfg.custom;
-  if(cfg.custom){state.tab=cfg.focus==='initial'?'consonants':cfg.focus==='vowel'?'vowels':'finals';state.reviewGroup=cfg.focus==='final'?'finals':cfg.focus==='initial'?'consonants':'vowels';}
+  if(cfg.custom){state.tab=cfg.focus==='initial'?'consonants':cfg.focus==='vowel'?'vowels':'finals';state.reviewGroup=cfg.focus==='final'?'syllables':cfg.focus==='initial'?'consonants':'vowels';}
   else {state.tab=Object.keys(lessons).find(t=>lessons[t].some(l=>l.id===cfg.id))||'vowels';state.reviewGroup=null;}
+  if(cfg.mode==='review'){state.reviewGroup=cfg.reviewGroup||reviewDefaultGroupForLesson(state.selectedLesson);state.reviewLength=Number(cfg.reviewLength)||4;}
   document.getElementById('targetTrials').value=String(cfg.trials);
   document.getElementById('activityType').value=cfg.mode;
   document.body.classList.remove('homework-landing');document.body.classList.add('homework-active');
@@ -2764,6 +2828,7 @@ function beginHomeworkFromLink(){
 function homeworkReportText(){
   const l=state.selectedLesson, student=homeworkStudent;
   const lines=[`📚 소리쏙쏙 음운인식 숙제 결과`,`학생: ${student?.name||''}`,`날짜: ${todayStr()}`,`배움: ${l?.title||''}`,`활동: ${ACTIVITY_MODE_META.find(m=>m.value===homeworkAssigned?.mode)?.label||''}`];
+  if(homeworkAssigned?.mode==='review')lines.push(`연속 읽기 설정: ${reviewLabel(homeworkAssigned.reviewGroup)} · ${homeworkAssigned.reviewLength}글자씩`);
   if(homeworkAssigned?.mode==='assessment'){
     const a=data.assessments.filter(s=>s.studentId===student?.id && s.lessonId===l?.id).at(-1);
     const count=a?.mode==='minute'?a.lastIndex+1:a?.results?.length||0;
@@ -2926,7 +2991,7 @@ function startConfusionPractice(){
   state.selectedLesson={id:`CONFUSION_${focus}_${picked.join('_')}`,lesson:'맞춤 연습',
     title:picked.join(' · '),phonemes:picked.slice(),
     ...(focus==='final'?{finals:picked.slice()}:{ }),focus,isCustom:true,tags:['혼동 글자']};
-  state.reviewGroup=focus==='final'?'finals':focus==='initial'?'consonants':'vowels';
+  state.reviewGroup=focus==='final'?'syllables':focus==='initial'?'consonants':'vowels';
   state.cumulativeSession=null;state.multiSession=null;
   updateActivityOptions();renderLessons();
   // 맞춤 글자 학습에서는 누적 연습도 선택한 글자로만 구성합니다.
@@ -3046,7 +3111,7 @@ function addWrongTopToReview(){
   saveData();
   renderLessons();
   renderRecords();
-  alert("오답이 많은 배움을 누적학습 목록에 담았어요.");
+  alert("오답이 많은 배움을 복습 목록에 담았어요.");
 }
 
 function renderReviewBasket(){
@@ -3054,7 +3119,7 @@ function renderReviewBasket(){
   if(!box) return;
   const st = getStudent();
   if(!st){
-    box.innerHTML = `<div class="review-basket-title">누적학습 목록</div><div class="muted">학생을 먼저 선택해 주세요.</div>`;
+    box.innerHTML = `<div class="review-basket-title">복습 목록</div><div class="muted">학생을 먼저 선택해 주세요.</div>`;
     return;
   }
   ensureStudentData(st);
@@ -3065,8 +3130,8 @@ function renderReviewBasket(){
       <button onclick="toggleReviewLesson('${l.id}', event)" title="빼기">×</button>
     </span>`).join("");
   box.innerHTML = `
-    <div class="review-basket-title">누적학습 목록 ${ids.length}개</div>
-    <div class="muted">선택한 배움을 복습 목록에 저장합니다. 누적 읽기는 자음만 읽기와 자음+모음 합쳐 읽기를 선택할 수 있어요. 받침은 완성된 음절로 제시합니다.</div>
+    <div class="review-basket-title">복습 목록 ${ids.length}개</div>
+    <div class="muted">선택한 배움을 복습 목록에 저장합니다. 연속 읽기는 모음·자음·음절 중 하나를 고르고 2·3·4글자씩 읽을 수 있어요. 음절에는 배운 받침도 포함됩니다.</div>
     <div class="review-basket-list">${chips || "<span class='muted'>아직 담은 배움이 없습니다.</span>"}</div>
     <div class="mini-actions">
       <button class="gray" onclick="addWrongTopToReview()">오답 많은 배움 담기</button>
@@ -4085,7 +4150,7 @@ function makeAssessmentSyllableCatalog(){
   return items;
 }
 
-// 누적 읽기에서는 글자 자체만 제시합니다.
+// 연속 읽기에서는 글자 자체만 제시합니다.
 // '카, 거, 아, 유'처럼 자음/모음을 결합한 음절은 합성 활동에서 다룹니다.
 function makeLearnedJamoCatalog(){
   const vowels=[], initials=[], finals=[];
@@ -4121,44 +4186,69 @@ function learnedItemsForCumulative(){
   return makeLearnedJamoCatalog().all;
 }
 const REVIEW_GROUPS = [
-  {id:"vowels",label:"모음",name:"모음 소리 알기"},
-  {id:"consonants",key:"initials",label:"자음만",name:"자음 소리 알기"},
-  {id:"syllables",label:"자음+모음",name:"자음과 모음 합쳐 읽기"},
-  {id:"finals",label:"받침 음절",name:"받침 음절 읽기"}
+  {id:"vowels",label:"모음",name:"모음 이어 읽기"},
+  {id:"consonants",key:"initials",label:"자음",name:"자음 이어 읽기"},
+  {id:"syllables",label:"음절",name:"음절 이어 읽기"}
 ];
-function reviewDefaultGroup(){
-  if(["finals","complexFinals"].includes(state.tab)) return "finals";
-  if(["consonants","words"].includes(state.tab)) return "consonants";
-  return "vowels";
+function reviewLabel(group){return REVIEW_GROUPS.find(g=>g.id===group)?.label||'모음';}
+function reviewDefaultGroupForLesson(lesson){
+  if(lesson?.isCustom)return lesson.focus==='vowel'?'vowels':lesson.focus==='final'?'syllables':'consonants';
+  const tab=Object.keys(lessons).find(k=>lessons[k].some(l=>l.id===lesson?.id))||state.tab;
+  if(['finals','complexFinals'].includes(tab))return 'syllables';
+  if(['consonants','words'].includes(tab))return 'consonants';
+  return 'vowels';
 }
-function reviewAvailableGroups(){
-  if(state.selectedLesson?.isCustom){
-    const focus=state.selectedLesson.focus;
-    const allowed=focus==='initial'?['consonants','syllables']
-      :focus==='final'?['finals']:['vowels'];
+function reviewDefaultGroup(){return reviewDefaultGroupForLesson(state.selectedLesson);}
+function reviewGroupsForLesson(lesson){
+  if(!lesson)return [];
+  if(lesson.isCustom){
+    const allowed=lesson.focus==='initial'?['consonants','syllables']:
+      lesson.focus==='final'?['syllables']:['vowels'];
     return REVIEW_GROUPS.filter(g=>allowed.includes(g.id));
   }
-  const catalog = makeLearnedJamoCatalog();
-  return REVIEW_GROUPS.filter(g => g.id==='syllables'
-    ? catalog.initials.length>0 && catalog.vowels.length>0
-    : (catalog[g.key || g.id] || []).length > 0);
+  // 별도의 단원 카드에서 숙제 링크를 만들 때도 해당 단원까지 배운 글자만 판단합니다.
+  const lessonTab=Object.keys(lessons).find(tab=>lessons[tab].some(l=>l.id===lesson.id));
+  const vowels=[],initials=[],finals=[];
+  for(const tab of CURRICULUM_ORDER){
+    for(const entry of lessons[tab]){
+      const target=['finals','complexFinals'].includes(tab)?finals:['vowels','complexVowels'].includes(tab)?vowels:initials;
+      for(const ch of (entry.finals||entry.phonemes||[])){
+        if(!target.includes(ch))target.push(ch);
+      }
+      if(entry.id===lesson.id){
+        return REVIEW_GROUPS.filter(g=>g.id==='vowels'?vowels.length>0:
+          g.id==='consonants'?initials.some(c=>Object.prototype.hasOwnProperty.call(initialIndex,c)):
+          finals.length>0||(initials.length>0&&vowels.length>0));
+      }
+    }
+    if(tab===lessonTab)break;
+  }
+  return REVIEW_GROUPS.filter(g=>g.id==='vowels');
 }
+function reviewAvailableGroups(){return reviewGroupsForLesson(state.selectedLesson);}
 function currentReviewGroup(){
-  const available = reviewAvailableGroups();
-  const chosen = available.find(g=>g.id===state.reviewGroup)
-    || available.find(g=>g.id===reviewDefaultGroup())
-    || available[0];
-  return chosen ? chosen.id : "vowels";
+  const available=reviewAvailableGroups();
+  const chosen=available.find(g=>g.id===state.reviewGroup)
+    || available.find(g=>g.id===reviewDefaultGroup()) || available[0];
+  return chosen?chosen.id:'vowels';
+}
+function reviewCurrentLength(){return [2,3,4].includes(Number(state.reviewLength))?Number(state.reviewLength):4;}
+function restartContinuousReading(){
+  stopCumulativeSpeech();cancelGradedAutoAdvance();
+  state.cumulativeSession=null;
+  resetToday();newQuestion();
 }
 function setReviewGroup(group){
-  if(!reviewAvailableGroups().some(g=>g.id===group)) return;
-  if(state.reviewGroup===group && state.cumulativeSession?.group===group) return;
-  stopCumulativeSpeech();
-  cancelGradedAutoAdvance();
+  if(homeworkActive||!reviewAvailableGroups().some(g=>g.id===group))return;
+  if(currentReviewGroup()===group && state.cumulativeSession?.group===group)return;
   state.reviewGroup=group;
-  state.cumulativeSession=null;
-  resetToday();
-  newQuestion();
+  restartContinuousReading();
+}
+function setReviewLength(length){
+  if(homeworkActive||![2,3,4].includes(Number(length)))return;
+  if(reviewCurrentLength()===Number(length))return;
+  state.reviewLength=Number(length);
+  restartContinuousReading();
 }
 // 받침 복습에서는 받침 글자만 떼어 보여주지 않고,
 // 완성된 음절에 넣어 읽습니다. 예: ㅁ→암, ㅂ→압.
@@ -4184,40 +4274,41 @@ function finalReviewSyllable(finalSound){
 }
 
 function makeCumulativeSession(){
-  const catalog = makeLearnedJamoCatalog();
-  const group = currentReviewGroup();
-  // 자음·모음 복습: 배운 낱자 그대로 제시합니다.
-  // 받침 복습: ㅁ·ㅂ 같은 낱자 대신 암·압 등의 음절을 제시합니다.
+  const catalog=makeLearnedJamoCatalog();
+  const group=currentReviewGroup(), length=reviewCurrentLength();
   const isCustom=!!state.selectedLesson?.isCustom;
-  const initials=isCustom?state.selectedLesson.phonemes:catalog.initials;
-  // 일반 배움은 실제 배운 모음만, 혼동 자음 맞춤 연습은 모음을 바꿔 가며 읽습니다.
-  const vowels=isCustom?CONFUSION_ASSESSMENT_VOWELS:catalog.vowels;
-  const pool = group === "syllables"
-    ? initials.flatMap(c=>vowels.map(v=>composeHangul(c,v))).filter(Boolean)
-    : isCustom
-      ? (group==="finals" ? state.selectedLesson.phonemes.map(finalReviewSyllable) : state.selectedLesson.phonemes.slice())
-      : (group === "finals" ? [...new Set(catalog.finals.map(finalReviewSyllable))]
-        : (catalog[group === "consonants" ? "initials" : group] || []).slice());
-  const questions=[];
-  const seen=new Set();
-  const seqKey = seq=>seq.join("|");
+  const lesson=state.selectedLesson;
+  const initials=isCustom&&lesson.focus==='initial'?lesson.phonemes:catalog.initials;
+  const vowels=isCustom ? CONFUSION_ASSESSMENT_VOWELS : catalog.vowels;
+  let pool=[];
+  if(group==='vowels')pool=isCustom?lesson.phonemes.slice():catalog.vowels.slice();
+  else if(group==='consonants')pool=isCustom?lesson.phonemes.slice():catalog.initials.slice();
+  else if(group==='syllables'){
+    if(isCustom && lesson.focus==='final'){
+      pool=lesson.phonemes.map(finalReviewSyllable);
+    }else{
+      pool=initials.flatMap(c=>vowels.map(v=>composeHangul(c,v))).filter(Boolean);
+      if(!isCustom){pool.push(...catalog.finals.map(finalReviewSyllable));}
+    }
+  }
+  pool=[...new Set(pool)].filter(Boolean);
+  if(!pool.length)pool=['ㅏ'];
+  const questions=[], seen=new Set();
   let attempts=0;
-  while(questions.length<30 && attempts<1200){
+  while(questions.length<30&&attempts<1200){
     attempts++;
-    const seq=Array.from({length:4},()=>sample(pool));
-    if(!seq.length || seq.some(x=>!x)) break;
-    const key=seqKey(seq);
-    if(seen.has(key) && attempts<850) continue;
-    if(pool.length>1 && new Set(seq).size===1 && attempts<850) continue;
+    const seq=Array.from({length},()=>sample(pool));
+    const key=seq.join('|');
+    if(seen.has(key)&&attempts<850)continue;
+    if(pool.length>1&&new Set(seq).size===1&&attempts<850)continue;
     seen.add(key);
-    questions.push({seq,answer:seq.join(""),isCorrect:null});
+    questions.push({seq,answer:seq.join(''),isCorrect:null});
   }
-  // 배우기 시작 단계에서 글자 종류가 적어도 30문항을 제공합니다.
   while(questions.length<30){
-    const seq=Array.from({length:4},()=>sample(pool.length?pool:["ㅏ"]));
-    questions.push({seq,answer:seq.join(""),isCorrect:null});
+    const seq=Array.from({length},()=>sample(pool));
+    questions.push({seq,answer:seq.join(''),isCorrect:null});
   }
-  return {questions,index:0,correct:0,wrong:0,pool,group};
+  return {questions,index:0,correct:0,wrong:0,pool,group,length};
 }
 
 function makeCumulativeQuestion(){
@@ -4230,14 +4321,15 @@ function makeCumulativeQuestion(){
     type:"review",
     baseType:"cumulativeReading",
     lesson: state.selectedLesson || lessons[state.tab][0],
-    prompt:"지금까지 배운 글자를 4개씩 읽어요.",
+    prompt:`지금까지 배운 글자를 ${session.length}개씩 읽어요.`,
     seq:q.seq,
     answer:q.answer,
     cumulativeIndex:session.index,
     cumulativeTotal:session.questions.length,
     cumulativeCorrect:session.correct,
     cumulativeWrong:session.wrong,
-    reviewGroup:session.group
+    reviewGroup:session.group,
+    reviewLength:session.length
   };
 }
 
@@ -4299,7 +4391,7 @@ async function checkMicrophonePermissionBeforeSpeech(){
 function cumulativeSpeechTargets(question){
   if(!question || !Array.isArray(question.seq)) return [];
   let candidates=[""];
-  const finalMode=question.reviewGroup==="finals";
+  const finalMode=question.reviewGroup==="syllables";
   for(const sound of question.seq){
     const options = [];
     if(Object.prototype.hasOwnProperty.call(vowelIndex,sound)){
@@ -4485,7 +4577,7 @@ function showCumulativeFinish(){
   if(!panel || !session) return;
   panel.innerHTML = `
     <div class="cumulative-stage">
-      <div class="clean-prompt">누적 읽기 30문항 완료!</div>
+      <div class="clean-prompt">연속 읽기 30문항 완료!</div>
       <div class="cumulative-summary">
         <div class="cum-stat"><div class="n">30</div><div class="muted">총 문항</div></div>
         <div class="cum-stat"><div class="n">${session.correct}</div><div class="muted">맞음</div></div>
@@ -4823,7 +4915,7 @@ const ACTIVITY_MODE_META = [
   {value:"substitution", icon:"🔄", label:"대치", desc:"단어에서 소리 하나를 다른 소리로 바꾸기"},
   {value:"deletion", icon:"➖", label:"탈락", desc:"낱말의 첫소리·모음·받침 중 소리 하나를 빼고 남는 소리 찾기"},
   {value:"multisyllableSynthesis", icon:"🧱", label:"다음절", desc:"엘코닌 소리상자를 한 칸씩 열며 다음절 단어 합성하기"},
-  {value:"review", icon:"🔁", label:"누적", desc:"첫 배움부터 현재 배움까지, 받침까지 포함해 30문항 읽기"},
+  {value:"review", icon:"🔁", label:"누적", desc:"선택한 모음·자음·음절을 2~4글자씩 이어 읽기"},
   {value:"assessment", icon:"⏱️", label:"점검", desc:"1분 전체 읽기 또는 글자 1개씩 읽기를 점검하기"}
 ];
 
@@ -5150,21 +5242,26 @@ function renderQuestion(){
     const percent = Math.round((q.cumulativeIndex) / q.cumulativeTotal * 100);
     html += `
     <div class="cumulative-stage">
-      <div class="clean-prompt">누적 읽기 · ${REVIEW_GROUPS.find(g=>g.id===q.reviewGroup)?.name||"소리 알기"}</div>
-      <div class="review-group-buttons" role="group" aria-label="누적 읽기 글자 종류 선택">
-        ${reviewAvailableGroups().map(g=>`<button type="button" class="review-group-btn ${q.reviewGroup===g.id?"active":""}" aria-pressed="${q.reviewGroup===g.id}" onclick="setReviewGroup('${g.id}')">${g.label}</button>`).join("")}
+      <div class="clean-prompt">연속 읽기 · ${REVIEW_GROUPS.find(g=>g.id===q.reviewGroup)?.name||"글자 읽기"}</div>
+      <div class="review-settings">
+        <div class="review-settings-caption">① 읽기 종류 (한 가지 선택)</div>
+        <div class="review-group-buttons" role="group" aria-label="연속 읽기 글자 종류 선택">
+          ${reviewAvailableGroups().map(g=>`<button type="button" class="review-group-btn ${q.reviewGroup===g.id?"active":""}" aria-pressed="${q.reviewGroup===g.id}" onclick="setReviewGroup('${g.id}')">${g.label}</button>`).join("")}
+        </div>
+        <div class="review-settings-caption">② 한 문항에서 읽을 글자 수</div>
+        <div class="review-length-buttons" role="group" aria-label="연속 읽기 글자 수 선택">
+          ${[2,3,4].map(n=>`<button type="button" class="review-length-btn ${q.reviewLength===n?'active':''}" aria-pressed="${q.reviewLength===n}" onclick="setReviewLength(${n})">${n}글자</button>`).join('')}
+        </div>
       </div>
-      <div class="clean-subprompt">${q.reviewGroup==="finals"
-        ? "받침은 암·압처럼 음절로 만들어 4개씩 읽어요."
-        : q.reviewGroup==="syllables"
-          ? "선택한 자음과 모음을 합쳐 가·거·고·구처럼 4글자씩 읽어요."
-          : "배운 글자 자체를 4개씩 읽어요. 자음과 모음은 따로 복습해요."}</div>
+      <div class="clean-subprompt">${q.reviewGroup==='syllables'
+        ? `자음과 모음을 합친 음절${state.selectedLesson?.focus==='final'?'(받침 포함)':''}을 ${q.reviewLength}글자씩 읽어요.`
+        : `${reviewLabel(q.reviewGroup)}만 ${q.reviewLength}글자씩 이어 읽어요.`}</div>
       <div class="cumulative-progress">
         <span>${q.cumulativeIndex + 1}/${q.cumulativeTotal}</span>
         <div class="bar"><div class="fill" style="width:${percent}%"></div></div>
       </div>
       <div class="cumulative-card">
-        <div class="cumulative-seq">
+        <div class="cumulative-seq length-${q.reviewLength}">
           ${q.seq.map(x=>`<div class="cum-letter">${x}</div>`).join("")}
         </div>
       </div>
@@ -5452,7 +5549,7 @@ function renderRecords(){
     <div class="summary-item"><div class="muted">누적 정답</div><div class="num">${correct}</div></div>
     <div class="summary-item"><div class="muted">누적 오답</div><div class="num">${wrong}</div></div>
     <div class="summary-item"><div class="muted">누적 정확도</div><div class="num">${acc}%</div></div>
-    <div class="summary-item"><div class="muted">누적학습 목록</div><div class="num">${basketCount}</div></div>
+    <div class="summary-item"><div class="muted">복습 목록</div><div class="num">${basketCount}</div></div>
     <div class="summary-item" style="grid-column:1/-1"><div class="muted">혼동/오답이 많은 부분</div>
     <div>${topWrong.length ? topWrong.map(([k,v])=>`<span class="tag">${k}: ${v}회</span>`).join(" ") : "아직 기록이 없습니다."}</div></div>
     <div class="summary-item" style="grid-column:1/-1">
