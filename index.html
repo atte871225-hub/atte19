@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v87</title>
+<title>소리쏙쏙 음운인식 v88</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1549,6 +1549,22 @@ button:disabled{opacity:.50;cursor:default}
 .sub-choice{background:#fff;border:2px solid #dfdfd2;border-radius:20px;min-height:160px;width:100%;display:grid;place-items:center;font-size:75px}
 .sub-choice.correct{border-color:#48a25a;background:#f2fbef}
 .sub-choice.wrong{border-color:#e66;background:#fff0f0}
+/* v88: 음소 대치의 번호 선택지를 음소 탈락 번호 선택지와 동일하게 표시합니다. */
+.sub-choice.numbered{
+  color:#2f6057;
+  font-size:29px;
+  font-weight:1000;
+  line-height:1.25;
+  min-height:128px;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+@media(max-width:600px){
+  .sub-choice.numbered{font-size:29px;min-height:110px}
+}
+
 .sub-choice-sound{border:1px solid #b6d9f3;border-radius:999px;background:#f0f8ff;font-size:24px;width:55px;height:48px;padding:4px}
 .sub-teacher-guide{background:#fff9e9;border:1px dashed #deb85e;border-radius:12px;padding:12px;text-align:center;font-weight:800}
 .sub-muted{font-size:15px;color:#6c6e68;text-align:center}
@@ -2422,27 +2438,52 @@ function safeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"
 function getStudentRecordsForGrowth(student){
   return student ? data.records.filter(r=>r.studentId===student.id) : [];
 }
+// v88: 정답 5개를 추가로 맞힐 때마다 동물/아이템을 하나씩 수집합니다.
+// 이전 버전에서 이미 얻은 수집품은 유지하고, 버전 전환 뒤 맞힌 개수만 계산합니다.
+const COLLECTION_CORRECT_STEP = 5;
+function orderedCollectionRewards(){
+  return [...ANIMAL_COLLECTION,...ITEM_COLLECTION].sort((a,b)=>a.points-b.points);
+}
+function ensureCollectionPolicy(student,total,correct){
+  const existing=student.rewardPolicyV88;
+  if(existing && Number.isFinite(existing.baseCorrect) && Number.isFinite(existing.baseUnlocked)){
+    return existing;
+  }
+  const oldExperience=total+correct*2;
+  const legacyCount=orderedCollectionRewards().filter(obj=>oldExperience>=obj.points).length;
+  const policy={baseCorrect:correct,baseUnlocked:Math.max(1,legacyCount)};
+  student.rewardPolicyV88=policy;
+  // 저장된 학습 기록은 건드리지 않고 새로운 수집 기준점만 보관합니다.
+  if(data.students.some(st=>st.id===student.id))saveData();
+  return policy;
+}
 function getGrowthInfo(student){
   const records=getStudentRecordsForGrowth(student);
   const total=records.length;
   const correct=records.filter(r=>r.isCorrect).length;
   const acc=total?Math.round(correct/total*100):0;
   const exp=total+correct*2;
-  const animals=ANIMAL_COLLECTION.filter(a=>exp>=a.points);
-  const items=ITEM_COLLECTION.filter(i=>exp>=i.points);
-  const remaining=[...ANIMAL_COLLECTION,...ITEM_COLLECTION].filter(r=>r.points>exp).sort((a,b)=>a.points-b.points);
-  const next=remaining[0]||null;
-  const previousThreshold=Math.max(0,...[...ANIMAL_COLLECTION,...ITEM_COLLECTION].filter(r=>r.points<=exp).map(r=>r.points));
-  const pct=next?Math.max(0,Math.min(100,Math.round((exp-previousThreshold)/(next.points-previousThreshold)*100))):100;
-  return {records,total,correct,acc,exp,animals,items,next,pct,level:Math.floor(exp/12),
+  const rewards=orderedCollectionRewards();
+  const policy=ensureCollectionPolicy(student,total,correct);
+  const addedCorrect=Math.max(0,correct-policy.baseCorrect);
+  const newRewards=Math.floor(addedCorrect/COLLECTION_CORRECT_STEP);
+  const unlockedCount=Math.min(rewards.length,policy.baseUnlocked+newRewards);
+  const unlocked=rewards.slice(0,unlockedCount);
+  const animals=ANIMAL_COLLECTION.filter(a=>unlocked.includes(a));
+  const items=ITEM_COLLECTION.filter(i=>unlocked.includes(i));
+  const next=rewards[unlockedCount]||null;
+  const correctToNext=next?(COLLECTION_CORRECT_STEP-addedCorrect%COLLECTION_CORRECT_STEP):0;
+  const pct=next?Math.round((addedCorrect%COLLECTION_CORRECT_STEP)/COLLECTION_CORRECT_STEP*100):100;
+  return {records,total,correct,acc,exp,animals,items,next,pct,correctToNext,unlockedCount,
+          level:Math.floor(exp/12),
           stage:{emoji:animals.at(-1)?.emoji||"🐥",name:animals.at(-1)?.name||"병아리"}};
 }
 function collectionCard(obj,earned,newest=false){
-  return `<div class="collect-card ${earned?'':'locked'} ${newest?'newest':''}" aria-label="${earned?safeHTML(obj.name)+' 수집 완료':safeHTML(obj.points+'점에 열리는 보상')}" title="${earned?safeHTML(obj.name):obj.points+'점에 획득'}">
+  return `<div class="collect-card ${earned?'':'locked'} ${newest?'newest':''}" aria-label="${earned?safeHTML(obj.name)+' 수집 완료':'정답 5개마다 수집할 수 있는 보상'}" title="${earned?safeHTML(obj.name):'정답 5개마다 보상 획득'}">
     <div class="collect-art">${obj.emoji}</div>
     ${earned?'':`<div class="collection-lock" aria-hidden="true">🔒</div>`}
     <div class="collect-name">${earned?safeHTML(obj.name):'???'}</div>
-    <div class="collect-caption">${earned?'✓ 수집 완료':obj.points+'점에 만나요'}</div>
+    <div class="collect-caption">${earned?'✓ 수집 완료':'정답 5개마다 선물'}</div>
   </div>`;
 }
 function friendlyStudentWith(student){
@@ -2472,9 +2513,9 @@ function renderAnimalHome(){
   const friendly=safeHTML(friendlyStudentWith(student));
   const studentButtons=getTeacherStudents().map(st=>`<button type="button" onclick="selectStudent('${st.id}')" class="${student.id===st.id?'active':''}" aria-pressed="${student.id===st.id}">${safeHTML(st.name)}</button>`).join('');
   const newestAnimal=g.animals[g.animals.length-1];
-  const animalCards=ANIMAL_COLLECTION.map(a=>collectionCard(a,g.exp>=a.points,a===newestAnimal)).join('');
-  const itemCards=ITEM_COLLECTION.map(i=>collectionCard(i,g.exp>=i.points)).join('');
-  const nextLabel=g.next?`${g.next.emoji} ${safeHTML(g.next.name)}까지 ${g.next.points-g.exp}점!`:'모든 동물과 아이템을 모았어요! 🎉';
+  const animalCards=ANIMAL_COLLECTION.map(a=>collectionCard(a,g.animals.includes(a),a===newestAnimal)).join('');
+  const itemCards=ITEM_COLLECTION.map(i=>collectionCard(i,g.items.includes(i))).join('');
+  const nextLabel=g.next?`${g.next.emoji} ${safeHTML(g.next.name)}까지 ${g.correctToNext}개 정답!`:'모든 동물과 아이템을 모았어요! 🎉';
   const previouslyOpen=Boolean(container.querySelector('#collectionAlbum')?.open);
   container.innerHTML=`<div class="collection-home">
     <div class="collection-hero learning-hero">
@@ -2533,15 +2574,15 @@ function renderCollectionDrawer(){
   const student=getStudent();
   if(!panel||!student)return;
   const g=getGrowthInfo(student);
-  const nextText=g.next?`다음 선물 ${g.next.emoji} ${safeHTML(g.next.name)}까지 ${g.next.points-g.exp}점 남았어요.`:'모든 보상을 모았어요! 🎉';
+  const nextText=g.next?`다음 선물 ${g.next.emoji} ${safeHTML(g.next.name)}까지 ${g.correctToNext}개 더 맞히면 돼요.`:'모든 보상을 모았어요! 🎉';
   panel.innerHTML=`<div class="drawer-heading"><h2>🐾 ${safeHTML(student.name)}의 동물 도감</h2>
     <button class="drawer-close" type="button" onclick="closeCollectionDrawer()" aria-label="동물 도감 닫기">✕ 닫기</button></div>
     <div class="drawer-top"><span class="drawer-animal">${g.stage.emoji}</span><div class="drawer-meta"><b>⭐ ${g.exp}점</b><br>${nextText}
       <div class="drawer-progress"><div style="width:${g.pct}%"></div></div><small>정답을 맞히면 새로운 동물과 아이템을 모아요!</small></div></div>
     <section class="drawer-section"><h3>🐾 동물 ${g.animals.length}/${ANIMAL_COLLECTION.length}</h3>
-      <div class="collection-grid">${ANIMAL_COLLECTION.map(a=>collectionCard(a,g.exp>=a.points)).join('')}</div></section>
+      <div class="collection-grid">${ANIMAL_COLLECTION.map(a=>collectionCard(a,g.animals.includes(a))).join('')}</div></section>
     <section class="drawer-section"><h3>🎒 아이템 ${g.items.length}/${ITEM_COLLECTION.length}</h3>
-      <div class="collection-item-grid">${ITEM_COLLECTION.map(i=>collectionCard(i,g.exp>=i.points)).join('')}</div></section>
+      <div class="collection-item-grid">${ITEM_COLLECTION.map(i=>collectionCard(i,g.items.includes(i))).join('')}</div></section>
     <p class="collection-how">도감만 닫으면 풀던 학습 화면으로 그대로 돌아가요.</p>`;
 }
 function openCollectionDrawer(){
@@ -2562,7 +2603,7 @@ function renderGrowthPanel(){
   const student=getStudent();
   if(!student){panel.innerHTML='';return;}
   const g=getGrowthInfo(student);
-  const nextText=g.next?`${g.next.points-g.exp}점 더 모으면 ${g.next.emoji} ${safeHTML(g.next.name)} 획득!`:'모든 보상을 모았어요!';
+  const nextText=g.next?`${g.correctToNext}개 더 맞히면 ${g.next.emoji} ${safeHTML(g.next.name)} 획득!`:'모든 보상을 모았어요!';
   panel.innerHTML=`<div class="collection-mini">
     <div class="mini-icons"><span class="animal">${g.stage.emoji}</span><span>${safeHTML(student.name)}의 동물 수집<br><small>🐾 ${g.animals.length}/${ANIMAL_COLLECTION.length} · 🎒 ${g.items.length}/${ITEM_COLLECTION.length} · ⭐ ${g.exp}점</small></span></div>
     <div><div class="muted" style="margin-bottom:7px">${nextText}</div><button onclick="openCollectionDrawer()">🐾 동물 도감 보기</button></div>
@@ -2570,7 +2611,8 @@ function renderGrowthPanel(){
 }
 function showGrowthLevelUp(student, before, after){
   if(!student||!before||!after)return;
-  const unlocked=[...ANIMAL_COLLECTION,...ITEM_COLLECTION].filter(r=>r.points>before.exp&&r.points<=after.exp).sort((a,b)=>a.points-b.points);
+  if(after.unlockedCount<=before.unlockedCount)return;
+  const unlocked=orderedCollectionRewards().slice(before.unlockedCount,after.unlockedCount);
   if(!unlocked.length)return;
   const reward=unlocked[unlocked.length-1];
   document.querySelector('.collection-unlock-overlay')?.remove();
