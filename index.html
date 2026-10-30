@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v27</title>
+<title>소리쏙쏙 음운인식 v77</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -484,16 +484,1253 @@
     border:1px solid #dce8cf;
   }
 
+
+  .import-label{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    border-radius:12px;
+    border:2px solid #d4dacd;
+    background:#eef1ea;
+    color:#444;
+    padding:7px 10px;
+    font-weight:900;
+    font-size:14px;
+  }
+  .hidden-file{display:none}
+  .lesson-actions{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+    flex-wrap:wrap;
+  }
+  .lesson-review-btn{
+    border-radius:999px;
+    padding:6px 10px;
+    border:2px solid #dce8cf;
+    background:#fff;
+    color:#4d6d2b;
+    font-size:13px;
+    font-weight:900;
+  }
+  .lesson-review-btn.on{
+    background:#fff4d8;
+    border-color:#e2b84d;
+    color:#8a6011;
+  }
+  .review-basket{
+    margin-top:14px;
+    padding:14px;
+    border-radius:18px;
+    border:2px dashed #cfe2b8;
+    background:#fbfdf7;
+  }
+  .review-basket-title{
+    font-weight:1000;
+    color:#30461b;
+    margin-bottom:8px;
+  }
+  .review-basket-list{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin:8px 0;
+  }
+  .review-chip{
+    display:inline-flex;
+    gap:6px;
+    align-items:center;
+    border-radius:999px;
+    background:#edf8dc;
+    color:#335819;
+    border:1px solid #cfe2b8;
+    padding:6px 10px;
+    font-size:13px;
+    font-weight:900;
+  }
+  .review-chip button{
+    padding:0 2px;
+    border:0;
+    background:transparent;
+    color:#7a4d00;
+    font-size:14px;
+  }
+  .teacher-recommend{
+    margin-top:12px;
+    padding:12px;
+    border-radius:16px;
+    background:#fff9dd;
+    border:2px solid #f0dd87;
+  }
+  .mini-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:8px;
+  }
+  .mini-actions button{
+    font-size:13px;
+    padding:7px 10px;
+    border-radius:999px;
+  }
+
+
+  .activity-only{display:none}
+  body.activity-screen-on .activity-only{display:block}
+  body.select-screen-on #activityCard{display:none}
+  body.activity-screen-on #lessonSelectCard{display:none}
+  .step-actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:16px;
+    gap:10px;
+  }
+  .big-step-btn{
+    font-size:18px;
+    padding:14px 22px;
+    border-radius:16px;
+  }
+  .activity-head-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+
+
+  body.activity-screen-on .layout{
+    grid-template-columns:1fr;
+    max-width:920px;
+    margin:0 auto;
+  }
+  body.activity-screen-on aside{
+    display:none;
+  }
+  body.activity-screen-on .teacher-note{
+    display:none;
+  }
+  body.activity-screen-on #activityCard{
+    margin-top:0!important;
+    border-radius:22px;
+    padding:22px;
+  }
+  .activity-mode-panel{
+    background:#fff;
+    border:1px solid #e4ddcf;
+    border-radius:20px;
+    padding:18px;
+    margin:8px 0 18px;
+    box-shadow:0 2px 0 rgba(0,0,0,.03), 0 8px 24px rgba(40,40,40,.05);
+  }
+  .mode-panel-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .mode-panel-title{
+    font-size:22px;
+    font-weight:1000;
+    color:#1f2a2a;
+  }
+  .mode-grid{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .mode-tile{
+    min-width:112px;
+    padding:14px 18px;
+    border-radius:14px;
+    border:2px solid #e4ddcf;
+    background:#fff;
+    color:#4d4a45;
+    font-weight:1000;
+    font-size:18px;
+  }
+  .mode-tile.on{
+    background:#3f6e6a;
+    border-color:#3f6e6a;
+    color:#fff;
+  }
+  .mode-tile:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+    background:#f2f0ea;
+  }
+  .mode-desc{
+    margin-top:10px;
+    color:#6b6760;
+    font-size:16px;
+  }
+  .student-chip-line{
+    margin-left:auto;
+    display:flex;
+    gap:8px;
+    align-items:center;
+    border-radius:999px;
+    background:#f8f5ef;
+    border:1px solid #e4ddcf;
+    padding:8px 14px;
+    font-weight:900;
+    color:#3f6e6a;
+  }
+
+  body.activity-screen-on .summary-grid{
+    margin:0 0 14px;
+  }
+  body.activity-screen-on .summary-grid:not(.collapsed) .summary-item{
+    padding:10px 12px;
+  }
+
+  .clean-stage{
+    background:#fff;
+    border:1px solid #e4ddcf;
+    border-radius:22px;
+    padding:26px 18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    box-shadow:0 2px 0 rgba(0,0,0,.03), 0 8px 24px rgba(40,40,40,.05);
+  }
+  .clean-prompt{
+    text-align:center;
+    font-size:24px;
+    font-weight:1000;
+    color:#4d4a45;
+  }
+  .clean-subprompt{
+    text-align:center;
+    color:#6b6760;
+    font-size:16px;
+    font-weight:700;
+  }
+  .clean-soundboxes{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .clean-soundbox{
+    width:150px;
+    height:150px;
+    border-radius:22px;
+    background:#fff;
+    border:2px solid #e4ddcf;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    font-weight:1000;
+    color:#3f6e6a;
+    box-shadow:0 10px 28px rgba(70,55,40,.08);
+  }
+  .clean-soundbox .box-num{
+    font-size:28px;
+  }
+  .clean-soundbox .box-speaker{
+    font-size:36px;
+  }
+  .clean-soundbox:active,
+  .clean-soundbox.ping{
+    border-color:#d98a3d;
+    background:#fff8ef;
+    transform:scale(.98);
+  }
+  .clean-replay{
+    border:1px solid #e4ddcf;
+    background:#fff;
+    color:#6b6760;
+    border-radius:0;
+    padding:12px 20px;
+    font-weight:900;
+  }
+  .clean-judge-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    width:min(100%,560px);
+  }
+  .clean-judge{
+    min-height:112px;
+    border-radius:20px;
+    border:2px solid #e4ddcf;
+    background:#fff;
+    color:#1f1f1f;
+    font-size:34px;
+    font-weight:1000;
+  }
+  .clean-judge.correct{
+    background:#eef7f0;
+    border-color:#4a8a5c;
+  }
+  .clean-judge.wrong{
+    background:#fbeae7;
+    border-color:#c25d52;
+  }
+
+  .clean-recognition .picture-big{
+    width:min(100%,320px);
+    min-height:220px;
+    border-radius:22px;
+    border:3px dashed #b7cf87;
+  }
+  .clean-recognition .choices-pic{
+    width:100%;
+    max-width:720px;
+    grid-template-columns:repeat(2, minmax(180px, 1fr));
+  }
+  .clean-recognition .pic-card{
+    min-height:190px;
+    border-color:#e4ddcf;
+  }
+  .clean-recognition .pic-card .emoji{
+    font-size:76px;
+  }
+
+  @media(max-width:640px){
+    .clean-judge-row{grid-template-columns:1fr}
+    .clean-soundbox{width:132px;height:132px}
+    .mode-tile{min-width:calc(50% - 8px)}
+  }
+
+
+  .cumulative-stage{
+    background:#fff;
+    border:1px solid #e4ddcf;
+    border-radius:22px;
+    padding:26px 18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    box-shadow:0 2px 0 rgba(0,0,0,.03), 0 8px 24px rgba(40,40,40,.05);
+  }
+  .cumulative-card{
+    width:min(100%,620px);
+    min-height:190px;
+    border-radius:24px;
+    border:3px dashed #b7cf87;
+    background:linear-gradient(180deg,#fff,#f9fcf5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+  }
+  .cumulative-seq{
+    width:min(100%,520px);
+    min-height:118px;
+    border-radius:22px;
+    border:2px solid #e4ddcf;
+    background:#fff;
+    display:flex;
+    gap:26px;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:nowrap;
+    box-shadow:0 8px 22px rgba(40,40,40,.06);
+    padding:18px 22px;
+  }
+  .cum-letter{
+    display:inline-grid;
+    place-items:center;
+    font-size:56px;
+    font-weight:1000;
+    color:#1f2a2a;
+    line-height:1;
+  }
+  .cumulative-word{
+    display:none;
+  }
+  .cumulative-progress{
+    width:min(100%,620px);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:1000;
+    color:#3f6e6a;
+  }
+  .cumulative-progress .bar{
+    flex:1;
+    height:12px;
+    border-radius:999px;
+    background:#e4ddcf;
+    overflow:hidden;
+  }
+  .cumulative-progress .fill{
+    height:100%;
+    background:#3f6e6a;
+    transition:.25s;
+  }
+  .teacher-check-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    width:min(100%,520px);
+  }
+  .teacher-check-row button{
+    min-height:82px;
+    border-radius:20px;
+    font-size:26px;
+    font-weight:1000;
+  }
+  .teacher-correct{
+    background:#eef7f0;
+    color:#2e6b3f;
+    border:3px solid #4a8a5c;
+  }
+  .teacher-wrong{
+    background:#fbeae7;
+    color:#a3453b;
+    border:3px solid #c25d52;
+  }
+  .cumulative-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    width:min(100%,620px);
+  }
+  .cum-stat{
+    background:#f7faf1;
+    border:1px solid #dce8cf;
+    border-radius:16px;
+    padding:12px;
+    text-align:center;
+  }
+  .cum-stat .n{
+    font-size:30px;
+    font-weight:1000;
+    color:#3f6e6a;
+  }
+  @media(max-width:640px){
+    .cumulative-seq{gap:14px; padding:16px 14px}
+    .cum-letter{font-size:40px}
+    .teacher-check-row{grid-template-columns:1fr}
+    .cumulative-summary{grid-template-columns:1fr}
+  }
+
+
+  .teacher-check-emoji{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    min-width:82px;
+    min-height:62px;
+    padding:12px 18px;
+    border-radius:18px;
+    font-size:32px;
+    font-weight:1000;
+  }
+  .teacher-check-emoji .emo{
+    font-size:28px;
+    line-height:1;
+  }
+  .next-arrow-btn{
+    min-width:68px;
+    min-height:52px;
+    padding:8px 14px;
+    border-radius:14px;
+    font-size:30px;
+    font-weight:1000;
+    line-height:1;
+  }
+
+
+  /* v38 안정판: 분절 애니메이션만 천천히, 음성인식 기능은 제외 */
+  .split-stage .whole-box{
+    transition:all 1.6s ease!important;
+  }
+  .split-piece{
+    transition:all 1.6s ease!important;
+  }
+  .split-stage.play .split-piece.initial{transition-delay:.15s}
+  .split-stage.play .split-piece.vowel{transition-delay:.45s}
+  .split-stage.play .split-piece.final{transition-delay:.75s}
+  .split-stage.play .whole-box{transition-delay:.05s}
+
+
+  /* v39: 분절 더 천천히, 소리 자동 재생 제거 */
+  .split-stage .whole-box{
+    transition:all 2.4s ease!important;
+  }
+  .split-piece{
+    transition:all 2.4s ease!important;
+  }
+  .split-stage.play .split-piece.initial{transition-delay:.35s}
+  .split-stage.play .split-piece.vowel{transition-delay:1.05s}
+  .split-stage.play .split-piece.final{transition-delay:1.75s}
+  .split-stage.play .whole-box{transition-delay:.15s}
+  .activity-subtitle-top{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin:0 0 14px;
+  }
+  .activity-subtitle-top .tag{
+    font-size:14px;
+    padding:6px 10px;
+  }
+
+
+  /* v40: 분절은 중간 정지 → 완전 분절 순서로 진행 */
+  .split-stage.mid-split .whole-box{
+    opacity:.62!important;
+    transform:scale(.98)!important;
+    transition:all 1.2s ease!important;
+  }
+  .split-stage.mid-split .split-piece{
+    opacity:.45!important;
+    transform:scale(.88)!important;
+    transition:all 1.2s ease!important;
+  }
+  .split-stage.mid-split .split-piece.initial{
+    left:calc(50% - 138px)!important;
+    top:84px!important;
+  }
+  .split-stage.mid-split .split-piece.vowel{
+    right:calc(50% - 138px)!important;
+    top:84px!important;
+  }
+  .split-stage.mid-split .split-piece.final{
+    left:calc(50% - 46px)!important;
+    bottom:64px!important;
+  }
+
+
+  .teacher-check-emoji{
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    min-width:88px!important;
+    min-height:68px!important;
+    padding:10px 18px!important;
+    border-radius:20px!important;
+    font-size:38px!important;
+    font-weight:1000!important;
+    line-height:1!important;
+  }
+
+
+  /* v41: 분절 조각이 중앙에서 바깥으로 나가도록 재정렬 */
+  .split-stage .split-piece{
+    opacity:0!important;
+    left:calc(50% - 46px)!important;
+    right:auto!important;
+    top:98px!important;
+    bottom:auto!important;
+    transform:scale(.65)!important;
+    transition:
+      left 1.45s ease,
+      right 1.45s ease,
+      top 1.45s ease,
+      bottom 1.45s ease,
+      opacity .9s ease,
+      transform 1.45s ease!important;
+    z-index:5!important;
+  }
+
+  .split-stage .split-piece.initial,
+  .split-stage .split-piece.vowel,
+  .split-stage .split-piece.final{
+    left:calc(50% - 46px)!important;
+    right:auto!important;
+    top:98px!important;
+    bottom:auto!important;
+  }
+
+  .split-stage.mid-split .whole-box{
+    opacity:.75!important;
+    transform:scale(.98)!important;
+    transition:all 1.2s ease!important;
+  }
+  .split-stage.mid-split .whole-box .slot{
+    opacity:.55!important;
+  }
+
+  .split-stage.mid-split .split-piece{
+    opacity:.72!important;
+    transform:scale(.86)!important;
+  }
+  .split-stage.mid-split .split-piece.initial{
+    left:calc(50% - 88px)!important;
+    top:90px!important;
+  }
+  .split-stage.mid-split .split-piece.vowel{
+    left:calc(50% - 4px)!important;
+    top:90px!important;
+  }
+  .split-stage.mid-split .split-piece.final{
+    left:calc(50% - 46px)!important;
+    top:142px!important;
+  }
+
+  .split-stage.play .whole-box{
+    opacity:.12!important;
+    transform:scale(.92)!important;
+    transition:all 1.1s ease!important;
+  }
+  .split-stage.play .whole-box .slot{
+    opacity:.18!important;
+  }
+
+  .split-stage.play .split-piece{
+    opacity:1!important;
+    transform:scale(1)!important;
+  }
+  .split-stage.play .split-piece.initial{
+    left:70px!important;
+    right:auto!important;
+    top:84px!important;
+    bottom:auto!important;
+  }
+  .split-stage.play .split-piece.vowel{
+    left:auto!important;
+    right:70px!important;
+    top:84px!important;
+    bottom:auto!important;
+  }
+  .split-stage.play .split-piece.final{
+    left:calc(50% - 46px)!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:22px!important;
+  }
+
+
+  .picture-sound-btn{
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .picture-sound-btn:active{
+    transform:scale(.98);
+  }
+
+
+  .activity-subtitle-top{display:none!important}
+
+
+  .footer-actions .blue:not(.next-arrow-btn){
+    min-height:52px;
+    padding:10px 18px;
+    border-radius:14px;
+    font-size:18px;
+    font-weight:1000;
+  }
+
+
+  /* v46: 누적학습 음성인식 */
+  .speech-check-box{
+    width:min(100%,620px);
+    border-radius:18px;
+    border:2px solid #d9e4cd;
+    background:#fff;
+    padding:14px 16px;
+    text-align:center;
+    font-weight:900;
+    color:#3f6e6a;
+    line-height:1.45;
+  }
+  .speech-check-box.ready{
+    background:#fbfdf7;
+  }
+  .speech-check-box.listening{
+    border-color:#4aa3d8;
+    background:#eef6ff;
+    color:#236ea3;
+  }
+  .speech-check-box.good{
+    border-color:#4a8a5c;
+    background:#eef7f0;
+    color:#2e6b3f;
+  }
+  .speech-check-box.bad{
+    border-color:#c25d52;
+    background:#fbeae7;
+    color:#a3453b;
+  }
+  .speech-btn{
+    min-height:62px;
+    padding:12px 22px;
+    border-radius:18px;
+    font-size:22px;
+    font-weight:1000;
+    background:#4aa3d8;
+    color:#fff;
+    border:3px solid #4aa3d8;
+  }
+  .speech-btn.listening{
+    background:#d98a3d;
+    border-color:#d98a3d;
+  }
+  .speech-mini{
+    display:block;
+    margin-top:4px;
+    font-size:13px;
+    color:#6b6760;
+    font-weight:700;
+  }
+
+
+  .permission-help{
+    width:min(100%,620px);
+    border-radius:14px;
+    background:#fff8ef;
+    border:1px solid #efd0a7;
+    color:#6b4a20;
+    padding:10px 12px;
+    font-size:13px;
+    line-height:1.45;
+    text-align:left;
+  }
+  .system-judge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    border-radius:999px;
+    padding:6px 12px;
+    font-weight:1000;
+    margin-top:6px;
+  }
+  .system-judge.good{background:#eef7f0;color:#2e6b3f}
+  .system-judge.bad{background:#fbeae7;color:#a3453b}
+
+
+  .teacher-sound-check{
+    width:min(100%,620px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    padding:10px 12px;
+    border-radius:18px;
+    background:#fff8ef;
+    border:2px dashed #efd0a7;
+  }
+  .teacher-sound-tab{
+    padding:10px 16px;
+    border-radius:999px;
+    background:#ffffff;
+    border:2px solid #e4ddcf;
+    color:#6b4a20;
+    font-size:16px;
+    font-weight:1000;
+  }
+  .teacher-sound-tab:active{
+    transform:scale(.97);
+  }
+  .teacher-sound-text{
+    color:#6b4a20;
+    font-weight:900;
+    font-size:14px;
+  }
+
+
+  /* v55: 정답 시 빵빠레 소리 + 화면 폭죽 */
+  .confetti-layer{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:9999;
+  }
+  .confetti-piece{
+    position:absolute;
+    top:-24px;
+    width:12px;
+    height:18px;
+    border-radius:4px;
+    opacity:.95;
+    animation:confetti-fall linear forwards;
+  }
+  .confetti-piece.circle{
+    width:14px;
+    height:14px;
+    border-radius:999px;
+  }
+  .confetti-piece.tri{
+    width:0;
+    height:0;
+    border-left:8px solid transparent;
+    border-right:8px solid transparent;
+    border-bottom:16px solid currentColor;
+    background:transparent!important;
+    border-radius:0;
+  }
+  @keyframes confetti-fall{
+    0%{transform:translateY(0) rotate(0deg); opacity:0}
+    8%{opacity:1}
+    100%{transform:translateY(110vh) rotate(720deg); opacity:.95}
+  }
+
+
+  /* v56: 시각적 맞아요 피드백 정리 */
+  .correct-visual-main{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    font-size:46px;
+    font-weight:1000;
+    line-height:1.1;
+  }
+  .correct-visual-sub{
+    display:block;
+    margin-top:8px;
+    font-size:18px;
+    font-weight:900;
+    opacity:.9;
+  }
+  .wrong-visual-main{
+    font-size:34px;
+    font-weight:1000;
+  }
+
+
+  /* v58 fallback override */
+  .split-stage.mid-split .split-piece.initial{left:calc(50% - 118px)!important; top:98px!important}
+  .split-stage.mid-split .split-piece.vowel{left:calc(50% - 46px)!important; top:98px!important}
+  .split-stage.mid-split .split-piece.final{left:calc(50% + 26px)!important; top:98px!important}
+  .split-stage.play .split-piece.initial{left:36px!important; right:auto!important; top:98px!important; bottom:auto!important}
+  .split-stage.play .split-piece.vowel{left:calc(50% - 46px)!important; right:auto!important; top:98px!important; bottom:auto!important}
+  .split-stage.play .split-piece.final{left:auto!important; right:36px!important; top:98px!important; bottom:auto!important}
+
+
+  .top-return-row{
+    display:flex;
+    justify-content:flex-end;
+    margin:0 0 8px;
+  }
+  .small-top-btn{
+    padding:8px 12px;
+    border-radius:12px;
+    font-size:14px;
+    font-weight:900;
+    line-height:1;
+  }
+  .inline-next-wrap{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+
+  .inline-replay-next{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+
+  /* v62: 학생별 성장/강화 패널 */
+  .growth-panel{
+    margin:14px 0 18px;
+  }
+  .growth-card{
+    border-radius:22px;
+    border:2px solid #dce8cf;
+    background:linear-gradient(180deg,#ffffff,#f7fbef);
+    padding:16px;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:14px;
+    align-items:center;
+    box-shadow:0 6px 18px rgba(55,80,30,.08);
+  }
+  .growth-character{
+    width:92px;
+    height:92px;
+    border-radius:24px;
+    background:#fff8df;
+    border:2px solid #f0dd87;
+    display:grid;
+    place-items:center;
+    font-size:56px;
+    box-shadow:0 8px 18px rgba(80,70,20,.08);
+  }
+  .growth-card.level-pop .growth-character{
+    animation:growthPop .8s ease;
+  }
+  @keyframes growthPop{
+    0%,100%{transform:scale(1)}
+    45%{transform:scale(1.22) rotate(-4deg)}
+    70%{transform:scale(1.08) rotate(3deg)}
+  }
+  .growth-info{
+    min-width:0;
+  }
+  .growth-title-line{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:8px;
+  }
+  .growth-title{
+    font-size:20px;
+    font-weight:1000;
+    color:#315516;
+  }
+  .growth-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:6px 10px;
+    border-radius:999px;
+    background:#eef7f0;
+    border:1px solid #cfe2b8;
+    color:#315516;
+    font-size:13px;
+    font-weight:1000;
+  }
+  .growth-exp-bar{
+    height:18px;
+    border-radius:999px;
+    background:#e7eedf;
+    overflow:hidden;
+    position:relative;
+    margin:8px 0 8px;
+  }
+  .growth-exp-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#86b93b,#ffd93d);
+    transition:width .55s ease;
+  }
+  .growth-exp-text{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:1000;
+    color:#2e4916;
+    text-shadow:0 1px 2px #fff;
+  }
+  .growth-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-top:8px;
+  }
+  .growth-stat{
+    border-radius:14px;
+    background:#fff;
+    border:1px solid #e2ecd6;
+    padding:8px 10px;
+    text-align:center;
+  }
+  .growth-stat .n{
+    font-size:22px;
+    font-weight:1000;
+    color:#4f8121;
+    line-height:1.1;
+  }
+  .growth-stat .t{
+    font-size:12px;
+    color:#667;
+    font-weight:800;
+  }
+  .growth-flowers{
+    display:flex;
+    gap:6px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin-top:10px;
+    font-size:24px;
+  }
+  .growth-flowers .empty{
+    filter:grayscale(1);
+    opacity:.35;
+  }
+  .growth-note{
+    margin-top:8px;
+    color:#5e6b4d;
+    font-size:13px;
+    font-weight:800;
+  }
+  .growth-levelup-layer{
+    position:fixed;
+    inset:0;
+    z-index:10000;
+    pointer-events:none;
+    display:grid;
+    place-items:center;
+    background:rgba(255,255,255,.72);
+    animation:growthFadeOut 2.8s ease forwards;
+  }
+  .growth-levelup-card{
+    border-radius:28px;
+    background:#fff;
+    border:4px solid #ffd93d;
+    box-shadow:0 20px 50px rgba(70,60,20,.22);
+    padding:28px 34px;
+    text-align:center;
+    animation:growthPop .8s ease;
+  }
+  .growth-levelup-card .char{
+    font-size:86px;
+    line-height:1;
+  }
+  .growth-levelup-card .msg{
+    margin-top:10px;
+    font-size:28px;
+    font-weight:1000;
+    color:#4f8121;
+  }
+  @keyframes growthFadeOut{
+    0%,72%{opacity:1}
+    100%{opacity:0}
+  }
+  @media(max-width:640px){
+    .growth-card{grid-template-columns:1fr;text-align:center}
+    .growth-character{margin:auto}
+    .growth-stats{grid-template-columns:1fr}
+    .growth-title-line{justify-content:center}
+    .growth-flowers{justify-content:center}
+  }
+
+
+/* v63: 학생 화면을 간결하게, 교사는 기록과 세부 지표를 확인 */
+body:not(.teacher-mode) .teacher-score,
+body:not(.teacher-mode) .teacher-growth-detail{display:none!important}
+body:not(.teacher-mode) .growth-card{padding:12px 16px;grid-template-columns:66px 1fr;border-color:#dce8cf}
+body:not(.teacher-mode) .growth-character{width:64px;height:64px;font-size:38px;border-radius:18px}
+body:not(.teacher-mode) .growth-title{font-size:16px}
+body:not(.teacher-mode) .growth-note{font-size:12px}
+body:not(.teacher-mode) .growth-flowers{font-size:18px;margin-top:5px}
+body:not(.teacher-mode) .growth-exp-bar{height:15px}
+body:not(.teacher-mode) .growth-badge{font-size:11px}
+body:not(.teacher-mode) .teacher-closed{display:none}
+body:not(.teacher-mode) .cumulative-summary{display:none}
+.permission-help{font-size:13px}
+.permission-help summary{cursor:pointer;font-weight:900}
+body:not(.teacher-mode) .summary-grid{grid-template-columns:1fr!important}
+body:not(.teacher-mode) #activitySummary .summary-item.progress-always{max-width:none}
+body.activity-screen-on #activityCard{padding:16px 18px}
+body.activity-screen-on #activityModePanel{padding:12px}
+body.activity-screen-on #activityPanel .clean-stage{padding:20px 14px}
+button{touch-action:manipulation}
+button:focus-visible,[role=button]:focus-visible{outline:3px solid #2779b5;outline-offset:3px}
+button:disabled{opacity:.50;cursor:default}
+.cumulative-graded-hint{min-height:24px;text-align:center;color:#3f6e6a;font-weight:900;font-size:14px}
+@media(max-width:640px){
+ body.activity-screen-on #activityCard{padding:12px}
+ .growth-card{grid-template-columns:64px 1fr!important;text-align:left!important}
+ .growth-character{margin:0!important}
+ .growth-title-line{justify-content:space-between!important}
+ .mode-tile{font-size:16px;min-width:90px;padding:11px 13px}
+ .clean-judge-row{grid-template-columns:1fr 1fr}
+ .clean-judge{font-size:26px;min-height:95px}
+}
+
+/* v65: 음소 대치 - 글자 힌트 없이 그림과 소리로 진행 */
+.sub-stage{background:#fff;border:1px solid #e4ddcf;border-radius:22px;padding:24px 18px;display:flex;align-items:center;flex-direction:column;gap:16px}
+.sub-target{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.sub-target-pic{width:min(260px,70vw);height:175px;border-radius:22px;border:3px dashed #b7cf87;background:#fcfff9;display:grid;place-items:center;font-size:86px}
+.sub-command{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}
+.sub-listen{background:#4aa3d8;color:white;border:0;border-radius:15px;font-size:20px;font-weight:900;min-height:55px;padding:12px 22px}
+.sub-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(130px,1fr));gap:14px;width:min(100%,650px)}
+.sub-choice-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.sub-choice{background:#fff;border:2px solid #dfdfd2;border-radius:20px;min-height:160px;width:100%;display:grid;place-items:center;font-size:75px}
+.sub-choice.correct{border-color:#48a25a;background:#f2fbef}
+.sub-choice.wrong{border-color:#e66;background:#fff0f0}
+.sub-choice-sound{border:1px solid #b6d9f3;border-radius:999px;background:#f0f8ff;font-size:24px;width:55px;height:48px;padding:4px}
+.sub-teacher-guide{background:#fff9e9;border:1px dashed #deb85e;border-radius:12px;padding:12px;text-align:center;font-weight:800}
+.sub-muted{font-size:15px;color:#6c6e68;text-align:center}
+@media(max-width:600px){.sub-choice{min-height:125px;font-size:58px}.sub-target-pic{height:150px;font-size:75px}.sub-stage{padding:15px 10px}}
+
+
+/* v66 음소 탈락: 학생에게 정답 글자를 미리 보여주지 않는 소리 선택 */
+.del-stage {background:#fff;border:1px solid #e3ddce;border-radius:22px;padding:23px 18px;display:flex;align-items:center;flex-direction:column;gap:16px;box-shadow:0 5px 17px rgba(50,60,30,.06)}
+.del-source {display:flex;flex-direction:column;align-items:center;gap:7px}
+.del-source-picture {width:min(255px,70vw);height:172px;display:grid;place-items:center;border:3px dashed #b7ce8b;background:#fafef5;border-radius:22px;font-size:86px;cursor:pointer}
+.del-prompt {font-size:23px;line-height:1.35;font-weight:1000;text-align:center;color:#365b37}
+.del-muted {font-size:15px;color:#5f6959;text-align:center}
+.del-toolbar {display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px}
+.del-hear {background:#4aa3d8;color:#fff;border:0;border-radius:14px;padding:13px 19px;font-size:18px;font-weight:900;min-height:54px}
+.del-choice-list {display:grid;grid-template-columns:repeat(2,minmax(130px,1fr));gap:18px;width:min(100%,540px)}
+.del-choice-item {display:flex;flex-direction:column;align-items:center;gap:10px}
+.del-choice {min-height:128px;background:white;color:#2f6057;border:2px solid #e3ddce;border-radius:22px;width:100%;font-size:29px;font-weight:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.del-choice .del-speaker {font-size:33px}
+.del-choice.correct {border-color:#52a268;background:#eaf7ed}
+.del-choice.wrong {border-color:#d95f5f;background:#fef0ef}
+.del-voice {font-size:25px;width:56px;height:48px;display:grid;place-items:center;border-radius:999px;background:#eef8ff;border:1px solid #b8d9f3;padding:3px}
+.del-guide {padding:11px 15px;border-radius:13px;background:#fff9e8;border:1px dashed #d4bc74;font-size:15px;color:#5f552f;font-weight:800;max-width:620px;text-align:center}
+@media(max-width:600px){.del-stage{padding:16px 12px}.del-choice{min-height:110px}.del-source-picture{height:145px;font-size:68px}.del-prompt{font-size:21px}}
+
+
+  /* v67: 선택지 듣기 버튼을 그림 위로 이동 */
+  .sub-choice-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+  }
+  .sub-choice-sound{
+    order:-1;
+    margin-bottom:2px;
+  }
+
+
+  .choice-sound-top{
+    order:-1;
+  }
+
+
+
+
+
+  /* v69: 첫 화면 상단에 활동 시작 버튼 고정 배치 */
+  #lessonSelectCard .lesson-select-topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  #lessonSelectCard .lesson-select-topbar .title{margin:0;}
+  #lessonSelectCard .enter-activity-top{
+    flex-shrink:0;
+    min-width:72px;
+    min-height:54px;
+    border-radius:15px;
+    padding:9px 16px;
+    font-size:28px;
+    line-height:1;
+    background:#83bb37;
+    color:#fff;
+    box-shadow:0 3px 0 #5d9421;
+  }
+  #lessonSelectCard .enter-activity-top:hover{background:#75ad2e;}
+  @media(max-width:540px){
+    #lessonSelectCard .lesson-select-topbar{gap:8px}
+    #lessonSelectCard .enter-activity-top{min-width:62px;min-height:50px}
+  }
+
+
+  /* v70: 인식·탈락 선택지의 소리 듣기 버튼을 선택 카드 위로 정렬 */
+  .clean-recognition .pic-card-wrap,
+  .del-choice-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+  }
+  .clean-recognition .pic-audio,
+  .del-choice-item .del-voice{
+    order:0;
+    flex:0 0 auto;
+    margin:0;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+  }
+  .clean-recognition .pic-card,
+  .del-choice-item .del-choice{
+    order:1;
+    width:100%;
+  }
+
+  /* v71: 학생 등록·관리 버튼 및 관리 양식 강조 */
+  #teacherModeBtn{white-space:nowrap}
+  #studentManagePanel{scroll-margin-top:86px}
+  .student-manage-heading{margin:0 0 12px;font-size:20px;font-weight:900;color:#416724}
+
+/* v72: 읽기 점검 */
+body.assessment-mode #activitySummary,
+body.assessment-mode #growthPanel{display:none!important}
+.assess-shell{max-width:940px;margin:0 auto;background:#fff;border:1px solid #e1e8d5;border-radius:22px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.assess-headline{font-size:26px;font-weight:1000;color:#315516;text-align:center}
+.assess-desc{font-size:15px;color:#53614a;text-align:center;line-height:1.6}
+.assess-mode-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.assess-action{border:2px solid #d5e3c4;background:#f8fcf3;color:#315516;padding:14px 18px;border-radius:16px;font-size:17px;font-weight:900;min-height:52px}
+.assess-action.primary-action{color:white;background:#4b9588;border-color:#4b9588}
+.assess-action.on{background:#3d756d;color:white;border-color:#3d756d}
+.assess-big{font-size:clamp(90px,19vw,155px);font-weight:900;color:#1d2826;min-height:190px;display:grid;place-items:center;padding:25px 16px;line-height:1}
+.assess-big-box{border:3px dashed #bad38e;border-radius:28px;background:#fbfef7;width:min(550px,100%);text-align:center}
+.assess-count{font-size:20px;font-weight:900;color:#315516}
+.assess-time{font-size:23px;font-weight:900;color:#276c69}
+.assess-time.over-one,.over-one{color:#d13c35!important;font-weight:1000}
+.assess-two-buttons{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(520px,100%)}
+.assess-two-buttons button{font-size:23px;font-weight:900;padding:16px;border-radius:18px;min-height:72px}
+.assess-correct{background:#eff8ed;color:#28613b;border:2px solid #68a978}
+.assess-wrong{background:#fff2ef;color:#a7423a;border:2px solid #dc7d71}
+.assess-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;width:100%;max-height:none}
+.assess-grid button{min-height:69px;font-size:31px;font-weight:900;border:2px solid #dbe4d5;border-radius:12px;background:white;color:#26332a;position:relative}
+.assess-grid button .serial{position:absolute;top:4px;left:6px;font-size:11px;color:#879187}
+.assess-grid button.read{background:#eaf7eb;border-color:#93ba94}
+.assess-grid button.bad{background:#ffe9e7;border-color:#de6860;color:#ae3e36}
+.assess-grid button.last{outline:4px solid #3899b8;outline-offset:1px}
+.assess-grid button.unread{opacity:.52}
+.assess-bar{width:min(650px,100%);height:15px;border-radius:100px;background:#e7eadf;overflow:hidden}
+.assess-bar>div{height:100%;background:#4b9588;transition:width .2s}
+.assess-help{width:100%;padding:12px;border-radius:14px;background:#fff9e9;color:#71572b;font-size:14px;line-height:1.6}
+.assess-result{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.assess-result>div{padding:16px 22px;border:1px solid #dce8cf;border-radius:16px;min-width:120px;text-align:center;font-size:22px;font-weight:900}
+.assessment-record-panel{border:1px solid #dce8cf;border-radius:18px;padding:12px;margin:14px 0;background:#fbfdf8}
+.assessment-record-title{font-weight:1000;font-size:19px;margin-bottom:8px;color:#315516}
+.assessment-record-list{display:grid;gap:10px;margin-top:12px}
+.assessment-record-item{background:#fff;border:1px solid #e4e6dc;border-radius:12px;padding:12px}
+.assessment-record-item summary{cursor:pointer;font-weight:900}
+.assessment-record-item table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+.assessment-record-item th,.assessment-record-item td{border-bottom:1px solid #e5eadc;padding:8px}
+@media(max-width:650px){.assess-grid{grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:5px}.assess-grid button{min-height:59px;font-size:26px}.assess-shell{padding:12px}.assess-two-buttons button{font-size:18px}}
+
+
+  /* v75: 누적 읽기에서 글자 바로 아래에 OX, 음성 확인은 그다음에 배치 */
+  .cumulative-judge-row{
+    width:min(100%,620px);
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    margin-top:0;
+  }
+  .cumulative-judge-row button{
+    min-height:76px;
+    padding:12px 8px;
+    font-size:clamp(18px,3vw,26px);
+  }
+  .cumulative-stage > .speech-btn{
+    margin-top:2px;
+  }
+  @media(max-width:640px){
+    .teacher-check-row.cumulative-judge-row{grid-template-columns:repeat(2,minmax(0,1fr));}
+  }
+
+
+/* v76: 누적 읽기 자음/모음/받침을 별도 복습 */
+.review-group-buttons{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
+.review-group-btn{border:2px solid #d8e6c6;background:#f8fbf4;color:#42632d;border-radius:15px;padding:10px 22px;min-width:88px;font-size:18px;font-weight:900}
+.review-group-btn.active{background:#3f6e6a;color:#fff;border-color:#3f6e6a}
+.review-group-btn:focus-visible{outline:3px solid #4aa3d8;outline-offset:3px}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><div class="logo">쏙</div>소리쏙쏙 음운인식 v27</div>
+  <div class="brand"><div class="logo">쏙</div>소리쏙쏙 음운인식 v77</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()">교사용 기록 보기</button>
+    <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">학생 등록 및 관리</button>
     <button class="small gray teacher-action" onclick="window.print()">인쇄</button>
     <button class="small blue teacher-action" onclick="exportCSV()">기록 CSV 저장</button>
     <button class="small purple teacher-action" onclick="downloadJSON()">전체 백업</button>
+    <label class="small gray teacher-action import-label" for="jsonImportInput">백업 불러오기</label>
+    <input id="jsonImportInput" class="hidden-file" type="file" accept=".json,application/json" onchange="importJSON(event)">
   </div>
 </header>
 <div id="globalFeedback" class="global-feedback"></div>
@@ -506,9 +1743,10 @@
         <label>현재 학생</label>
         <select id="studentSelect"></select>
       </div>
-      <div class="muted" id="studentGuide">교사용 화면에서 우리 반 학생 목록을 먼저 설정할 수 있습니다.</div>
+      <div class="muted" id="studentGuide">학생을 등록하려면 상단의 ‘학생 등록 및 관리’를 눌러주세요.</div>
 
-      <div class="teacher-only student-manage">
+      <div class="teacher-only student-manage" id="studentManagePanel">
+        <h3 class="student-manage-heading">학생 등록 및 관리</h3>
         <hr style="border:0;border-top:1px solid #e7eedf;margin:14px 0">
         <div class="field">
           <label>우리 반 학생 목록</label>
@@ -522,16 +1760,18 @@
 
       <hr style="border:0;border-top:1px solid #e7eedf;margin:18px 0">
 
-      <h2 class="title purplebg">오늘 지도 설정</h2>
+      <div class="activity-only"><h2 class="title purplebg">오늘 지도 설정</h2>
       <div class="field">
         <label>활동 유형</label>
         <select id="activityType" onchange="updateActivityOptions(); newQuestion()">
           <option value="recognition">1. 음소 인식: 그림으로 첫소리 찾기</option>
-          <option value="discrimination">2. 음소 변별: 소리 듣고 같은가요/다른가요?</option>
-          <option value="synthesis">3. 음소 합성: 자·모음 합치기 애니메이션</option>
-          <option value="segmentation">4. 음소 분절: 음소 나누기 애니메이션</option>
-          <option value="multisyllableSynthesis">5. 합성 연습: 다음절 엘코닌</option>
-          <option value="review">6. 누적 복습: 틀린 부분 중심</option>
+          <option value="synthesis">2. 음소 합성: 자·모음 합치기 애니메이션</option>
+          <option value="segmentation">3. 음소 분절: 음소 나누기 애니메이션</option>
+          <option value="substitution">4. 음소 대치: 소리 하나 바꾸기</option>
+          <option value="deletion">5. 음소 탈락: 소리 하나 빼기</option>
+          <option value="multisyllableSynthesis">6. 합성 연습: 다음절 엘코닌</option>
+          <option value="review">7. 누적 읽기: 지금까지 배운 글자</option>
+          <option value="assessment">8. 읽기 점검: 1분 / 1개씩</option>
         </select>
       </div>
 
@@ -544,12 +1784,15 @@
       <div class="field">
         <label>교사용 메모</label>
         <textarea id="teacherMemo" placeholder="예: ㄱ/ㅋ 혼동, 첫소리 정확하나 반응시간 지연"></textarea>
-      </div>
+      </div></div>
     </aside>
 
     <section>
-      <div class="card">
-        <h2 class="title bluebg">지도할 배움 고르기</h2>
+      <div class="card" id="lessonSelectCard">
+        <div class="lesson-select-topbar">
+          <h2 class="title bluebg">1단계. 지도할 배움 고르기</h2>
+          <button class="primary next-arrow-btn enter-activity-top" onclick="goActivityScreen()" title="선택한 음소로 활동 시작" aria-label="선택한 음소로 활동 시작">→</button>
+        </div>
         <div class="tabs">
           <button class="tab active" data-tab="vowels" onclick="setTab('vowels')">모음</button>
           <button class="tab" data-tab="consonants" onclick="setTab('consonants')">자음</button>
@@ -559,17 +1802,23 @@
           <button class="tab" data-tab="complexFinals" onclick="setTab('complexFinals')">다양한 받침</button>
         </div>
         <div id="lessonList" class="lesson-list"></div>
+        <div id="reviewBasket" class="review-basket"></div>
       </div>
 
-      <div class="card" style="margin-top:18px">
+      <div class="card activity-screen" id="activityCard" style="margin-top:18px">
         <div class="activity-header">
-          <h2 class="title mintbg">활동하기</h2>
-          <button class="small gray" id="summaryToggleBtn" onclick="toggleActivitySummary()">상세 기록 접기</button>
+          <h2 class="title mintbg">2단계. 활동하기</h2>
+          <div class="activity-head-actions">
+            
+            <button class="small gray" id="summaryToggleBtn" onclick="toggleActivitySummary()">상세 기록 접기</button>
+          </div>
         </div>
+        <div id="activityModePanel" class="activity-mode-panel"></div>
+        <div id="growthPanel" class="growth-panel"></div>
         <div class="summary-grid" id="activitySummary">
-          <div class="summary-item hide-when-collapsed"><div class="muted">오늘 맞은 수</div><div class="num" id="correctCount">0</div></div>
-          <div class="summary-item hide-when-collapsed"><div class="muted">오늘 틀린 수</div><div class="num" id="wrongCount">0</div></div>
-          <div class="summary-item hide-when-collapsed"><div class="muted">정확도</div><div class="num" id="accuracy">0%</div></div>
+          <div class="summary-item hide-when-collapsed teacher-score"><div class="muted">이번 활동 맞은 수</div><div class="num" id="correctCount">0</div></div>
+          <div class="summary-item hide-when-collapsed teacher-score"><div class="muted">이번 활동 틀린 수</div><div class="num" id="wrongCount">0</div></div>
+          <div class="summary-item hide-when-collapsed teacher-score"><div class="muted">정확도</div><div class="num" id="accuracy">0%</div></div>
           <div class="summary-item progress-always">
             <div class="muted">진행</div>
             <div class="num"><span id="trialCount">0</span>/<span id="targetCount">10</span></div>
@@ -580,11 +1829,16 @@
       </div>
 
       <div class="teacher-closed">
-        누적 기록은 교사용 화면에서만 보입니다.
+        학생별 학습 기록은 ‘학생 등록 및 관리’에서 확인할 수 있습니다.
       </div>
 
       <div class="card teacher-only" style="margin-top:18px">
-        <h2 class="title purplebg">교사용 누적 기록 보기</h2>
+        <h2 class="title purplebg">학생별 학습 기록</h2>
+        <div class="assessment-record-panel">
+          <div class="assessment-record-title">⏱️ 읽기 점검 기록</div>
+          <button class="small gray" onclick="exportAssessmentCSV()">점검 기록 CSV 저장</button>
+          <div id="assessmentRecordList" class="assessment-record-list"></div>
+        </div>
         <div class="summary-grid" id="recordSummary"></div>
         <div class="scroll" style="margin-top:12px">
           <table>
@@ -717,7 +1971,12 @@ let state = {
   currentQuestion:null,
   todayCorrect:0,
   todayWrong:0,
-  todayTotal:0
+  todayTotal:0,
+  screen:"select",
+  recognitionPairs:[],
+  recognitionTargets:[],
+  cumulativeSession:null,
+  reviewGroup:null
 };
 
 function loadData(){
@@ -727,6 +1986,146 @@ function loadData(){
 }
 function saveData(){ localStorage.setItem("soriAppDataV2", JSON.stringify(data)); }
 let data = loadData();
+if(!Array.isArray(data.assessments)) data.assessments=[];
+
+function ensureStudentData(st){
+  if(!st) return st;
+  if(!Array.isArray(st.reviewLessonIds)) st.reviewLessonIds = [];
+  if(!st.createdAt) st.createdAt = todayStr();
+  return st;
+}
+function ensureAllStudents(){
+  if(!data || !Array.isArray(data.students)) return;
+  data.students.forEach(ensureStudentData);
+}
+ensureAllStudents();
+
+function allLessons(){
+  return Object.values(lessons).flat();
+}
+function findLessonById(id){
+  return allLessons().find(l => l.id === id) || null;
+}
+function currentReviewLessonIds(){
+  const st = getStudent();
+  ensureStudentData(st);
+  return st ? st.reviewLessonIds : [];
+}
+function isVowelOnlyLesson(lesson){
+  return !!lesson && !lessonHasFinal(lesson) && (lesson.phonemes || []).every(p => isVowel(p));
+}
+
+
+const GROWTH_STAGES = [
+  {emoji:"🌱", name:"씨앗"},
+  {emoji:"🌿", name:"새싹"},
+  {emoji:"🪴", name:"튼튼한 화분"},
+  {emoji:"🌷", name:"꽃봉오리"},
+  {emoji:"🌸", name:"활짝 핀 꽃"},
+  {emoji:"🌳", name:"배움 나무"},
+  {emoji:"⭐", name:"반짝 별"}
+];
+
+function getStudentRecordsForGrowth(student){
+  if(!student) return [];
+  return data.records.filter(r => r.studentId === student.id);
+}
+
+function getGrowthInfo(student){
+  const records = getStudentRecordsForGrowth(student);
+  const total = records.length;
+  const correct = records.filter(r => r.isCorrect).length;
+  const acc = total ? Math.round(correct / total * 100) : 0;
+
+  // 수행률과 성공률을 모두 강화: 모든 시도 +1, 정답은 +2 추가
+  const exp = total + correct * 2;
+  const expPerLevel = 12;
+  const level = Math.floor(exp / expPerLevel);
+  const currentExp = exp % expPerLevel;
+  const pct = Math.min(100, Math.round(currentExp / expPerLevel * 100));
+  const stage = GROWTH_STAGES[Math.min(level, GROWTH_STAGES.length - 1)];
+
+  let badge = "첫 씨앗";
+  let badgeEmoji = "🌱";
+  if(total >= 30 && acc >= 90){ badge = "정확도 왕관"; badgeEmoji = "👑"; }
+  else if(total >= 20 && acc >= 80){ badge = "쑥쑥 성장"; badgeEmoji = "🌸"; }
+  else if(total >= 10 && acc >= 70){ badge = "튼튼한 연습"; badgeEmoji = "💪"; }
+  else if(total >= 10){ badge = "도전 중"; badgeEmoji = "🔥"; }
+
+  const targetEl = document.getElementById("targetTrials");
+  const target = targetEl ? parseInt(targetEl.value || 10) : 10;
+  const performance = target ? Math.min(100, Math.round(state.todayTotal / target * 100)) : 0;
+  const todayAcc = state.todayTotal ? Math.round(state.todayCorrect / state.todayTotal * 100) : 0;
+
+  return {records,total,correct,acc,exp,level,currentExp,expPerLevel,pct,stage,badge,badgeEmoji,performance,todayAcc};
+}
+
+function renderGrowthPanel(){
+  const box = document.getElementById("growthPanel");
+  if(!box) return;
+  const student = getStudent();
+  if(!student){
+    box.innerHTML = "";
+    return;
+  }
+
+  const g = getGrowthInfo(student);
+  const targetEl = document.getElementById("targetTrials");
+  const target = targetEl ? parseInt(targetEl.value || 10) : 10;
+  const flowerCount = Math.min(5, Math.floor((state.todayTotal / Math.max(1,target)) * 5));
+  const flowers = Array.from({length:5}, (_,i)=>`<span class="${i<flowerCount ? "" : "empty"}">🌼</span>`).join("");
+
+  let note = "시도하면 씨앗이 자라고, 맞게 읽으면 더 빨리 자라요.";
+  if(state.todayTotal >= target && g.todayAcc >= 80) note = "오늘 미션 성공! 정확하게 많이 읽었어요.";
+  else if(state.todayTotal >= target) note = "오늘 미션 완료! 끝까지 도전했어요.";
+  else if(state.todayTotal > 0) note = "좋아요. 조금씩 배움 나무가 자라고 있어요.";
+
+  box.innerHTML = `
+    <div class="growth-card" id="growthCard">
+      <div class="growth-character" aria-label="${g.stage.name}">${g.stage.emoji}</div>
+      <div class="growth-info">
+        <div class="growth-title-line">
+          <div class="growth-title">${student.name}의 성장 ${g.stage.name} · Lv.${g.level}</div>
+          <div class="growth-badge">${g.badgeEmoji} ${g.badge}</div>
+        </div>
+        <div class="growth-exp-bar">
+          <div class="growth-exp-fill" style="width:${g.pct}%"></div>
+          <div class="growth-exp-text">성장 ${g.currentExp} / ${g.expPerLevel}</div>
+        </div>
+        <div class="growth-stats teacher-growth-detail">
+          <div class="growth-stat"><div class="n">${g.acc}%</div><div class="t">누적 성공률</div></div>
+          <div class="growth-stat"><div class="n">${state.todayTotal}/${target}</div><div class="t">이번 활동 수행률</div></div>
+          <div class="growth-stat"><div class="n">${g.todayAcc}%</div><div class="t">이번 활동 성공률</div></div>
+        </div>
+        <div class="growth-flowers" title="이번 활동 꽃">${flowers}</div>
+        <div class="growth-note">${note}</div>
+      </div>
+    </div>
+  `;
+}
+
+function showGrowthLevelUp(student, growth){
+  if(!student || !growth) return;
+  const card = document.getElementById("growthCard");
+  if(card){
+    card.classList.add("level-pop");
+    setTimeout(()=>card.classList.remove("level-pop"), 900);
+  }
+
+  const layer = document.createElement("div");
+  layer.className = "growth-levelup-layer";
+  layer.innerHTML = `
+    <div class="growth-levelup-card">
+      <div class="char">${growth.stage.emoji}</div>
+      <div class="msg">${student.name} 성장 레벨 업!</div>
+      <div class="growth-note">새로운 모습: ${growth.stage.name}</div>
+    </div>
+  `;
+  document.body.appendChild(layer);
+  setTimeout(()=>{ if(layer.parentNode) layer.remove(); }, 2800);
+}
+
+
 
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7) }
 function todayStr(){ return new Date().toLocaleString("ko-KR") }
@@ -742,25 +2141,47 @@ function activityName(t){
   return {
     recognition:"음소 인식",
     discrimination:"음소 변별",
+    substitution:"음소 대치",
+    deletion:"음소 탈락",
     synthesis:"음소 합성",
     segmentation:"음소 분절",
     multisyllableSynthesis:"다음절 합성",
+    cumulativeReading:"누적 읽기",
     review:"누적 복습"
   }[t] || t;
 }
+let audioSequenceToken = 0;
+function stopAllAppSounds(){
+  audioSequenceToken += 1;
+  if("speechSynthesis" in window) speechSynthesis.cancel();
+}
+function speakSequence(texts, rates){
+  if(!("speechSynthesis" in window)) return;
+  stopAllAppSounds();
+  const run = audioSequenceToken;
+  const items = texts.filter(x=>String(x || "").trim());
+  let idx=0;
+  function playNext(){
+    if(run !== audioSequenceToken || idx>=items.length) return;
+    const u = new SpeechSynthesisUtterance(items[idx]);
+    u.lang="ko-KR";
+    u.rate = Array.isArray(rates) ? (rates[idx] || .76) : (rates || .76);
+    u.pitch=1;
+    idx += 1;
+    u.onend=()=>{ if(run === audioSequenceToken) playNext(); };
+    u.onerror=()=>{ if(run === audioSequenceToken) playNext(); };
+    speechSynthesis.speak(u);
+  }
+  playNext();
+}
 function speakText(text){
   if(!("speechSynthesis" in window)){ alert("이 브라우저는 음성 기능을 지원하지 않습니다."); return; }
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ko-KR";
-  u.rate = 0.75;
-  u.pitch = 1;
-  speechSynthesis.speak(u);
+  speakSequence([text], .76);
 }
 
 function addStudent(){
-  // v27부터 학생 추가는 교사용 '우리 반 학생 목록'에서만 관리합니다.
-  alert("교사용 화면에서 우리 반 학생 목록을 저장해 주세요.");
+  // 학생 추가는 상단의 학생 등록 및 관리 화면에서만 진행합니다.
+  alert("상단의 학생 등록 및 관리에서 학생 목록을 저장해 주세요.");
 }
 
 function saveClassStudents(){
@@ -781,7 +2202,7 @@ function saveClassStudents(){
   data.students.forEach(st => oldByName[st.name] = st);
 
   data.students = uniqueNames.map(name => {
-    return oldByName[name] || {id:uid(), name, createdAt:todayStr()};
+    return ensureStudentData(oldByName[name] || {id:uid(), name, createdAt:todayStr(), reviewLessonIds:[]});
   });
 
   if(!data.students.find(st => st.id === data.selectedStudentId)){
@@ -797,10 +2218,13 @@ function saveClassStudents(){
 }
 function getStudent(){ return data.students.find(s=>s.id===data.selectedStudentId) || null }
 function selectStudent(id){
+  cancelGradedAutoAdvance();
   data.selectedStudentId = id;
-  saveData(); renderStudents(); renderRecords(); resetToday(); newQuestion();
+  ensureAllStudents();
+  saveData(); renderStudents(); renderRecords(); renderReviewBasket(); resetToday(); renderGrowthPanel(); newQuestion();
 }
 function renderStudents(){
+  ensureAllStudents();
   const sel = document.getElementById("studentSelect");
   sel.innerHTML = "";
 
@@ -813,9 +2237,9 @@ function renderStudents(){
 
   if(data.students.length===0){
     const opt = document.createElement("option");
-    opt.textContent = "교사용 화면에서 학생 목록 설정";
+    opt.textContent = "학생 등록 및 관리에서 학생 목록 설정";
     sel.appendChild(opt);
-    if(guide) guide.textContent = "아직 학생 목록이 없습니다. 교사용 기록 보기에서 우리 반 학생 목록을 저장해 주세요.";
+    if(guide) guide.textContent = "아직 학생 목록이 없습니다. 상단의 학생 등록 및 관리에서 등록해 주세요.";
   }else{
     if(guide) guide.textContent = "저장된 우리 반 학생 중에서 선택하세요.";
     data.students.forEach(st=>{
@@ -847,40 +2271,160 @@ function updateActivityOptions(){
   const enabled = state.tab !== "vowels";
   multiOption.disabled = !enabled;
   multiOption.textContent = enabled
-    ? "5. 합성 연습: 다음절 엘코닌"
-    : "5. 합성 연습: 다음절 엘코닌 (자음 이후)";
+    ? "6. 합성 연습: 다음절 엘코닌"
+    : "6. 합성 연습: 다음절 엘코닌 (자음 이후)";
 
   if(!enabled && select.value === "multisyllableSynthesis"){
     select.value = "recognition";
   }
+  if(typeof renderActivityModePanel === "function") renderActivityModePanel();
 }
 
 function setTab(tab){
+  state.reviewGroup=null;
   state.tab = tab;
   state.selectedLesson = lessons[tab] && lessons[tab].length ? lessons[tab][0] : null;
   state.multiSession = null;
   document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active", t.dataset.tab===tab));
+  state.screen = "select";
   updateActivityOptions();
   renderLessons();
   resetToday();
-  newQuestion();
+  applyScreenMode();
 }
 function renderLessons(){
   const box = document.getElementById("lessonList");
+  if(!box) return;
   box.innerHTML = "";
+  const reviewIds = currentReviewLessonIds();
   lessons[state.tab].forEach(item=>{
     const div = document.createElement("div");
+    const inReview = reviewIds.includes(item.id);
     div.className = "lesson" + (state.selectedLesson && state.selectedLesson.id===item.id ? " selected" : "");
-    div.onclick = ()=>{ state.selectedLesson = item; state.multiSession = null; renderLessons(); resetToday(); newQuestion(); };
+    div.onclick = ()=>{ state.selectedLesson = item; state.multiSession = null; state.reviewGroup=null; state.screen = "select"; renderLessons(); resetToday(); applyScreenMode(); };
     div.innerHTML = `<span class="badge">${item.lesson}</span>
       <div style="font-size:20px;font-weight:1000">${item.title}</div>
-      <div>${(item.tags||[]).map(t=>`<span class="tag">${t}</span>`).join("")}</div>`;
+      <div>${(item.tags||[]).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+      <div class="lesson-actions">
+        <button class="lesson-review-btn ${inReview ? "on" : ""}" onclick="toggleReviewLesson('${item.id}', event)">
+          ${inReview ? "누적학습 담김" : "누적학습 담기"}
+        </button>
+      </div>`;
     box.appendChild(div);
   });
   if(!state.selectedLesson && lessons[state.tab].length) state.selectedLesson = lessons[state.tab][0];
+  renderReviewBasket();
 }
 
-function resetToday(){ state.todayCorrect=0; state.todayWrong=0; state.todayTotal=0; renderProgress(); }
+
+function toggleReviewLesson(id, event){
+  if(event) event.stopPropagation();
+  const st = getStudent();
+  if(!st){
+    alert("학생을 먼저 선택해 주세요.");
+    return;
+  }
+  ensureStudentData(st);
+  const idx = st.reviewLessonIds.indexOf(id);
+  if(idx >= 0) st.reviewLessonIds.splice(idx, 1);
+  else st.reviewLessonIds.push(id);
+  saveData();
+  renderLessons();
+  renderRecords();
+}
+
+function clearReviewLessons(){
+  const st = getStudent();
+  if(!st) return;
+  ensureStudentData(st);
+  st.reviewLessonIds = [];
+  saveData();
+  renderLessons();
+  renderRecords();
+}
+
+function addWrongTopToReview(){
+  const st = getStudent();
+  if(!st) return;
+  ensureStudentData(st);
+  const wrongById = {};
+  data.records
+    .filter(r => r.studentId === st.id && !r.isCorrect && r.lessonId)
+    .forEach(r => wrongById[r.lessonId] = (wrongById[r.lessonId] || 0) + 1);
+  const topIds = Object.entries(wrongById)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,5)
+    .map(([id])=>id);
+  if(topIds.length === 0){
+    alert("아직 오답 기록이 없습니다.");
+    return;
+  }
+  st.reviewLessonIds = [...new Set([...(st.reviewLessonIds || []), ...topIds])];
+  saveData();
+  renderLessons();
+  renderRecords();
+  alert("오답이 많은 배움을 누적학습 목록에 담았어요.");
+}
+
+function renderReviewBasket(){
+  const box = document.getElementById("reviewBasket");
+  if(!box) return;
+  const st = getStudent();
+  if(!st){
+    box.innerHTML = `<div class="review-basket-title">누적학습 목록</div><div class="muted">학생을 먼저 선택해 주세요.</div>`;
+    return;
+  }
+  ensureStudentData(st);
+  const ids = st.reviewLessonIds || [];
+  const items = ids.map(findLessonById).filter(Boolean);
+  const chips = items.map(l => `
+    <span class="review-chip">${l.lesson} ${l.title}
+      <button onclick="toggleReviewLesson('${l.id}', event)" title="빼기">×</button>
+    </span>`).join("");
+  box.innerHTML = `
+    <div class="review-basket-title">누적학습 목록 ${ids.length}개</div>
+    <div class="muted">선택한 배움을 복습 목록에 저장합니다. 누적 읽기는 처음 배운 글자부터 현재 선택한 배움까지 누적합니다. 받침 단원에서는 받침 있는 글자가 포함됩니다.</div>
+    <div class="review-basket-list">${chips || "<span class='muted'>아직 담은 배움이 없습니다.</span>"}</div>
+    <div class="mini-actions">
+      <button class="gray" onclick="addWrongTopToReview()">오답 많은 배움 담기</button>
+      <button class="gray" onclick="clearReviewLessons()">목록 비우기</button>
+    </div>`;
+}
+
+function weightedPickLessonForReview(st){
+  ensureStudentData(st);
+  const basketIds = st && st.reviewLessonIds && st.reviewLessonIds.length ? st.reviewLessonIds.slice() : [];
+  const wrongs = st ? data.records.filter(r => r.studentId === st.id && !r.isCorrect && r.lessonId) : [];
+  const weights = {};
+  basketIds.forEach(id => weights[id] = (weights[id] || 0) + 2);
+  wrongs.forEach(r => weights[r.lessonId] = (weights[r.lessonId] || 0) + 4);
+  const ids = Object.keys(weights).filter(id => findLessonById(id));
+  if(ids.length === 0) return state.selectedLesson || lessons[state.tab][0];
+  const bag = [];
+  ids.forEach(id => {
+    for(let i=0; i<weights[id]; i++) bag.push(id);
+  });
+  return findLessonById(sample(bag)) || state.selectedLesson || lessons[state.tab][0];
+}
+
+function availableReviewTypesForLesson(lesson){
+  const types = ["recognition","substitution","deletion","synthesis","segmentation"];
+  if(!isVowelOnlyLesson(lesson)) types.push("multisyllableSynthesis");
+  return types;
+}
+
+
+function resetToday(){
+  substitutionHistory=[];
+  deletionHistory=[];
+  state.todayCorrect=0;
+  state.todayWrong=0;
+  state.todayTotal=0;
+  state.recognitionPairs=[];
+  state.recognitionTargets=[];
+  state.cumulativeSession=null;
+  renderProgress();
+}
 function renderProgress(){
   document.getElementById("correctCount").textContent = state.todayCorrect;
   document.getElementById("wrongCount").textContent = state.todayWrong;
@@ -890,6 +2434,7 @@ function renderProgress(){
   const acc = state.todayTotal ? Math.round(state.todayCorrect / state.todayTotal * 100) : 0;
   document.getElementById("accuracy").textContent = acc + "%";
   document.getElementById("progressBar").style.width = Math.min(100, state.todayTotal / target * 100) + "%";
+  renderGrowthPanel();
 }
 
 function composeHangul(initial, vowel, final=""){
@@ -916,6 +2461,19 @@ function getPictureSetForPhoneme(p){
   if(pictureBankInitial[p]) return pictureBankInitial[p];
   if(pictureBankVowel[p]) return pictureBankVowel[p];
   return null;
+}
+
+
+function recognitionPairKey(a,b){
+  return [a,b].sort().join("||");
+}
+function rememberRecognitionPair(targetWord, answerWord){
+  const key = recognitionPairKey(targetWord, answerWord);
+  if(!state.recognitionPairs.includes(key)) state.recognitionPairs.push(key);
+  if(!state.recognitionTargets.includes(targetWord)) state.recognitionTargets.push(targetWord);
+  // 10문항 단위 수업에서 충분히 다양화하되, 너무 길어지면 정리
+  if(state.recognitionPairs.length > 30) state.recognitionPairs = state.recognitionPairs.slice(-30);
+  if(state.recognitionTargets.length > 30) state.recognitionTargets = state.recognitionTargets.slice(-30);
 }
 
 function makeRecognitionQuestion(lesson){
@@ -956,9 +2514,70 @@ function makeRecognitionQuestion(lesson){
     "ㅄ":[{word:"값",emoji:"💵"},{word:"없다",emoji:"🚫"}]
   };
 
+  // 모음 인식은 "첫 음절의 모음" 기준이다.
+  // 따라서 오리/오이처럼 ㅇ으로 시작하는 낱말만 쓰지 않고,
+  // 고기·소리·보리처럼 첫 음절에 같은 모음이 들어간 낱말도 함께 사용한다.
+  const expandedVowelPictureBank = {
+    "ㅏ":[
+      {word:"아기",emoji:"👶"},{word:"아빠",emoji:"👨"},{word:"사과",emoji:"🍎"},{word:"자동차",emoji:"🚗"},
+      {word:"바나나",emoji:"🍌"},{word:"가방",emoji:"🎒"},{word:"감자",emoji:"🥔"},{word:"가지",emoji:"🍆"},
+      {word:"나비",emoji:"🦋"},{word:"다리",emoji:"🦵"},{word:"라면",emoji:"🍜"},{word:"마이크",emoji:"🎤"},
+      {word:"바다",emoji:"🌊"},{word:"사자",emoji:"🦁"},{word:"자전거",emoji:"🚲"},{word:"카메라",emoji:"📷"}
+    ],
+    "ㅓ":[
+      {word:"어항",emoji:"🐠"},{word:"어린이",emoji:"🧒"},{word:"엄마",emoji:"👩"},{word:"선물",emoji:"🎁"},
+      {word:"버스",emoji:"🚌"},{word:"거북이",emoji:"🐢"},{word:"검정",emoji:"⚫"},{word:"컵",emoji:"🥤"},
+      {word:"법",emoji:"⚖️"},{word:"서랍",emoji:"🗄️"},{word:"점",emoji:"🔴"},{word:"천막",emoji:"⛺"}
+    ],
+    "ㅗ":[
+      {word:"오리",emoji:"🦆"},{word:"오이",emoji:"🥒"},{word:"고기",emoji:"🥩"},{word:"고래",emoji:"🐳"},
+      {word:"고양이",emoji:"🐱"},{word:"곰",emoji:"🐻"},{word:"소리",emoji:"🔔"},{word:"소",emoji:"🐄"},
+      {word:"보리",emoji:"🌾"},{word:"보트",emoji:"⛵"},{word:"포도",emoji:"🍇"},{word:"토끼",emoji:"🐰"},
+      {word:"도토리",emoji:"🌰"},{word:"로봇",emoji:"🤖"},{word:"모자",emoji:"🧢"},{word:"코끼리",emoji:"🐘"}
+    ],
+    "ㅜ":[
+      {word:"우산",emoji:"☂️"},{word:"우유",emoji:"🥛"},{word:"우주",emoji:"🚀"},{word:"구두",emoji:"👞"},
+      {word:"국",emoji:"🍲"},{word:"수박",emoji:"🍉"},{word:"수영",emoji:"🏊"},{word:"주스",emoji:"🧃"},
+      {word:"무",emoji:"🥬"},{word:"문",emoji:"🚪"},{word:"북",emoji:"🥁"},{word:"풍선",emoji:"🎈"},
+      {word:"쿠키",emoji:"🍪"},{word:"눈",emoji:"👀"},{word:"물고기",emoji:"🐟"},{word:"분필",emoji:"🖍️"}
+    ],
+    "ㅡ":[
+      {word:"음표",emoji:"🎵"},{word:"은행",emoji:"🏦"},{word:"그릇",emoji:"🥣"},{word:"글자",emoji:"🔤"},
+      {word:"금",emoji:"🥇"},{word:"스키",emoji:"⛷️"},{word:"스웨터",emoji:"🧥"},{word:"트럭",emoji:"🚚"},
+      {word:"브로콜리",emoji:"🥦"},{word:"크레파스",emoji:"🖍️"}
+    ],
+    "ㅣ":[
+      {word:"이불",emoji:"🛏️"},{word:"이",emoji:"🦷"},{word:"기린",emoji:"🦒"},{word:"기차",emoji:"🚂"},
+      {word:"비",emoji:"🌧️"},{word:"비행기",emoji:"✈️"},{word:"피자",emoji:"🍕"},{word:"치즈",emoji:"🧀"},
+      {word:"시계",emoji:"⏰"},{word:"지갑",emoji:"👛"},{word:"김밥",emoji:"🍙"},{word:"리본",emoji:"🎀"}
+    ],
+    "ㅐ":[
+      {word:"애벌레",emoji:"🐛"},{word:"액자",emoji:"🖼️"},{word:"개",emoji:"🐶"},{word:"새",emoji:"🐦"},
+      {word:"배",emoji:"🍐"},{word:"책",emoji:"📚"},{word:"색연필",emoji:"🖍️"},{word:"햄버거",emoji:"🍔"}
+    ],
+    "ㅔ":[
+      {word:"에어컨",emoji:"❄️"},{word:"엘리베이터",emoji:"🛗"},{word:"게",emoji:"🦀"},{word:"세모",emoji:"🔺"},
+      {word:"네모",emoji:"⬜"},{word:"제비",emoji:"🐦"},{word:"레몬",emoji:"🍋"},{word:"메모",emoji:"📝"}
+    ],
+    "ㅑ":[
+      {word:"야구",emoji:"⚾"},{word:"약",emoji:"💊"},{word:"향",emoji:"🌸"},{word:"양",emoji:"🐑"}
+    ],
+    "ㅕ":[
+      {word:"여우",emoji:"🦊"},{word:"여름",emoji:"🏖️"},{word:"연필",emoji:"✏️"},{word:"별",emoji:"⭐"},
+      {word:"병",emoji:"🧴"},{word:"경찰",emoji:"👮"}
+    ],
+    "ㅛ":[
+      {word:"요요",emoji:"🪀"},{word:"요리",emoji:"🍳"},{word:"교실",emoji:"🏫"},{word:"표",emoji:"🎫"}
+    ],
+    "ㅠ":[
+      {word:"유리",emoji:"🪟"},{word:"유모차",emoji:"🍼"},{word:"휴지",emoji:"🧻"},{word:"귤",emoji:"🍊"},
+      {word:"쥐",emoji:"🐭"}
+    ]
+  };
+
   function getBank(kind, unit){
     if(kind === "initial") return pictureBankInitial[unit] || [];
-    if(kind === "vowel") return pictureBankVowel[unit] || [];
+    if(kind === "vowel") return uniqueItems([...(expandedVowelPictureBank[unit] || []), ...(pictureBankVowel[unit] || [])]);
     if(kind === "final") return finalPictureBank[unit] || [];
     return [];
   }
@@ -978,58 +2597,57 @@ function makeRecognitionQuestion(lesson){
     : lesson.phonemes;
 
   const usableUnits = units.filter(u => getBank(focus, u).length >= 2);
-  const answerUnit = sample(usableUnits.length ? usableUnits : units);
-  const targetSet = getBank(focus, answerUnit);
-  const safeTargetSet = targetSet.length ? targetSet : [{word:answerUnit, emoji:"🔤"}];
+  const candidateUnits = usableUnits.length ? usableUnits : units;
 
-  const target = sample(safeTargetSet);
-
-  // 정답 선택지는 같은 기준 단위이지만, 보기와 같은 낱말/그림은 제외
-  let answerCandidates = uniqueItems(safeTargetSet)
-    .filter(item => item.word !== target.word && item.emoji !== target.emoji);
-
-  // 같은 단위 그림이 부족하면, 안전 보충 자료 사용
-  const fallbackByFocus = {
-    initial: {
-      "ㄱ":[{word:"고래",emoji:"🐳"},{word:"곰",emoji:"🐻"}],
-      "ㄴ":[{word:"냄비",emoji:"🍲"},{word:"눈",emoji:"👀"}],
-      "ㅁ":[{word:"마이크",emoji:"🎤"},{word:"물고기",emoji:"🐟"}],
-      "ㅅ":[{word:"시계",emoji:"⏰"},{word:"선물",emoji:"🎁"}],
-      "ㅇ":[{word:"악어",emoji:"🐊"},{word:"양말",emoji:"🧦"}],
-      "ㅈ":[{word:"종",emoji:"🔔"},{word:"잠자리",emoji:"🪰"}],
-      "ㅋ":[{word:"카메라",emoji:"📷"},{word:"쿠키",emoji:"🍪"}],
-      "ㅌ":[{word:"택시",emoji:"🚕"},{word:"텐트",emoji:"⛺"}],
-      "ㅍ":[{word:"펭귄",emoji:"🐧"},{word:"풀",emoji:"🌱"}],
-      "ㅎ":[{word:"햄버거",emoji:"🍔"},{word:"화분",emoji:"🪴"}]
-    },
-    vowel: {
-      "ㅏ":[{word:"아빠",emoji:"👨"},{word:"아파트",emoji:"🏢"}],
-      "ㅓ":[{word:"어항",emoji:"🐠"},{word:"어린이",emoji:"🧒"}],
-      "ㅗ":[{word:"오렌지",emoji:"🍊"},{word:"오토바이",emoji:"🏍️"}],
-      "ㅜ":[{word:"우산",emoji:"☂️"},{word:"우주",emoji:"🚀"}],
-      "ㅡ":[{word:"음표",emoji:"🎵"},{word:"은행",emoji:"🏦"}],
-      "ㅣ":[{word:"이모",emoji:"👩"},{word:"이야기",emoji:"💬"}],
-      "ㅐ":[{word:"애벌레",emoji:"🐛"},{word:"액자",emoji:"🖼️"}],
-      "ㅔ":[{word:"에어컨",emoji:"❄️"},{word:"엑스레이",emoji:"🩻"}]
-    },
-    final: finalPictureBank
-  };
-
-  if(answerCandidates.length === 0){
-    answerCandidates = uniqueItems(fallbackByFocus[focus][answerUnit] || [])
-      .filter(item => item.word !== target.word && item.emoji !== target.emoji);
-  }
-
-  const answerItem = sample(answerCandidates.length ? answerCandidates : safeTargetSet);
-
-  // 오답은 기준 단위가 다르고, 보기/정답과 낱말·그림이 모두 달라야 함
-  let wrongCandidates = [];
   const allUnits = focus === "initial"
     ? Object.keys(pictureBankInitial)
     : focus === "vowel"
       ? Object.keys(pictureBankVowel)
       : Object.keys(finalPictureBank);
 
+  // 1) 가능한 정답 조합을 먼저 모두 만들고, 이미 나온 조합은 제외한다.
+  //    오리-오이와 오이-오리는 같은 조합으로 보아 1회만 허용한다.
+  let pairCandidates = [];
+  candidateUnits.forEach(unit=>{
+    const set = uniqueItems(getBank(focus, unit));
+    for(let i=0; i<set.length; i++){
+      for(let j=0; j<set.length; j++){
+        if(i === j) continue;
+        const target = set[i];
+        const answerItem = set[j];
+        if(target.word === answerItem.word || target.emoji === answerItem.emoji) continue;
+        const key = recognitionPairKey(target.word, answerItem.word);
+        pairCandidates.push({unit, target, answerItem, key});
+      }
+    }
+  });
+
+  pairCandidates = shuffle(pairCandidates);
+
+  let freshPairs = pairCandidates.filter(c => !state.recognitionPairs.includes(c.key));
+  // 10문항 안에서는 같은 보기 그림도 최대한 피한다.
+  let extraFresh = freshPairs.filter(c => !state.recognitionTargets.includes(c.target.word));
+
+  // 모음 단원은 후보가 많으므로 보기와 정답이 모두 새롭게 보이는 조합을 우선한다.
+  let extraDiverse = extraFresh.filter(c => !state.recognitionTargets.includes(c.answerItem.word));
+
+  let selectedPair = (extraDiverse.length ? extraDiverse[0] : extraFresh.length ? extraFresh[0] : freshPairs.length ? freshPairs[0] : pairCandidates[0]);
+
+  // 해당 단원에 그림이 부족한 예외 처리
+  if(!selectedPair){
+    const fallbackUnit = sample(allUnits);
+    const fallbackSet = uniqueItems(getBank(focus, fallbackUnit));
+    const target = fallbackSet[0] || {word:"우산", emoji:"☂️"};
+    const answerItem = fallbackSet.find(x => x.word !== target.word && x.emoji !== target.emoji) || {word:"우주", emoji:"🚀"};
+    selectedPair = {unit:fallbackUnit, target, answerItem, key:recognitionPairKey(target.word, answerItem.word)};
+  }
+
+  const answerUnit = selectedPair.unit;
+  const target = selectedPair.target;
+  const answerItem = selectedPair.answerItem;
+
+  // 2) 오답은 기준 단위가 다르고, 보기/정답과 낱말·그림이 모두 달라야 함
+  let wrongCandidates = [];
   allUnits.forEach(unit=>{
     if(unit === answerUnit) return;
     const items = getBank(focus, unit);
@@ -1056,6 +2674,8 @@ function makeRecognitionQuestion(lesson){
     wrongItem
   ];
 
+  rememberRecognitionPair(target.word, answerItem.word);
+
   return {
     type:"recognition",
     lesson,
@@ -1065,6 +2685,233 @@ function makeRecognitionQuestion(lesson){
     answerPhoneme:answerUnit,
     choices:shuffle(choices)
   };
+}
+
+
+const SUBSTITUTION_WORDS = [
+  ["말","🐴"],["발","🦶"],["달","🌙"],["살","🥩"],["칼","🔪"],["탈","🎭"],["팔","💪"],["날","🗓️"],["딸","👧"],["쌀","🍚"],
+  ["밤","🌰"],["밥","🍚"],["방","🚪"],["봄","🌸"],["범","🐯"],["빵","🍞"],["땀","💦"],["담","🧱"],["잠","😴"],["쌈","🥬"],
+  ["감","🍊"],["곰","🐻"],["검","⚔️"],["금","🥇"],["김","🍙"],["강","🏞️"],["공","⚽"],["콩","🫘"],["짱","👑"],
+  ["문","🚪"],["눈","👀"],["군","🪖"],["분","⏱️"],["돈","💵"],["손","✋"],["논","🌾"],["솜","☁️"],
+  ["물","💧"],["불","🔥"],["굴","🦪"],["풀","🌿"],["줄","🧶"],["술","🍶"],
+  ["집","🏠"],["짐","🧳"],["잎","🍃"],["입","👄"],["칩","🍟"],["힘","💪"],["침","🛏️"],["김","🍙"],["빔","🔦"],
+  ["배","🍐"],["개","🐶"],["새","🐦"],["게","🦀"],["비","🌧️"],["피","🩸"],["키","📏"],["이","🦷"],["시","⏰"],
+  ["소","🐄"],["코","👃"],["차","🚗"],["자","📏"],["초","🕯️"],["표","🎫"],
+  ["약","💊"],["역","🚉"],["별","⭐"],["병","🧴"],["선","📏"],["산","⛰️"],["장","📄"],["잔","🥛"],
+  ["가방","🎒"],["나방","🦋"],["가지","🍆"],["바지","👖"],["다리","🦵"],["파리","🪰"],
+  ["고기","🥩"],["모기","🦟"],["소리","🔔"],["수리","🦅"],["보리","🌾"],["부리","🐦"],
+  ["포도","🍇"],["파도","🌊"],["오이","🥒"],["아이","🧒"]
+].map(([word,emoji])=>({word,emoji})).filter((item,i,arr)=>arr.findIndex(x=>x.word===item.word)===i);
+
+// 종성 표기가 다르더라도 발음이 같은 받침 가족은 대치 대비로 사용하지 않습니다.
+function substitutionFinalSound(f){
+  if(["ㄱ","ㄲ","ㅋ","ㄳ","ㄺ"].includes(f)) return "ㄱ";
+  if(["ㄷ","ㅅ","ㅆ","ㅈ","ㅊ","ㅌ","ㅎ"].includes(f)) return "ㄷ";
+  if(["ㅂ","ㅍ","ㅄ","ㄿ"].includes(f)) return "ㅂ";
+  return f;
+}
+function substitutionsFromWordPair(a,b){
+  const ac=[...a.word], bc=[...b.word];
+  if(ac.length!==bc.length) return null;
+  let diff=null;
+  for(let i=0;i<ac.length;i++){
+    const aa=splitHangul(ac[i]), bb=splitHangul(bc[i]);
+    if(aa.length!==bb.length || aa.length<2) return null;
+    for(let j=0;j<Math.max(aa.length,bb.length);j++){
+      const from=aa[j]||"", to=bb[j]||"";
+      if(from===to) continue;
+      if(diff) return null;
+      diff={role:j===0?"initial":j===1?"vowel":"final",from,to};
+    }
+  }
+  if(!diff || !diff.from || !diff.to) return null;
+  if(diff.role==="initial" && (diff.from==="ㅇ"||diff.to==="ㅇ")) return null;
+  if(diff.role==="final" && substitutionFinalSound(diff.from)===substitutionFinalSound(diff.to)) return null;
+  if(diff.role==="vowel" && (
+    (["ㅐ","ㅔ"].includes(diff.from)&&["ㅐ","ㅔ"].includes(diff.to)) ||
+    (["ㅙ","ㅞ"].includes(diff.from)&&["ㅙ","ㅞ"].includes(diff.to))
+  )) return null;
+  return diff;
+}
+let substitutionHistory=[];
+function makeSubstitutionQuestion(lesson){
+  const focus = lessonHasFinal(lesson)?"final"
+    :(lesson.phonemes.some(isVowel)?"vowel":"initial");
+  const lessonUnits=focus==="final"?(lesson.finals||lesson.phonemes):lesson.phonemes;
+  const choices=[];
+  for(let i=0;i<SUBSTITUTION_WORDS.length;i++){
+    for(let j=0;j<SUBSTITUTION_WORDS.length;j++){
+      if(i===j) continue;
+      const a=SUBSTITUTION_WORDS[i],b=SUBSTITUTION_WORDS[j];
+      if(a.emoji===b.emoji) continue;
+      const change=substitutionsFromWordPair(a,b);
+      if(change && change.role===focus) choices.push({a,b,...change,
+        key:`${a.word}-${b.word}`});
+    }
+  }
+  const bothAligned=choices.filter(c=>lessonUnits.includes(c.from)&&lessonUnits.includes(c.to));
+  const aligned=choices.filter(c=>lessonUnits.includes(c.from)||lessonUnits.includes(c.to));
+  let pool=bothAligned.length?bothAligned:aligned.length?aligned:choices;
+  const fresh=pool.filter(c=>!substitutionHistory.includes(c.key));
+  if(fresh.length)pool=fresh;
+  const pick=sample(pool);
+  if(!pick) return makeRecognitionQuestion(lesson);
+
+  const altSet=SUBSTITUTION_WORDS.filter(w=>w.word!==pick.a.word && w.word!==pick.b.word && w.emoji!==pick.b.emoji && w.emoji!==pick.a.emoji);
+  const strongWrong=altSet.filter(w=>{
+    const d=substitutionsFromWordPair(pick.a,w);
+    return d && d.role===focus;
+  });
+  const wrong=sample(strongWrong.length?strongWrong:altSet);
+  substitutionHistory.push(pick.key);
+  if(substitutionHistory.length>60)substitutionHistory=substitutionHistory.slice(-60);
+  return {
+    type:"substitution",lesson,
+    prompt:focus==="initial"?"첫소리 하나를 바꿔 보세요."
+      :focus==="vowel"?"가운데 모음 소리를 바꿔 보세요.":"끝소리 하나를 바꿔 보세요.",
+    source:pick.a,
+    from:pick.from,to:pick.to,role:focus,
+    answer:pick.b.word,
+    choices:shuffle([{...pick.b,isAnswer:true},{...wrong,isAnswer:false}]),
+    isLessonAligned:!!aligned.length
+  };
+}
+function playSubstitutionPrompt(){
+  const q=state.currentQuestion;
+  if(!q||q.type!=="substitution")return;
+  const roleName=q.role==="initial"?"첫소리":q.role==="vowel"?"가운데 소리":"끝소리";
+  const from=soundForPhonemeUnit(q.from,q.role);
+  const to=soundForPhonemeUnit(q.to,q.role);
+  speakSequence([q.source.word,roleName,from,"대신",to,"로 바꾸면 어떤 말이 될까요?"],[.74,.74,.72,.74,.72,.76]);
+}
+function answerSubstitution(word,button){
+  const q=state.currentQuestion;
+  if(!q||q.type!=="substitution"||q._graded)return;
+  const ok=word===q.answer;
+  const right=q.choices.find(c=>c.isAnswer);
+  document.querySelectorAll(".sub-choice").forEach(x=>{
+    if(x.dataset.word===right.word)x.classList.add("correct");
+  });
+  if(!ok&&button)button.classList.add("wrong");
+  showFeedback(ok,ok?"잘했어요!":"다음 문항에서 다시 도전해요.");
+  record(ok,word);
+  advanceAfterGrading(q);
+}
+
+
+// 단순한 소리-글자 구조에서 정확히 한 음소만 빼는 연습용 낱말.
+// ㄴ/ㄹ/ㅁ 등의 받침이나 첫음절 모음 탈락은 단어가 아닌 소리가 남을 수도 있습니다.
+// 학생에게는 그림과 소리만 제시하고 정답 글자는 교사용 영역에만 표시합니다.
+const DELETION_BANK = [
+  // 처음 자음 한 소리 제거
+  ["집","🏠","ㅈ","initial","입","이"],
+  ["팔","💪","ㅍ","initial","알","말"],
+  ["발","🦶","ㅂ","initial","알","달"],
+  ["말","🐴","ㅁ","initial","알","발"],
+  ["살","🥩","ㅅ","initial","알","팔"],
+  ["칼","🔪","ㅋ","initial","알","달"],
+  ["달","🌙","ㄷ","initial","알","말"],
+  ["쌀","🍚","ㅆ","initial","알","살"],
+  ["새","🐦","ㅅ","initial","애","배"],
+  ["배","🍐","ㅂ","initial","애","개"],
+  ["개","🐶","ㄱ","initial","애","새"],
+  ["피","🩸","ㅍ","initial","이","비"],
+  ["비","🌧️","ㅂ","initial","이","피"],
+  ["키","📏","ㅋ","initial","이","비"],
+  ["소","🐄","ㅅ","initial","오","코"],
+  ["코","👃","ㅋ","initial","오","소"],
+  ["보리","🌾","ㅂ","initial","오리","소리"],
+  ["소리","🔔","ㅅ","initial","오리","보리"],
+  // 첫 음절의 모음 한 소리 제거. 초성 ㅇ은 소리가 없으므로 생략됨
+  ["우산","☂️","ㅜ","vowel","산","손"],
+  ["이불","🛏️","ㅣ","vowel","불","물"],
+  ["오이","🥒","ㅗ","vowel","이","오"],
+  ["아이","🧒","ㅏ","vowel","이","아이"],
+  ["아기","👶","ㅏ","vowel","기","가"],
+  ["아침","🌅","ㅏ","vowel","침","참"],
+  ["우유","🥛","ㅜ","vowel","유","우"],
+  ["오리","🦆","ㅗ","vowel","리","오"],
+  ["어항","🐠","ㅓ","vowel","항","항아리"],
+  ["야구","⚾","ㅑ","vowel","구","야"],
+  ["여우","🦊","ㅕ","vowel","우","여"],
+  ["요리","🍳","ㅛ","vowel","리","요"],
+  ["유리","🪟","ㅠ","vowel","리","유"],
+  // 받침 소리 하나 제거
+  ["공","⚽","ㅇ","final","고","코"],
+  ["밤","🌰","ㅁ","final","바","마"],
+  ["감","🍊","ㅁ","final","가","카"],
+  ["곰","🐻","ㅁ","final","고","코"],
+  ["콩","🫘","ㅇ","final","코","고"],
+  ["손","✋","ㄴ","final","소","코"],
+  ["문","🚪","ㄴ","final","무","수"],
+  ["물","💧","ㄹ","final","무","무릎"],
+  ["솜","☁️","ㅁ","final","소","코"],
+  ["산","⛰️","ㄴ","final","사","차"],
+  ["집","🏠","ㅂ","final","지","기"],
+  ["입","👄","ㅂ","final","이","오"],
+  ["잎","🍃","ㅍ","final","이","오"],
+  ["옷","👕","ㅅ","final","오","오이"],
+  ["발","🦶","ㄹ","final","바","마"],
+  ["별","⭐","ㄹ","final","벼","병"],
+  ["반지","💍","ㄴ","final","바지","가지"],
+  ["공원","🏞️","ㅇ","final","고원","공원"]
+].map(([word,emoji,remove,role,result,wrong])=>({source:{word,emoji},remove,role,result,wrong}));
+
+let deletionHistory=[];
+// 소리 단위 비교 (초성 ㅇ은 소리 없는 자리로 보고 제외).
+function deletionPhonemeUnits(word){
+  return [...word].flatMap(ch=>{
+    const parts=splitHangul(ch);
+    if(parts.length<2) return [];
+    return parts.filter((p,i)=>!(i===0&&p==="ㅇ"));
+  });
+}
+function validDeletionPair(item){
+  const before=deletionPhonemeUnits(item.source.word);
+  const after=deletionPhonemeUnits(item.result);
+  if(before.length!==after.length+1)return false;
+  const firstDiff=before.findIndex((x,i)=>x!==after[i]);
+  const pos=firstDiff<0?before.length-1:firstDiff;
+  return before[pos]===item.remove && before.filter((_,i)=>i!==pos).join("|")===after.join("|");
+}
+function makeDeletionQuestion(lesson){
+  const focus=lessonHasFinal(lesson)?"final":(lesson.phonemes.some(isVowel)?"vowel":"initial");
+  const taught=focus==="final"?(lesson.finals||lesson.phonemes):lesson.phonemes;
+  const candidates=DELETION_BANK.filter(item=>item.role===focus && validDeletionPair(item));
+  const aligned=candidates.filter(item=>taught.includes(item.remove));
+  let pool=aligned.length?aligned:candidates;
+  let fresh=pool.filter(item=>!deletionHistory.includes(item.source.word+"|"+item.role));
+  if(fresh.length)pool=fresh;
+  const item=sample(pool);
+  if(!item)return makeRecognitionQuestion(lesson);
+  const key=item.source.word+"|"+item.role;
+  if(!deletionHistory.includes(key))deletionHistory.push(key);
+  if(deletionHistory.length>50)deletionHistory=deletionHistory.slice(-50);
+  const options=shuffle([{word:item.result,isAnswer:true},{word:item.wrong,isAnswer:false}]);
+  return {type:"deletion",lesson,
+    prompt:"소리 하나를 빼고 남는 소리를 찾아보세요.",
+    source:item.source,
+    removed:item.remove,role:item.role,
+    answer:item.result,choices:options,isLessonAligned:aligned.length>0};
+}
+function playDeletionInstruction(){
+  const q=state.currentQuestion;
+  if(!q||q.type!=="deletion")return;
+  const roleName=q.role==="initial"?"첫소리":q.role==="vowel"?"모음 소리":"받침 소리";
+  const sound=soundForPhonemeUnit(q.removed,q.role);
+  speakSequence([q.source.word+"에서",roleName,sound,"소리를 빼면 어떤 소리가 남을까요?"],[.74,.74,.71,.77]);
+}
+function answerDeletion(word,btn){
+  const q=state.currentQuestion;
+  if(!q||q.type!=="deletion"||q._graded)return;
+  const ok=word===q.answer;
+  document.querySelectorAll(".del-choice").forEach(el=>{
+    if(el.dataset.word===q.answer)el.classList.add("correct");
+  });
+  if(btn&&!ok)btn.classList.add("wrong");
+  showFeedback(ok,ok?"잘했어요!":"다음 문항에서 다시 도전해요.");
+  record(ok,word);
+  advanceAfterGrading(q);
 }
 
 function makeDiscriminationQuestion(lesson){
@@ -1130,14 +2977,14 @@ function makeSegmentationQuestion(lesson){
     const initial = sample(["ㄱ","ㄴ","ㅁ","ㅂ","ㅅ","ㅈ","ㅎ"]);
     const vowel = sample(["ㅏ","ㅗ","ㅜ","ㅣ"]);
     const word = composeHangul(initial, vowel, final);
-    return {type:"segmentation", lesson, prompt:"글자가 나뉘는 모습을 보고 소리로 나누어 읽어요.", whole:word, split:[initial, vowel, final], answer:word};
+    return {type:"segmentation", lesson, prompt:"글자가 나뉘는 모습을 보고 초성-중성-(종성) 순서로 나누어 읽어요.", whole:word, split:[initial, vowel, final], answer:word};
   }
   const consonants = lesson.phonemes.filter(isConsonant);
   const vowelsInLesson = lesson.phonemes.filter(isVowel);
   const initial = sample(consonants.length ? consonants : ["ㄱ","ㄴ","ㅁ","ㅅ","ㅈ"]);
   const vowel = sample(vowelsInLesson.length ? vowelsInLesson : ["ㅏ","ㅗ","ㅜ","ㅣ"]);
   const word = composeHangul(initial, vowel);
-  return {type:"segmentation", lesson, prompt:"글자가 나뉘는 모습을 보고 소리로 나누어 읽어요.", whole:word, split:[initial, vowel], answer:word};
+  return {type:"segmentation", lesson, prompt:"글자가 나뉘는 모습을 보고 초성-중성-(종성) 순서로 나누어 읽어요.", whole:word, split:[initial, vowel], answer:word};
 }
 
 
@@ -1192,6 +3039,7 @@ function getMultisyllableSession(lesson){
 }
 
 function resetMultisyllableSession(){
+  cancelGradedAutoAdvance();
   if(state.selectedLesson){
     state.multiSession = {
       lessonId: state.selectedLesson.id,
@@ -1204,6 +3052,9 @@ function resetMultisyllableSession(){
 }
 
 function nextMultisyllableWord(){
+  cancelGradedAutoAdvance();
+  clearGradingOverlay();
+  stopAllAppSounds();
   const q = state.currentQuestion;
   if(!q || q.type !== "multisyllableSynthesis") return;
   const session = getMultisyllableSession(q.lesson);
@@ -1212,7 +3063,12 @@ function nextMultisyllableWord(){
     state.currentQuestion = makeMultisyllableSynthesisQuestion(q.lesson);
     renderQuestion();
   }else{
-    showFeedback(true, "10개 낱말을 모두 읽었어요! 🌟");
+    const panel = document.getElementById("activityPanel");
+    panel.innerHTML = `<div class="cumulative-stage">
+      <div class="clean-prompt">다음절 10문제를 모두 마쳤어요! 🎉</div>
+      <div class="clean-subprompt">2음절 5개, 3음절 5개 연습 완료</div>
+      <button class="primary" onclick="resetMultisyllableSession()">새 10문제 시작</button>
+    </div>`;
   }
 }
 
@@ -1293,18 +3149,68 @@ function renderMultisyllablePanel(){
   progress.textContent = `낱말 ${q.wordIndex + 1}/${q.totalWords} · 열린 소리상자 ${Math.min(q.step, q.flatSounds.length)} / ${q.flatSounds.length}`;
 }
 
+
+function getRoleForFlatSound(q, flatIndex){
+  if(!q || !Array.isArray(q.syllables)) return "";
+  let count = 0;
+  for(const parts of q.syllables){
+    for(let i=0; i<parts.length; i++){
+      if(count === flatIndex){
+        return i === 0 ? "initial" : i === 1 ? "vowel" : "final";
+      }
+      count++;
+    }
+  }
+  return "";
+}
+
+
+function getVisibleElkoninSoundInfos(){
+  const q = state.currentQuestion;
+  if(!q || q.type !== "multisyllableSynthesis" || !Array.isArray(q.flatSounds)) return [];
+
+  // 열린 소리상자가 있으면 열린 것까지, 아직 하나도 안 열었으면 전체 낱말 소리를 확인할 수 있게 전체 사용
+  const count = q.step && q.step > 0 ? q.step : q.flatSounds.length;
+  const infos = [];
+
+  for(let idx=0; idx<count; idx++){
+    const sound = q.flatSounds[idx];
+    const role = getRoleForFlatSound(q, idx);
+
+    // 초성 ㅇ은 소리 없는 초성이므로 읽지 않음
+    // 예: 오리 = ㅇ + ㅗ + ㄹ + ㅣ → 오 / 르 / 이
+    if(role === "initial" && sound === "ㅇ") continue;
+
+    infos.push({
+      sound,
+      role,
+      label:soundForPhonemeUnit(sound, role)
+    });
+  }
+  return infos;
+}
+
+function playCurrentElkoninSound(){
+  const infos = getVisibleElkoninSoundInfos();
+  const box = document.getElementById("teacherSoundCheckText");
+  if(!infos.length){ if(box) box.textContent="확인할 소리가 아직 없습니다."; return; }
+  speakSequence(infos.map(info=>info.label), .72);
+  if(box) box.textContent = "소리 확인: " + infos.map(info=>info.label).join(" · ");
+}
+
+
 function nextElkoninSound(){
   const q = state.currentQuestion;
   if(!q || q.type !== "multisyllableSynthesis") return;
   if(q.step < q.flatSounds.length){
     q.step += 1;
     renderMultisyllablePanel();
-    const sound = q.flatSounds[q.step - 1];
-    setTimeout(()=>speakText(sound), 80);
+    // 소리는 자동 재생하지 않습니다. 교사용 '소리 확인' 버튼을 눌렀을 때만 재생됩니다.
   }
 }
 
 function resetElkoninSound(){
+  speechSynthesis.cancel();
   const q = state.currentQuestion;
   if(!q || q.type !== "multisyllableSynthesis") return;
   q.step = 0;
@@ -1320,26 +3226,771 @@ function showAllElkoninSounds(){
 }
 
 
+
+// 교재 목차 순서: 이전에 배운 글자를 현재 배움까지 누적합니다.
+const CURRICULUM_ORDER = ["vowels","consonants","words","complexVowels","finals","complexFinals"];
+const FINAL_SYLLABLE_BANK={
+  "ㅁ":["감","밤","잠","곰","봄","몸","김","솜","꿈","땀","맘"],
+  "ㅂ":["밥","집","입","컵","답","법","탑","삽","입"],
+  "ㅇ":["공","강","방","왕","병","양","콩","종","형","동"],
+  "ㄱ":["국","목","약","책","북","박","복","벽","독","적"],
+  "ㄴ":["눈","돈","손","산","문","반","선","잔","난","단"],
+  "ㄷ":["곧","낟","받","믿"],
+  "ㄹ":["달","발","물","말","별","솔","불","길","줄","팔"],
+  "ㅋ":["부엌","동녘"],
+  "ㄲ":["밖","닦","깎"],
+  "ㅍ":["앞","잎","숲","옆","덮"],
+  "ㅅ":["옷","붓","빗","맛","못","낫"],
+  "ㅆ":["있","썼"],
+  "ㅈ":["낮","빚","젖"],
+  "ㅊ":["꽃","빛","낯"],
+  "ㅌ":["밭","끝","솥"],
+  "ㅎ":["좋","놓","많"]
+};
+function learnedLessonsThroughCurrent(){
+  const tabPos=CURRICULUM_ORDER.indexOf(state.tab);
+  const current=state.selectedLesson;
+  if(tabPos<0 || !current) return [];
+  const out=[];
+  CURRICULUM_ORDER.forEach((tab,tidx)=>{
+    if(tidx>tabPos) return;
+    for(const l of (lessons[tab]||[])){
+      out.push({...l, curriculumTab:tab});
+      if(tidx===tabPos && l.id===current.id) return;
+    }
+  });
+  const boundary=out.findIndex(l=>l.id===current.id);
+  return boundary>=0 ? out.slice(0,boundary+1) : out;
+}
+function makeLearnedSyllableCatalog(){
+  const units=[];
+  const add=(ch)=>{if(ch && [...ch].length===1 && !units.includes(ch))units.push(ch)};
+  const exposedVowels=[];
+  const exposedInitials=[];
+  const exposedFinals=[];
+  for(const l of learnedLessonsThroughCurrent()){
+    const tab=l.curriculumTab;
+    const ph=l.phonemes||[];
+    if(tab==="vowels" || tab==="complexVowels"){
+      for(const v of ph){
+        if(!vowelIndex.hasOwnProperty(v))continue;
+        if(!exposedVowels.includes(v))exposedVowels.push(v);
+        add(composeHangul("ㅇ",v));
+        // 읽기 가능한 대표 자모 조합만 제시합니다(사용되지 않는 조합 과다 생성 방지).
+        if(["ㅏ","ㅓ","ㅗ","ㅜ","ㅣ"].includes(v))
+          ["ㄱ","ㄴ","ㅁ"].filter(c=>exposedInitials.includes(c)).forEach(c=>add(composeHangul(c,v)));
+      }
+    }else if(tab==="consonants" || tab==="words"){
+      for(const c of ph){
+        if(initialIndex.hasOwnProperty(c)){
+          if(!exposedInitials.includes(c))exposedInitials.push(c);
+          // 배운 모음 중 지도 빈도가 높은 다섯 모음으로 대표 조합을 만듭니다.
+          const chosen=["ㅏ","ㅓ","ㅗ","ㅜ","ㅣ"].filter(v=>exposedVowels.includes(v));
+          chosen.forEach(v=>add(composeHangul(c,v)));
+        }else if(vowelIndex.hasOwnProperty(c)){
+          add(composeHangul("ㅇ",c));
+        }
+      }
+    }else if(tab==="finals" || tab==="complexFinals"){
+      const fin=l.finals||ph;
+      for(const f of fin){
+        if(!exposedFinals.includes(f))exposedFinals.push(f);
+        (FINAL_SYLLABLE_BANK[f]||[]).forEach(ch=>{
+          if(splitHangul(ch)[2]===f)add(ch);
+        });
+      }
+    }
+  }
+  return units;
+}
+
+// 읽기 '점검' 전용 간추림: 모음 1개 / 초성 2개 / 받침 2개.
+// 기존 누적학습 30문항의 어휘 목록과는 분리하여 연습량을 줄입니다.
+function makeAssessmentSyllableCatalog(){
+  const taughtVowels = [];
+  const taughtInitials = [];
+  const taughtFinals = [];
+
+  for(const l of learnedLessonsThroughCurrent()){
+    const ph = l.phonemes || [];
+    if(l.curriculumTab === "vowels" || l.curriculumTab === "complexVowels"){
+      for(const v of ph){
+        if(Object.prototype.hasOwnProperty.call(vowelIndex,v) && !taughtVowels.includes(v)){
+          taughtVowels.push(v);
+        }
+      }
+    }else if(l.curriculumTab === "consonants" || l.curriculumTab === "words"){
+      for(const p of ph){
+        if(Object.prototype.hasOwnProperty.call(initialIndex,p) && p !== "ㅇ" && !taughtInitials.includes(p)){
+          taughtInitials.push(p);
+        }else if(Object.prototype.hasOwnProperty.call(vowelIndex,p) && !taughtVowels.includes(p)){
+          taughtVowels.push(p);
+        }
+      }
+    }else if(l.curriculumTab === "finals" || l.curriculumTab === "complexFinals"){
+      for(const f of (l.finals || ph)){
+        if(Object.prototype.hasOwnProperty.call(finalIndex,f) && f && !taughtFinals.includes(f)){
+          taughtFinals.push(f);
+        }
+      }
+    }
+  }
+
+  const items = [];
+  const seen = new Set();
+  const add = ch => {
+    if(!ch || [...ch].length !== 1 || seen.has(ch)) return;
+    seen.add(ch);
+    items.push(ch);
+  };
+
+  // 모음: 지금까지 배운 각 모음 1개씩 (아, 우, 어, ...)
+  for(const v of taughtVowels) add(composeHangul("ㅇ",v));
+
+  // 자음: ㅋ -> 카 + ㅋ과 다른 학습 모음의 조합 1개
+  for(const c of taughtInitials){
+    const base = taughtVowels.includes("ㅏ") ? "ㅏ" : (taughtVowels[0] || "ㅏ");
+    add(composeHangul(c,base));
+    const alternatives = taughtVowels.filter(v=>v!==base);
+    if(alternatives.length){
+      add(composeHangul(c,sample(alternatives)));
+    }
+  }
+
+  // 받침: ㅁ -> 암 + 감/밤/곰 등 대표 받침 음절 1개
+  // 일부 드문 받침은 '앋'처럼 낯선 조합을 억지로 만들지 않고
+  // 실제 단어에 들어 있는 음절 중에서 대표형을 고릅니다.
+  const commonAnchor = {
+    "ㅁ":"암","ㅂ":"압","ㅇ":"앙","ㄱ":"악","ㄴ":"안","ㄹ":"알",
+    "ㅍ":"앞","ㅅ":"옷","ㅈ":"낮","ㅊ":"꽃","ㅌ":"밭",
+    "ㄲ":"밖","ㅆ":"있","ㄷ":"곧","ㅋ":"녘","ㅎ":"좋"
+  };
+  for(const f of taughtFinals){
+    const bank=(FINAL_SYLLABLE_BANK[f] || [])
+      .flatMap(word=>[...word])
+      .filter(ch=>{const parts=splitHangul(ch);return parts.length===3 && parts[2]===f;});
+    const candidates=[...new Set(bank)];
+    const anchorSyllable=commonAnchor[f];
+    const first=(anchorSyllable && splitHangul(anchorSyllable)[2]===f)
+      ? anchorSyllable : (candidates[0] || null);
+    if(first) add(first);
+
+    const secondChoices=candidates.filter(ch=>ch!==first && !seen.has(ch));
+    if(secondChoices.length) add(sample(secondChoices));
+    else {
+      // 실재 음절 후보가 하나뿐일 때에만 학습한 모음으로 보충
+      const v=(taughtVowels.find(x=>x==="ㅜ") || taughtVowels[0] || "ㅏ");
+      const fallback=composeHangul("ㅇ",v,f);
+      if(fallback!==first) add(fallback);
+    }
+  }
+  return items;
+}
+
+// 누적 읽기에서는 글자 자체만 제시합니다.
+// '카, 거, 아, 유'처럼 자음/모음을 결합한 음절은 합성 활동에서 다룹니다.
+function makeLearnedJamoCatalog(){
+  const vowels=[], initials=[], finals=[];
+  const pushOnce = (items, value)=>{if(!items.includes(value)) items.push(value);};
+
+  for(const l of learnedLessonsThroughCurrent()){
+    const tab=l.curriculumTab;
+    const phonemes=l.phonemes||[];
+    if(tab==="finals" || tab==="complexFinals"){
+      for(const sound of (l.finals||phonemes)){
+        if(sound && Object.prototype.hasOwnProperty.call(finalIndex,sound)){
+          pushOnce(finals,sound);
+        }
+      }
+      continue;
+    }
+
+    for(const sound of phonemes){
+      if(Object.prototype.hasOwnProperty.call(vowelIndex,sound)){
+        pushOnce(vowels,sound);
+      }else if(Object.prototype.hasOwnProperty.call(initialIndex,sound)){
+        pushOnce(initials,sound);
+      }
+    }
+  }
+
+  return {
+    vowels,initials,finals,
+    all:[...new Set([...vowels,...initials,...finals])]
+  };
+}
+function learnedItemsForCumulative(){
+  return makeLearnedJamoCatalog().all;
+}
+const REVIEW_GROUPS = [
+  {id:"vowels",label:"모음",name:"모음 소리 알기"},
+  {id:"consonants",key:"initials",label:"자음",name:"자음 소리 알기"},
+  {id:"finals",label:"받침 음절",name:"받침 음절 읽기"}
+];
+function reviewDefaultGroup(){
+  if(["finals","complexFinals"].includes(state.tab)) return "finals";
+  if(["consonants","words"].includes(state.tab)) return "consonants";
+  return "vowels";
+}
+function reviewAvailableGroups(){
+  const catalog = makeLearnedJamoCatalog();
+  return REVIEW_GROUPS.filter(g => (catalog[g.key || g.id] || []).length > 0);
+}
+function currentReviewGroup(){
+  const available = reviewAvailableGroups();
+  const chosen = available.find(g=>g.id===state.reviewGroup)
+    || available.find(g=>g.id===reviewDefaultGroup())
+    || available[0];
+  return chosen ? chosen.id : "vowels";
+}
+function setReviewGroup(group){
+  if(!reviewAvailableGroups().some(g=>g.id===group)) return;
+  if(state.reviewGroup===group && state.cumulativeSession?.group===group) return;
+  stopCumulativeSpeech();
+  cancelGradedAutoAdvance();
+  state.reviewGroup=group;
+  state.cumulativeSession=null;
+  resetToday();
+  newQuestion();
+}
+// 받침 복습에서는 받침 글자만 떼어 보여주지 않고,
+// 완성된 음절에 넣어 읽습니다. 예: ㅁ→암, ㅂ→압.
+// 기본 음절은 받침마다 동일하게 유지해 시각적 부담을 줄입니다.
+const FINAL_REVIEW_SYLLABLES = {
+  "ㄱ":"악", "ㄲ":"밖", "ㄳ":"몫", "ㄴ":"안", "ㄵ":"앉", "ㄶ":"않",
+  "ㄷ":"곧", "ㄹ":"알", "ㄺ":"닭", "ㄻ":"삶", "ㄼ":"넓", "ㄽ":"곬",
+  "ㄾ":"핥", "ㄿ":"읊", "ㅀ":"싫", "ㅁ":"암", "ㅂ":"압", "ㅄ":"값",
+  "ㅅ":"옷", "ㅆ":"있", "ㅇ":"앙", "ㅈ":"낮", "ㅊ":"꽃",
+  "ㅋ":"녘", "ㅌ":"밭", "ㅍ":"앞", "ㅎ":"좋"
+};
+function finalReviewSyllable(finalSound){
+  const sampleWord = FINAL_REVIEW_SYLLABLES[finalSound];
+  if(sampleWord && splitHangul(sampleWord)[2] === finalSound) return sampleWord;
+  const bank = FINAL_SYLLABLE_BANK[finalSound] || [];
+  for(const word of bank){
+    for(const ch of word){
+      if(splitHangul(ch)[2] === finalSound) return ch;
+    }
+  }
+  // 드물게 예시 단어가 없는 받침도 ㅏ와 결합된 음절로 제시합니다.
+  return composeHangul("ㅇ", "ㅏ", finalSound);
+}
+
+function makeCumulativeSession(){
+  const catalog = makeLearnedJamoCatalog();
+  const group = currentReviewGroup();
+  // 자음·모음 복습: 배운 낱자 그대로 제시합니다.
+  // 받침 복습: ㅁ·ㅂ 같은 낱자 대신 암·압 등의 음절을 제시합니다.
+  const pool = group === "finals"
+    ? [...new Set(catalog.finals.map(finalReviewSyllable))]
+    : (catalog[group === "consonants" ? "initials" : group] || []).slice();
+  const questions=[];
+  const seen=new Set();
+  const seqKey = seq=>seq.join("|");
+  let attempts=0;
+  while(questions.length<30 && attempts<1200){
+    attempts++;
+    const seq=Array.from({length:4},()=>sample(pool));
+    if(!seq.length || seq.some(x=>!x)) break;
+    const key=seqKey(seq);
+    if(seen.has(key) && attempts<850) continue;
+    if(pool.length>1 && new Set(seq).size===1 && attempts<850) continue;
+    seen.add(key);
+    questions.push({seq,answer:seq.join(""),isCorrect:null});
+  }
+  // 배우기 시작 단계에서 글자 종류가 적어도 30문항을 제공합니다.
+  while(questions.length<30){
+    const seq=Array.from({length:4},()=>sample(pool.length?pool:["ㅏ"]));
+    questions.push({seq,answer:seq.join(""),isCorrect:null});
+  }
+  return {questions,index:0,correct:0,wrong:0,pool,group};
+}
+
+function makeCumulativeQuestion(){
+  if(!state.cumulativeSession){
+    state.cumulativeSession = makeCumulativeSession();
+  }
+  const session = state.cumulativeSession;
+  const q = session.questions[session.index] || session.questions[0];
+  return {
+    type:"review",
+    baseType:"cumulativeReading",
+    lesson: state.selectedLesson || lessons[state.tab][0],
+    prompt:"지금까지 배운 글자를 4개씩 읽어요.",
+    seq:q.seq,
+    answer:q.answer,
+    cumulativeIndex:session.index,
+    cumulativeTotal:session.questions.length,
+    cumulativeCorrect:session.correct,
+    cumulativeWrong:session.wrong,
+    reviewGroup:session.group
+  };
+}
+
+
+
+function normalizeSpeechText(text){
+  return String(text || "")
+    .replace(/\s+/g, "")
+    .replace(/[.,!?~·ㆍ]/g, "")
+    .trim();
+}
+
+function getSpeechRecognitionConstructor(){
+  return window.SpeechRecognition || window.webkitSpeechRecognition || null;
+}
+
+let cumulativeSpeechRecognizer = null;
+
+function stopCumulativeSpeech(){
+  if(cumulativeSpeechRecognizer){
+    try{ cumulativeSpeechRecognizer.stop(); }catch(e){}
+    cumulativeSpeechRecognizer = null;
+  }
+  const btn = document.getElementById("cumulativeSpeechBtn");
+  if(btn){
+    btn.classList.remove("listening");
+    btn.textContent = "🎙️ 읽기 확인";
+  }
+}
+
+function setSpeechResult(kind, htmlText){
+  const resultBox = document.getElementById("cumulativeSpeechResult");
+  if(!resultBox) return;
+  resultBox.className = "speech-check-box " + kind;
+  resultBox.innerHTML = htmlText;
+}
+
+function speechPermissionHelp(extra){
+  const secureText = location.protocol === "https:" || location.hostname === "localhost"
+    ? ""
+    : "<br>현재 주소가 https가 아니면 마이크 권한이 막힐 수 있어요. GitHub Pages 주소로 실행해 주세요.";
+  return `${extra || "음성인식이 잘 되지 않았어요."}<br>
+    <span class="speech-mini">브라우저 주소창 왼쪽 자물쇠/설정 아이콘 → 마이크 → 허용으로 바꾼 뒤 새로고침하세요.</span>${secureText}`;
+}
+
+async function checkMicrophonePermissionBeforeSpeech(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    throw new Error("이 브라우저는 마이크 권한 확인을 지원하지 않아요.");
+  }
+  const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  stream.getTracks().forEach(track => track.stop());
+  return true;
+}
+
+
+// 자음·모음 낱자는 '크', '아' 같은 발음으로 비교하고,
+// 받침은 '암', '압'처럼 완성된 음절로 비교합니다.
+// 교사 OX가 최종 판정이며, 이 비교는 보조 결과에만 적용됩니다.
+function cumulativeSpeechTargets(question){
+  if(!question || !Array.isArray(question.seq)) return [];
+  let candidates=[""];
+  const finalMode=question.reviewGroup==="finals";
+  for(const sound of question.seq){
+    const options = [];
+    if(Object.prototype.hasOwnProperty.call(vowelIndex,sound)){
+      options.push(soundForPhonemeUnit(sound,"vowel"));
+    }else{
+      options.push(soundForPhonemeUnit(sound,finalMode?"final":"initial"));
+    }
+    candidates=candidates.flatMap(prefix=>
+      [...new Set(options)].map(part=>prefix+part)
+    ).slice(0,32);
+  }
+  return [...new Set([question.answer,...candidates].map(normalizeSpeechText))];
+}
+
+async function startCumulativeSpeech(){
+  const q = state.currentQuestion;
+  const btn = document.getElementById("cumulativeSpeechBtn");
+
+  if(!q || q.baseType !== "cumulativeReading") return;
+
+  const Rec = getSpeechRecognitionConstructor();
+  if(!Rec){
+    setSpeechResult("bad", "이 브라우저는 음성인식을 지원하지 않아요.<br><span class='speech-mini'>크롬 또는 엣지에서 GitHub Pages 주소로 실행해 주세요. 교사 OX 기록은 그대로 사용할 수 있어요.</span>");
+    return;
+  }
+
+  stopCumulativeSpeech();
+
+  // 먼저 마이크 권한을 명시적으로 요청/확인한다.
+  try{
+    setSpeechResult("listening", "마이크 권한을 확인하고 있어요.");
+    await checkMicrophonePermissionBeforeSpeech();
+  }catch(err){
+    let msg = "마이크 권한이 허용되지 않았어요.";
+    if(err && err.name === "NotFoundError") msg = "연결된 마이크를 찾지 못했어요.";
+    if(err && err.name === "NotReadableError") msg = "다른 프로그램이 마이크를 사용 중일 수 있어요.";
+    if(err && err.name === "NotAllowedError") msg = "마이크 권한이 차단되어 있어요.";
+    setSpeechResult("bad", speechPermissionHelp(msg));
+    return;
+  }
+
+  const targets = cumulativeSpeechTargets(q);
+  const target = normalizeSpeechText(q.answer);
+  const rec = new Rec();
+  cumulativeSpeechRecognizer = rec;
+
+  try{
+    rec.lang = "ko-KR";
+    rec.interimResults = false;
+    rec.continuous = false;
+    rec.maxAlternatives = 5;
+  }catch(e){}
+
+  setSpeechResult("listening", "듣고 있어요. 학생이 글자 4개를 차례대로 읽어 주세요.");
+  if(btn){
+    btn.classList.add("listening");
+    btn.textContent = "🎙️ 듣는 중";
+  }
+
+  rec.onresult = (event) => {
+    let transcripts = [];
+    try{
+      transcripts = Array.from(event.results[0]).map(r => normalizeSpeechText(r.transcript));
+    }catch(e){
+      transcripts = [];
+    }
+
+    const first = transcripts[0] || "";
+    const matched = transcripts.some(t => targets.includes(t));
+
+    setSpeechResult(
+      matched ? "good" : "bad",
+      matched
+        ? `인식 결과: <b>${first}</b><br><span class="system-judge good">시스템 판정: 맞음</span><span class="speech-mini">그래도 최종 기록은 교사가 아래 OX로 확인해 주세요.</span>`
+        : `인식 결과: <b>${first || "인식 실패"}</b><br><span class="system-judge bad">시스템 판정: 확인 필요</span><span class="speech-mini">목표: ${target} · 최종 기록은 교사가 아래 OX로 확인해 주세요.</span>`
+    );
+
+    const okBtn = document.getElementById("cumCorrectBtn");
+    const noBtn = document.getElementById("cumWrongBtn");
+    if(okBtn && noBtn){
+      okBtn.style.boxShadow = matched ? "0 0 0 6px rgba(74,138,92,.18)" : "";
+      noBtn.style.boxShadow = matched ? "" : "0 0 0 6px rgba(194,93,82,.14)";
+    }
+  };
+
+  rec.onerror = (event) => {
+    const err = event && event.error ? event.error : "";
+    let msg = "음성인식이 잘 되지 않았어요.";
+    if(err === "not-allowed" || err === "service-not-allowed") msg = "마이크 또는 음성인식 권한이 차단되어 있어요.";
+    if(err === "no-speech") msg = "소리가 감지되지 않았어요.";
+    if(err === "audio-capture") msg = "마이크 입력을 가져오지 못했어요.";
+    if(err === "network") msg = "음성인식 서비스 연결이 불안정해요.";
+    setSpeechResult("bad", speechPermissionHelp(msg) + "<span class='speech-mini'>교사 OX 기록은 계속 사용할 수 있어요.</span>");
+  };
+
+  rec.onend = () => {
+    stopCumulativeSpeech();
+  };
+
+  try{
+    rec.start();
+  }catch(e){
+    setSpeechResult("bad", speechPermissionHelp("음성인식을 시작하지 못했어요."));
+    stopCumulativeSpeech();
+  }
+}
+
+
+let gradedAutoAdvanceTimer = null;
+function cancelGradedAutoAdvance(){
+  if(gradedAutoAdvanceTimer !== null){
+    clearTimeout(gradedAutoAdvanceTimer);
+    gradedAutoAdvanceTimer = null;
+  }
+}
+function clearGradingOverlay(){
+  if(typeof feedbackTimer !== "undefined") clearTimeout(feedbackTimer);
+  const feedback = document.getElementById("globalFeedback");
+  if(feedback){ feedback.className = "global-feedback"; feedback.innerHTML = ""; }
+}
+function advanceAfterGrading(question){
+  cancelGradedAutoAdvance();
+  // 정답·오답 화면을 약 1.1초 보여 준 뒤 자동 진행
+  gradedAutoAdvanceTimer = setTimeout(()=>{
+    gradedAutoAdvanceTimer = null;
+    if(state.currentQuestion !== question || state.screen !== "activity") return;
+    clearGradingOverlay();
+    if(question.baseType === "cumulativeReading") nextCumulativeQuestion();
+    else if(question.type === "multisyllableSynthesis") nextMultisyllableWord();
+    else newQuestion();
+  }, 1150);
+}
+
+function markCumulative(ok){
+  const session = state.cumulativeSession;
+  const q = state.currentQuestion;
+  if(!session || !q || q.baseType !== "cumulativeReading") return;
+  const item = session.questions[session.index];
+  if(!item || item.isCorrect !== null) return;
+  stopCumulativeSpeech();
+  item.isCorrect = ok;
+  if(ok) session.correct += 1;
+  else session.wrong += 1;
+  record(ok, ok ? "교사 확인: 맞게 읽음" : "교사 확인: 다시 지도 필요");
+  const right = document.getElementById("cumCorrectBtn");
+  const wrong = document.getElementById("cumWrongBtn");
+  if(right) right.disabled = true;
+  if(wrong) wrong.disabled = true;
+  const msg = document.getElementById("cumulativeGradedHint");
+  if(msg) msg.textContent = "확인 완료! 다음 읽기로 자동 이동합니다.";
+  showFeedback(ok, ok ? "잘 읽었어요!" : "다음 문항에서 다시 도전해요.");
+  advanceAfterGrading(q);
+}
+
+function nextCumulativeQuestion(){
+  cancelGradedAutoAdvance();
+  clearGradingOverlay();
+  const session = state.cumulativeSession;
+  const q = state.currentQuestion;
+  if(!session || !q || q.baseType !== "cumulativeReading") return;
+  const item = session.questions[session.index];
+  if(!item || item.isCorrect === null){
+    const msg = document.getElementById("cumulativeGradedHint");
+    if(msg) msg.textContent = "먼저 맞아요 또는 틀렸어요로 읽기를 확인해 주세요.";
+    return;
+  }
+  stopCumulativeSpeech();
+  stopAllAppSounds();
+  if(session.index === session.questions.length - 1){
+    showCumulativeFinish();
+    return;
+  }
+  session.index += 1;
+  state.currentQuestion = makeCumulativeQuestion();
+  renderQuestion();
+  renderProgress();
+}
+
+function showCumulativeFinish(){
+  const panel = document.getElementById("activityPanel");
+  const session = state.cumulativeSession;
+  if(!panel || !session) return;
+  panel.innerHTML = `
+    <div class="cumulative-stage">
+      <div class="clean-prompt">누적 읽기 30문항 완료!</div>
+      <div class="cumulative-summary">
+        <div class="cum-stat"><div class="n">30</div><div class="muted">총 문항</div></div>
+        <div class="cum-stat"><div class="n">${session.correct}</div><div class="muted">맞음</div></div>
+        <div class="cum-stat"><div class="n">${session.wrong}</div><div class="muted">다시 지도</div></div>
+      </div>
+      <div class="footer-actions">
+        <button class="primary" onclick="state.cumulativeSession=null; state.currentQuestion=makeCumulativeQuestion(); renderQuestion();">새 30문항 시작</button>
+        <button class="gray" onclick="goSelectScreen()">음소 다시 고르기</button>
+      </div>
+    </div>`;
+}
+
+
+
+// 읽기 점검: 일반 연습 기록과 별도로 학생별 시행·정확도·속도를 저장합니다.
+let assessmentSession=null;
+let assessmentInterval=null;
+let assessmentAdvanceTimer=null;
+let assessmentWordStarted=0;
+let assessmentMarkMode="last";
+function assessmentStopClock(){
+  if(assessmentInterval!==null){clearInterval(assessmentInterval);assessmentInterval=null;}
+  if(assessmentAdvanceTimer!==null){clearTimeout(assessmentAdvanceTimer);assessmentAdvanceTimer=null;}
+}
+function assessmentResetOnExit(){ assessmentStopClock(); assessmentSession=null; }
+function assessmentEscape(x){return String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+function assessmentStart(mode){
+  if(!getStudent())return alert("학생을 먼저 등록하고 선택해 주세요.");
+  assessmentStopClock();
+  const student=getStudent();
+  assessmentSession={
+    id:uid(),date:todayStr(),studentId:student.id,studentName:student.name,
+    lessonId:state.selectedLesson.id,lesson:state.selectedLesson.lesson+" "+state.selectedLesson.title,
+    mode,items:makeAssessmentSyllableCatalog(),results:[],index:0,
+    status:mode==="minute"?"running":"running",lastIndex:-1,errors:[],
+    elapsedMs:0,startedAt:Date.now(),completedAt:null
+  };
+  data.assessments.push(assessmentSession);
+  saveData();
+  assessmentMarkMode="last";
+  renderAssessmentUI();
+  if(mode==="minute")startMinuteClock();
+  else startSingleClock();
+}
+function startSingleClock(){
+  assessmentStopClock();
+  if(!assessmentSession || assessmentSession.mode!=="single"||assessmentSession.status!=="running")return;
+  assessmentWordStarted=performance.now();
+  assessmentInterval=setInterval(()=>{
+    const timer=document.getElementById("assessmentSingleTime");
+    if(!timer)return;
+    const sec=(performance.now()-assessmentWordStarted)/1000;
+    timer.textContent=sec.toFixed(1)+"초";
+    timer.classList.toggle("over-one",sec>1);
+  },60);
+}
+function assessmentMarkSingle(ok){
+  const session=assessmentSession;
+  if(!session || session.mode!=="single"||session.status!=="running"||session.index>=session.items.length)return;
+  const elapsed=Math.max(0,Math.round(performance.now()-assessmentWordStarted));
+  assessmentStopClock();
+  session.results.push({word:session.items[session.index],isCorrect:ok,elapsedMs:elapsed});
+  session.index++;
+  saveData();renderAssessmentRecords();
+  const feedback=document.getElementById("assessmentSingleFeedback");
+  if(feedback)feedback.textContent=`${ok?"👍 맞아요":"😰 틀렸어요"} · ${(elapsed/1000).toFixed(2)}초`;
+  document.querySelectorAll(".assess-two-buttons button").forEach(b=>b.disabled=true);
+  assessmentAdvanceTimer=setTimeout(()=>{
+    assessmentAdvanceTimer=null;
+    if(session!==assessmentSession)return;
+    if(session.index>=session.items.length){assessmentComplete();return;}
+    renderAssessmentUI();startSingleClock();
+  },650);
+}
+function startMinuteClock(){
+  assessmentStopClock();
+  if(!assessmentSession||assessmentSession.mode!=="minute")return;
+  const session=assessmentSession;
+  session.deadline=Date.now()+60000;
+  assessmentInterval=setInterval(()=>{
+    if(session!==assessmentSession){assessmentStopClock();return;}
+    const remain=Math.max(0,session.deadline-Date.now());
+    const clock=document.getElementById("assessmentMinuteClock");
+    if(clock)clock.textContent=(remain/1000).toFixed(1)+"초 남음";
+    const progress=document.getElementById("assessmentMinuteFill");
+    if(progress)progress.style.width=(100*(1-remain/60000)).toFixed(1)+"%";
+    if(remain<=0)finishMinuteClock();
+  },100);
+}
+function finishMinuteClock(){
+  const session=assessmentSession;
+  if(!session || session.mode!=="minute"||session.status!=="running")return;
+  session.elapsedMs=Math.min(60000,Math.max(0,Date.now()-session.startedAt));
+  session.status="marking";
+  assessmentStopClock();saveData();renderAssessmentUI();
+}
+function assessmentSelectMinuteItem(idx){
+  const s=assessmentSession;
+  if(!s||s.mode!=="minute"||s.status!=="marking")return;
+  if(assessmentMarkMode==="last")s.lastIndex=idx;
+  else {
+    const found=s.errors.indexOf(idx);
+    if(found>=0)s.errors.splice(found,1);
+    else s.errors.push(idx);
+  }
+  saveData();renderAssessmentUI();
+}
+function setAssessmentMarkMode(mode){
+  assessmentMarkMode=mode;renderAssessmentUI();
+}
+function assessmentSaveMinute(){
+  const s=assessmentSession;
+  if(!s||s.mode!=="minute"||s.status!=="marking")return;
+  if(s.lastIndex<0)return alert("마지막으로 읽은 글자를 먼저 지정해 주세요.");
+  s.results=s.items.slice(0,s.lastIndex+1).map((word,i)=>({word,isCorrect:!s.errors.includes(i),elapsedMs:null}));
+  assessmentComplete();
+}
+function assessmentComplete(){
+  assessmentStopClock();
+  const s=assessmentSession;
+  if(!s)return;
+  s.status="finished";s.completedAt=todayStr();
+  if(s.mode==="single")s.elapsedMs=s.results.reduce((v,x)=>v+x.elapsedMs,0);
+  saveData();renderAssessmentRecords();renderAssessmentUI();
+}
+function renderAssessmentUI(){
+  const host=document.getElementById("assessmentHost");
+  if(!host)return;
+  const s=assessmentSession;
+  const count=makeAssessmentSyllableCatalog().length;
+  if(!s){
+    host.innerHTML=`<div class="assess-shell">
+      <div class="assess-headline">⏱️ 글자 읽기 점검</div>
+      <div class="assess-desc">처음 배운 글자부터 현재 배움까지 대표 글자 <b>${count}개</b>만 점검해요.<br>모음은 각 1개, 자음은 각 2개(기본+랜덤 모음), 받침도 각 2개(기본+다른 음절)로 제시합니다.</div>
+      <div class="assess-mode-row">
+        <button class="assess-action primary-action" onclick="assessmentStart('single')">① 글자 1개씩 점검</button>
+        <button class="assess-action primary-action" onclick="assessmentStart('minute')">② 1분 전체 읽기</button>
+      </div>
+      <div class="assess-help">1개씩 점검: 화면에 글자가 나타나는 순간부터 교사가 OX를 누르기까지의 시간을 측정합니다. <b>1초 초과</b>는 빨간색으로 기록됩니다.<br>1분 점검: 모든 글자를 한 페이지에 제시하고, 60초가 끝나면 마지막으로 읽은 글자와 틀린 글자를 표시합니다.</div>
+    </div>`;return;
+  }
+  if(s.status==="finished"){
+    const attempted=s.results.length;
+    const correct=s.results.filter(r=>r.isCorrect).length;
+    const rate=attempted?Math.round(correct/attempted*100):0;
+    const slower=s.results.filter(r=>r.elapsedMs>1000).length;
+    const avgMs=attempted&&s.mode==="single"?Math.round(s.results.reduce((total,r)=>total+(r.elapsedMs||0),0)/attempted):0;
+    const fullMinute=s.mode==="minute"&&s.elapsedMs>=59900;
+    host.innerHTML=`<div class="assess-shell">
+      <div class="assess-headline">🎉 읽기 점검 완료</div>
+      <div class="assess-result"><div>${attempted}<div class="assess-desc">읽은 글자</div></div><div>${correct}<div class="assess-desc">맞음</div></div><div>${rate}%<div class="assess-desc">정확도</div></div>${s.mode==="single"?`<div>${(avgMs/1000).toFixed(2)}초<div class="assess-desc">평균 읽기 시간</div></div><div class="over-one">${slower}<div class="assess-desc">1초 초과</div></div>`:`<div>${fullMinute?correct+"개/분":"측정 참고"}<div class="assess-desc">${fullMinute?"분당 정확 글자":"1분 미만 종료"}</div></div>`}</div>
+      <div class="assess-desc">교사 화면의 <b>학생별 학습 기록 → 읽기 점검 기록</b>에서 글자별 결과를 확인할 수 있습니다.</div>
+      <button class="assess-action primary-action" onclick="assessmentResetOnExit();renderAssessmentUI()">새 점검 시작</button>
+    </div>`;return;
+  }
+  if(s.mode==="single"){
+    const word=s.items[s.index];
+    host.innerHTML=`<div class="assess-shell">
+      <div class="assess-headline">글자 1개씩 점검</div><div class="assess-count">${s.index+1} / ${s.items.length}</div>
+      <div class="assess-big-box"><div class="assess-big">${word}</div></div>
+      <div class="assess-time" id="assessmentSingleTime">0.0초</div>
+      <div class="assess-desc">학생이 읽으면 교사가 바로 맞아요 또는 틀렸어요를 눌러 주세요.</div>
+      <div class="assess-two-buttons"><button class="assess-correct" onclick="assessmentMarkSingle(true)">👍 맞아요</button><button class="assess-wrong" onclick="assessmentMarkSingle(false)">😰 틀렸어요</button></div>
+      <div id="assessmentSingleFeedback" class="assess-desc" role="status" aria-live="polite"></div>
+      <div class="assess-help">※ 속도는 글자 제시부터 교사가 OX를 누르기까지의 시간으로, 교사 반응 시간도 포함됩니다.</div>
+    </div>`;return;
+  }
+  const running=s.status==="running";
+  const last=s.lastIndex;
+  host.innerHTML=`<div class="assess-shell">
+    <div class="assess-headline">1분 전체 읽기 점검</div>
+    <div class="assess-count">총 ${s.items.length}개 · ${running?"학생 읽는 중":"교사 점검 중"}</div>
+    <div class="assess-time" id="assessmentMinuteClock">${running?"60.0초 남음":"시간 종료"}</div>
+    <div class="assess-bar"><div id="assessmentMinuteFill" style="width:${running?"0":"100"}%"></div></div>
+    ${running?`<button class="assess-action" onclick="finishMinuteClock()">⏹️ 일찍 종료</button>`:`<div class="assess-mode-row"><button class="assess-action ${assessmentMarkMode==="last"?"on":""}" onclick="setAssessmentMarkMode('last')">① 마지막 읽은 글자 지정</button><button class="assess-action ${assessmentMarkMode==="wrong"?"on":""}" onclick="setAssessmentMarkMode('wrong')">② 틀린 글자 표시</button></div>`}
+    <div class="assess-desc">${running?"왼쪽 위부터 차례대로 읽습니다.":assessmentMarkMode==="last"?"마지막으로 읽은 글자를 눌러 주세요. 여기까지 읽은 것으로 기록합니다.":"틀린 글자를 눌러 빨갛게 표시해 주세요. 다시 누르면 취소됩니다."}</div>
+    <div class="assess-grid">${s.items.map((w,i)=>`<button type="button" ${running?"disabled":""} class="${last>=i?"read":""} ${last>=0&&i>last?"unread":""} ${last===i?"last":""} ${s.errors.includes(i)&&i<=last?"bad":""}" onclick="assessmentSelectMinuteItem(${i})" aria-label="${i+1}번 ${w}"><span class="serial">${i+1}</span>${w}</button>`).join("")}</div>
+    ${!running?`<div class="assess-help">마지막으로 읽은 글자: <b>${last>=0?s.items[last]+" ("+(last+1)+"번째)":"미지정"}</b> · 오답 표시: ${s.errors.filter(i=>i<=last).length}개 · 미읽음: ${Math.max(0,s.items.length-last-1)}개</div><button class="assess-action primary-action" onclick="assessmentSaveMinute()">점검 결과 저장</button>`:""}
+  </div>`;
+}
+function renderAssessmentRecords(){
+  const host=document.getElementById("assessmentRecordList");if(!host)return;
+  const student=getStudent();
+  const sessions=(data.assessments||[]).filter(s=>student&&s.studentId===student.id).slice().reverse();
+  if(!sessions.length){host.innerHTML='<div class="muted">아직 읽기 점검 기록이 없습니다.</div>';return;}
+  host.innerHTML=sessions.slice(0,25).map(s=>{
+    const list=s.results||[];const right=list.filter(r=>r.isCorrect).length;
+    const pct=list.length?Math.round(right/list.length*100):0;
+    const one=s.mode==="single";
+    const mean=one&&list.length?Math.round(list.reduce((sum,r)=>sum+(r.elapsedMs||0),0)/list.length):0;
+    const speedText=one?`평균 ${(mean/1000).toFixed(2)}초`:s.elapsedMs>=59900?`분당 정확 ${right}개`:`${(s.elapsedMs/1000).toFixed(1)}초 시행`;
+    return `<details class="assessment-record-item"><summary>${assessmentEscape(s.date)} · ${one?"글자 1개씩":"1분 전체 읽기"} · ${s.status==="finished"?"완료":"진행 중"} · ${list.length}개 읽음 / 정확도 ${pct}% · ${speedText}</summary>
+      <div style="font-size:13px;margin-top:8px">${assessmentEscape(s.lesson)} ${!one?`· ${s.lastIndex>=0?"마지막 읽은 글자: "+assessmentEscape(s.items[s.lastIndex]):"마지막 글자 미지정"}`:""}</div>
+      <div class="scroll"><table><thead><tr><th>순서</th><th>글자</th><th>결과</th><th>읽기 시간</th></tr></thead><tbody>
+      ${list.map((r,i)=>`<tr><td>${i+1}</td><td><b>${assessmentEscape(r.word)}</b></td><td>${r.isCorrect?"⭕ 맞음":"❌ 틀림"}</td><td class="${r.elapsedMs>1000?"over-one":""}">${r.elapsedMs===null?"—":(r.elapsedMs/1000).toFixed(2)+"초"}${r.elapsedMs>1000?" ⚠":""}</td></tr>`).join("")}
+      </tbody></table></div></details>`;
+  }).join("");
+}
+function exportAssessmentCSV(){
+  const rows=[["날짜","학생","배움","점검방식","순서","글자","정오답","읽기시간(초)","1초초과","시행상태","마지막으로읽은글자","시행시간(초)","정확글자/분"]];
+  (data.assessments||[]).forEach(s=>{
+    (s.results||[]).forEach((r,i)=>rows.push([s.date,s.studentName,s.lesson,s.mode==="single"?"1개씩":"1분",i+1,r.word,r.isCorrect?"맞음":"틀림",r.elapsedMs===null?"":(r.elapsedMs/1000).toFixed(2),r.elapsedMs>1000?"초과":"",s.status,s.lastIndex>=0?s.items[s.lastIndex]:"",(s.elapsedMs/1000).toFixed(2),s.mode==="minute"&&s.elapsedMs>=59900?s.results.filter(x=>x.isCorrect).length:""]));
+  });
+  const csv=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\n");
+  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
+  const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="소리쏙쏙_읽기점검_기록.csv";link.click();URL.revokeObjectURL(link.href);
+}
+
 function makeQuestion(){
   let lesson = state.selectedLesson || lessons[state.tab][0];
   const mode = document.getElementById("activityType").value;
-  if(mode==="review"){
-    const st = getStudent();
-    const wrongs = st ? data.records.filter(r=>r.studentId===st.id && !r.isCorrect) : [];
-    if(wrongs.length){
-      const pick = sample(wrongs);
-      const all = Object.values(lessons).flat();
-      lesson = all.find(x=>x.id===pick.lessonId) || lesson;
-    }
-    const types = ["recognition","discrimination","synthesis","segmentation","multisyllableSynthesis"];
-    return { ...makeSpecificQuestion(lesson, sample(types)), type:"review", baseType:types[0] };
-  }
+  if(mode==="review") return makeCumulativeQuestion();
+  if(mode==="assessment") return {type:"assessment",lesson,prompt:"지금까지 배운 글자를 읽고 점검해요."};
   return makeSpecificQuestion(lesson, mode);
 }
 
 function makeSpecificQuestion(lesson, type){
   if(type==="recognition") return makeRecognitionQuestion(lesson);
-  if(type==="discrimination") return makeDiscriminationQuestion(lesson);
+  if(type==="substitution") return makeSubstitutionQuestion(lesson);
+  if(type==="deletion") return makeDeletionQuestion(lesson);
   if(type==="synthesis") return makeSynthesisQuestion(lesson);
   if(type==="segmentation") return makeSegmentationQuestion(lesson);
   if(type==="multisyllableSynthesis") return makeMultisyllableSynthesisQuestion(lesson);
@@ -1347,7 +3998,12 @@ function makeSpecificQuestion(lesson, type){
 }
 
 function newQuestion(){
+  assessmentResetOnExit();
+  cancelGradedAutoAdvance();
+  clearGradingOverlay();
+  document.body.classList.toggle("assessment-mode",document.getElementById("activityType").value==="assessment");
   if(!state.selectedLesson) return;
+  stopAllAppSounds();
   state.currentQuestion = makeQuestion();
   renderQuestion();
 }
@@ -1360,63 +4016,241 @@ function getVowelBoxClass(vowel){
   return horizontalVowels.includes(vowel) ? "v-horizontal" : "v-vertical";
 }
 
+
+const ACTIVITY_MODE_META = [
+  {value:"recognition", icon:"🖼️", label:"인식", desc:"그림을 보고 목표 음소가 같은 것을 고르기"},
+  {value:"synthesis", icon:"🧩", label:"합성", desc:"소리가 합쳐지는 것을 보고 읽기"},
+  {value:"segmentation", icon:"✂️", label:"분절", desc:"글자가 소리로 나뉘는 것을 보고 읽기"},
+  {value:"substitution", icon:"🔄", label:"대치", desc:"단어에서 소리 하나를 다른 소리로 바꾸기"},
+  {value:"deletion", icon:"➖", label:"탈락", desc:"낱말의 첫소리·모음·받침 중 소리 하나를 빼고 남는 소리 찾기"},
+  {value:"multisyllableSynthesis", icon:"🧱", label:"다음절", desc:"엘코닌 소리상자를 한 칸씩 열며 다음절 단어 합성하기"},
+  {value:"review", icon:"🔁", label:"누적", desc:"첫 배움부터 현재 배움까지, 받침까지 포함해 30문항 읽기"},
+  {value:"assessment", icon:"⏱️", label:"점검", desc:"1분 전체 읽기 또는 글자 1개씩 읽기를 점검하기"}
+];
+
+function setActivityMode(mode){
+  cancelGradedAutoAdvance();
+  const select = document.getElementById("activityType");
+  if(!select) return;
+  const option = Array.from(select.options).find(o => o.value === mode);
+  if(option && option.disabled){
+    alert("다음절 합성은 자음 이후 단원부터 사용할 수 있어요.");
+    return;
+  }
+  select.value = mode;
+  if(mode==="review") state.reviewGroup=null;
+  state.cumulativeSession = null;
+  updateActivityOptions();
+  state.cumulativeSession = null;
+  renderActivityModePanel();
+  resetToday();
+  newQuestion();
+}
+
+function renderActivityModePanel(){
+  const panel = document.getElementById("activityModePanel");
+  const select = document.getElementById("activityType");
+  if(!panel || !select) return;
+  const curMeta = ACTIVITY_MODE_META.find(m => m.value === select.value) || ACTIVITY_MODE_META[0];
+  const st = getStudent();
+  const studentName = st ? st.name : "학생 미선택";
+  panel.innerHTML = `
+    <div class="mode-panel-top">
+      <button class="small gray" onclick="goSelectScreen()">← 음소 다시 고르기</button>
+      <div class="mode-panel-title">연습 모드 선택</div>
+      <div class="student-chip-line">${studentName} 학생</div>
+    </div>
+    <div class="mode-grid">
+      ${ACTIVITY_MODE_META.map(m => {
+        const option = Array.from(select.options).find(o => o.value === m.value);
+        const disabled = option && option.disabled ? "disabled" : "";
+        return `<button class="mode-tile ${select.value === m.value ? "on" : ""}" ${disabled} onclick="setActivityMode('${m.value}')">${m.icon} ${m.label}</button>`;
+      }).join("")}
+    </div>
+    <div class="mode-desc">${curMeta.desc}</div>
+  `;
+}
+
+
+
+function playFanfare(){
+  try{
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx) return;
+    const ctx = new Ctx();
+
+    function tone(freq, start, dur, type, gainVal){
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type || "triangle";
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime + start);
+      gain.gain.exponentialRampToValueAtTime(gainVal || 0.06, ctx.currentTime + start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(ctx.currentTime + start);
+      osc.stop(ctx.currentTime + start + dur + 0.04);
+    }
+
+    tone(523.25, 0.00, 0.20, "triangle", 0.05);
+    tone(659.25, 0.12, 0.22, "triangle", 0.05);
+    tone(783.99, 0.24, 0.26, "triangle", 0.06);
+    tone(1046.50, 0.42, 0.38, "sawtooth", 0.05);
+  }catch(e){}
+}
+
+function launchConfetti(){
+  const layer = document.createElement("div");
+  layer.className = "confetti-layer";
+  document.body.appendChild(layer);
+  const colors = ["#ff6b6b","#ffd93d","#6bcB77","#4d96ff","#b06ab3","#ff922b","#00c2a8"];
+  const shapes = ["rect","circle","tri"];
+  for(let i=0; i<64; i++){
+    const piece = document.createElement("div");
+    const shape = shapes[Math.floor(Math.random()*shapes.length)];
+    piece.className = "confetti-piece" + (shape === "circle" ? " circle" : shape === "tri" ? " tri" : "");
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    if(shape === "tri") piece.style.color = color;
+    else piece.style.background = color;
+    piece.style.left = `${Math.random()*100}%`;
+    piece.style.animationDuration = `${2.4 + Math.random()*1.5}s`;
+    piece.style.animationDelay = `${Math.random()*0.25}s`;
+    layer.appendChild(piece);
+  }
+  setTimeout(()=>{ if(layer.parentNode) layer.parentNode.removeChild(layer); }, 4200);
+}
+
+function celebrateCorrect(){
+  playFanfare();
+  launchConfetti();
+}
+
 function renderQuestion(){
   const q = state.currentQuestion;
   const panel = document.getElementById("activityPanel");
   if(!q){ panel.innerHTML = ""; return; }
 
-  let html = `<div class="teacher-note">
+  const topTags = `<div class="activity-subtitle-top">
+    <span class="tag">${q.lesson.lesson}</span>
+    <span class="tag">${q.lesson.title}</span>
+    <span class="tag">${activityName(q.type==="review" ? (q.baseType || "review") : q.type)}</span>
+    ${q.type==="review" && q.reviewLessonTitle ? `<span class="tag">누적: ${q.reviewLessonTitle}</span>` : ""}
+  </div>`;
+
+  let html = `${topTags}<div class="teacher-note">
     <b>교사/학부모 안내</b><br>
     ① 먼저 소리 듣기 또는 애니메이션 재생을 눌러 주세요.
     ② 학생이 말로 반응하게 한 뒤 선택하거나, 교사가 맞음/어려움을 체크하세요.
     ③ 메모에는 혼동한 음소, 반응시간, 단서 제공 여부를 남길 수 있습니다.
   </div>
-  <div class="question">${q.prompt}</div>
   <div id="feedback" class="feedback"></div>`;
 
   if(q.type==="recognition"){
     html += `
-    <div class="target-area">
-      <div class="picture-big">
-        <div class="emoji-big">${q.target.emoji}</div>
-      </div>
-    </div>
-    <div class="footer-actions" style="margin-bottom:14px">
-      <button class="blue" onclick="speakText('${q.target.word}')">🔊 소리 듣기</button>
-      <button class="gray" onclick="newQuestion()">문항 바꾸기</button>
-    </div>
-    <div class="choices-pic">
-      ${q.choices.map(c=>`
-      <div class="pic-card-wrap">
-        <button class="pic-card" data-word="${c.word}" onclick="answerRecognition('${escapeJS(c.word)}', this)">
-          <div class="emoji">${c.emoji}</div>
+    <div class="clean-stage clean-recognition">
+      <div class="clean-prompt">${q.prompt}</div>
+      <div class="target-area">
+        <button class="picture-big picture-sound-btn" onclick="speakText('${q.target.word}')" aria-label="${q.target.word} 소리 듣기" title="${q.target.word} 소리 듣기">
+          <div class="emoji-big">${q.target.emoji}</div>
         </button>
-        <button class="pic-audio" onclick="playChoiceAudio('${escapeJS(c.word)}')" aria-label="${c.word} 소리 듣기" title="${c.word} 소리 듣기">🔊</button>
-      </div>`).join("")}
+      </div>
+      <div class="footer-actions" style="margin-bottom:4px">
+        <button class="blue" onclick="speakText('${q.target.word}')">🔊 소리 듣기</button>
+        <button class="gray next-arrow-btn" onclick="newQuestion()">→</button>
+      </div>
+      <div class="clean-subprompt">선택지의 🔊를 눌러 듣고, 알맞은 그림을 고르세요.</div>
+      <div class="choices-pic">
+        ${q.choices.map(c=>`
+        <div class="pic-card-wrap">
+          <button class="pic-audio" onclick="playChoiceAudio('${escapeJS(c.word)}')" aria-label="${c.word} 소리 듣기" title="${c.word} 소리 듣기">🔊</button>
+          <button class="pic-card" data-word="${c.word}" onclick="speakText('${escapeJS(c.word)}'); answerRecognition('${escapeJS(c.word)}', this)">
+            <div class="emoji">${c.emoji}</div>
+          </button>
+        </div>`).join("")}
+      </div>
     </div>`;
+  }
+
+
+
+  if(q.type==="deletion"){
+    html+=`
+      <div class="del-stage">
+        <div class="del-prompt">${q.prompt}</div>
+        <div class="del-source">
+          <button class="del-source-picture" onclick="speakText('${escapeJS(q.source.word)}')" aria-label="처음 낱말 듣기" title="처음 낱말 듣기">${q.source.emoji}</button>
+          <div class="del-muted">그림을 누르면 원래 낱말을 들을 수 있어요.</div>
+        </div>
+        <div class="del-toolbar">
+          <button class="del-hear" onclick="playDeletionInstruction()">🔊 빼는 소리 듣기</button>
+          <button class="gray next-arrow-btn" onclick="newQuestion()" title="문항 바꾸기" aria-label="문항 바꾸기">→</button>
+        </div>
+        <div class="clean-prompt" style="font-size:20px">남는 소리는 어느 쪽일까요?</div>
+        <div class="del-choice-list">
+        ${q.choices.map((c,i)=>`
+          <div class="del-choice-item">
+            <button class="del-voice" onclick="speakText('${escapeJS(c.word)}')" aria-label="${i+1}번 소리 듣기" title="${i+1}번 소리 듣기">🔊</button>
+            <button class="del-choice" data-word="${c.word}" onclick="answerDeletion('${escapeJS(c.word)}',this)" aria-label="${i+1}번 정답 선택"><span>${i+1}번</span></button>
+          </div>`).join("")}
+        </div>
+        <div class="del-guide teacher-only">
+          교사용 정답: ${q.source.word} → ${q.answer} · ${q.role==="initial"?"첫소리":q.role==="vowel"?"모음":"받침"} ${q.removed} 제거
+          ${!q.isLessonAligned?"<div style='font-size:12px;margin-top:4px'>해당 배움의 음소를 활용한 그림 낱말이 부족하여 같은 영역의 기초 탈락 문제를 제시했습니다.</div>":""}
+        </div>
+      </div>`;
+  }
+
+  if(q.type==="substitution"){
+    html+=`
+      <div class="sub-stage">
+        <div class="clean-prompt">${q.prompt}</div>
+        <div class="sub-target">
+          <button class="sub-target-pic" title="처음 낱말 소리 듣기" aria-label="처음 낱말 소리 듣기" onclick="speakText('${escapeJS(q.source.word)}')">${q.source.emoji}</button>
+          <div class="sub-muted">위 그림을 누르면 처음 낱말을 들을 수 있어요.</div>
+        </div>
+        <div class="sub-command">
+          <button class="sub-listen" onclick="playSubstitutionPrompt()">🔊 소리 바꾸기 듣기</button>
+          <button class="gray next-arrow-btn" onclick="newQuestion()" aria-label="문항 바꾸기">→</button>
+        </div>
+        <div class="clean-prompt" style="font-size:21px">어떤 그림이 될까요?</div>
+        <div class="sub-choice-grid">
+        ${q.choices.map(c=>`
+          <div class="sub-choice-wrap">
+            <button class="sub-choice-sound" title="그림 소리 듣기" aria-label="그림 소리 듣기" onclick="speakText('${escapeJS(c.word)}')">🔊</button>
+            <button class="sub-choice" data-word="${c.word}" onclick="answerSubstitution('${escapeJS(c.word)}',this)" aria-label="그림 선택">${c.emoji}</button>
+          </div>`).join("")}
+        </div>
+        <div class="sub-teacher-guide teacher-only">
+          교사 확인: ${q.source.word} → ${q.answer}<br>
+          ${q.role==="initial"?"초성":q.role==="vowel"?"중성":"종성"} ${q.from} → ${q.to}
+          ${q.isLessonAligned?"":"<div style='font-size:12px'>이 단원의 목표 음소와 정확히 맞는 그림이 부족하여 같은 영역의 기본 대치 문제를 제시합니다.</div>"}
+        </div>
+      </div>`;
   }
 
   if(q.type==="discrimination"){
     html += `
-    <div class="same-diff-area">
-      <div class="sound-box">
-        <div class="n">1번 박스</div>
-        <div class="preview blank"></div>
-        <button class="blue" onclick="speakText('${q.box1.speak}')">🔊 1번 듣기</button>
+    <div class="clean-stage">
+      <div class="clean-prompt">두 소리를 듣고 골라요</div>
+      <div class="clean-soundboxes">
+        <button class="clean-soundbox" onclick="this.classList.add('ping'); setTimeout(()=>this.classList.remove('ping'),300); speakText('${q.box1.speak}')">
+          <span class="box-num">1번</span>
+          <span class="box-speaker">🔊</span>
+        </button>
+        <button class="clean-soundbox" onclick="this.classList.add('ping'); setTimeout(()=>this.classList.remove('ping'),300); speakText('${q.box2.speak}')">
+          <span class="box-num">2번</span>
+          <span class="box-speaker">🔊</span>
+        </button>
       </div>
-      <div class="sound-box">
-        <div class="n">2번 박스</div>
-        <div class="preview blank"></div>
-        <button class="blue" onclick="speakText('${q.box2.speak}')">🔊 2번 듣기</button>
+      <div class="inline-replay-next">
+        <button class="clean-replay" onclick="playBoth()">🔊 1번 → 2번 다시 듣기</button>
+        <button class="gray next-arrow-btn" onclick="newQuestion()">→</button>
       </div>
-    </div>
-    <div class="footer-actions" style="margin-top:14px">
-      <button class="gray" onclick="playBoth()">순서대로 다시 듣기</button>
-      <button class="gray" onclick="newQuestion()">문항 바꾸기</button>
-    </div>
-    <div class="toggle-area">
-      <button class="primary" onclick="answerChoice('같아요', this)">같아요</button>
-      <button class="purple" onclick="answerChoice('달라요', this)">달라요</button>
+      <div class="clean-prompt" style="font-size:22px">두 소리가 같아요? 달라요?</div>
+      <div class="clean-judge-row">
+        <button class="clean-judge" onclick="answerChoice('같아요', this)">같아요</button>
+        <button class="clean-judge" onclick="answerChoice('달라요', this)">달라요</button>
+      </div>
     </div>`;
   }
 
@@ -1438,15 +4272,15 @@ function renderQuestion(){
           <div class="slot final">${third}</div>
         </div>
       </div>
-      <div class="split-note">음절상자 안에 초성, 중성, 종성이 들어가며 한 글자가 완성돼요.</div>
+      <div class="split-note">음절상자 안에 초성, 중성, 종성이 들어가며 한 글자가 완성돼요. 소리 듣기를 누르면 ‘느~~오 → 느~오 → 노!’처럼 합쳐지는 소리를 들을 수 있어요.</div>
       <div class="footer-actions">
-        <button class="blue" onclick="playMerge()">▶ 합치기 애니메이션</button>
-        <button class="gray" onclick="speakBlend()">🔊 소리 들려주기</button>
-        <button class="gray" onclick="newQuestion()">문항 바꾸기</button>
+        <button class="blue" onclick="playMerge()">▶ 합치기</button>
+        <button class="gray" onclick="speakBlend()">🔊 소리 듣기</button>
+        <button class="gray next-arrow-btn" onclick="newQuestion()">→</button>
       </div>
       <div class="footer-actions">
-        <button class="primary" onclick="markTeacher(true, '학생이 읽음')">학생이 읽었어요</button>
-        <button class="red" onclick="markTeacher(false, '학생이 어려워함')">어려워요</button>
+        <button class="primary teacher-check-emoji" onclick="markTeacher(true, \'학생이 읽음\')" title="잘했어요">👍</button>
+        <button class="red teacher-check-emoji" onclick="markTeacher(false, \'학생이 어려워함\')" title="😰">😰</button>
       </div>
     </div>`;
   }
@@ -1472,12 +4306,12 @@ function renderQuestion(){
       <div class="split-note">한 글자 안에 있던 소리가 음절상자에서 나뉘어 나와요.</div>
       <div class="footer-actions">
         <button class="blue" onclick="playSplit()">▶ 나누기 애니메이션</button>
-        <button class="gray" onclick="speakText('${q.whole}')">🔊 글자 듣기</button>
-        <button class="gray" onclick="newQuestion()">문항 바꾸기</button>
+        <button class="gray" onclick="playSegmentSounds()">🔊 소리 듣기</button>
+        <button class="gray next-arrow-btn" onclick="newQuestion()">→</button>
       </div>
       <div class="footer-actions">
-        <button class="primary" onclick="markTeacher(true, '학생이 분절함')">학생이 나누어 읽었어요</button>
-        <button class="red" onclick="markTeacher(false, '학생이 어려워함')">어려워요</button>
+        <button class="primary teacher-check-emoji" onclick="markTeacher(true, \'학생이 분절함\')" title="잘했어요">👍</button>
+        <button class="red teacher-check-emoji" onclick="markTeacher(false, \'학생이 어려워함\')" title="😰">😰</button>
       </div>
     </div>`;
   }
@@ -1489,44 +4323,125 @@ function renderQuestion(){
       <div class="multi-progress">다음절 합성 ${q.wordIndex + 1} / ${q.totalWords} · ${q.syllableCount}음절</div>
       <div id="elkoninBoardHost">${renderElkoninBoard(q)}</div>
       <div class="multi-progress"><span id="multiProgress">낱말 ${q.wordIndex + 1}/${q.totalWords} · 열린 소리상자 0 / ${q.flatSounds.length}</span></div>
-      <div class="footer-actions">
-        <button class="blue" onclick="nextElkoninSound()">다음 소리 열기</button>
-        <button class="gray" onclick="resetElkoninSound()">처음으로</button>
-        <button class="gray" onclick="showAllElkoninSounds()">전체 보기</button>
-        <button class="gray" onclick="nextMultisyllableWord()">다음 낱말</button>
-        <button class="gray" onclick="resetMultisyllableSession()">새 10개 세트</button>
+      <div class="teacher-sound-check">
+        <button class="teacher-sound-tab" onclick="playCurrentElkoninSound()">🔊 소리 확인</button>
+        <div id="teacherSoundCheckText" class="teacher-sound-text">소리 확인을 누르면 열린 소리상자의 소리가 차례대로 나와요.</div>
       </div>
       <div class="footer-actions">
-        <button class="primary" onclick="markTeacher(true, '학생이 다음절 합성함')">학생이 합쳐 읽었어요</button>
-        <button class="red" onclick="markTeacher(false, '학생이 다음절 합성을 어려워함')">어려워요</button>
+        <button class="blue next-arrow-btn" onclick="nextElkoninSound()">→</button>
+        <button class="gray" onclick="resetElkoninSound()">처음으로</button>
+        
+        <button class="gray next-arrow-btn" onclick="nextMultisyllableWord()">→</button>
+        
+      </div>
+      <div class="footer-actions">
+        <button class="primary teacher-check-emoji" onclick="markTeacher(true, \'학생이 다음절 합성함\')" title="잘했어요">👍</button>
+        <button class="red teacher-check-emoji" onclick="markTeacher(false, \'학생이 다음절 합성을 어려워함\')" title="😰">😰</button>
       </div>
     </div>`;
   }
 
 
-  html += `<div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px">
-    <span class="tag">${q.lesson.lesson}</span>
-    <span class="tag">${q.lesson.title}</span>
-    <span class="tag">${activityName(q.type==="review" ? (q.baseType || "review") : q.type)}</span>
-  </div>`;
+
+  if(q.type==="assessment") html += `<div id="assessmentHost"></div>`;
+
+  if(q.type==="review" && q.baseType==="cumulativeReading"){
+    const percent = Math.round((q.cumulativeIndex) / q.cumulativeTotal * 100);
+    html += `
+    <div class="cumulative-stage">
+      <div class="clean-prompt">누적 읽기 · ${REVIEW_GROUPS.find(g=>g.id===q.reviewGroup)?.name||"소리 알기"}</div>
+      <div class="review-group-buttons" role="group" aria-label="누적 읽기 글자 종류 선택">
+        ${reviewAvailableGroups().map(g=>`<button type="button" class="review-group-btn ${q.reviewGroup===g.id?"active":""}" aria-pressed="${q.reviewGroup===g.id}" onclick="setReviewGroup('${g.id}')">${g.label}만</button>`).join("")}
+      </div>
+      <div class="clean-subprompt">${q.reviewGroup==="finals"
+        ? "받침은 암·압처럼 음절로 만들어 4개씩 읽어요."
+        : "같은 종류의 낱자 4개씩 읽어요. 자음과 모음은 따로 복습해요."}</div>
+      <div class="cumulative-progress">
+        <span>${q.cumulativeIndex + 1}/${q.cumulativeTotal}</span>
+        <div class="bar"><div class="fill" style="width:${percent}%"></div></div>
+      </div>
+      <div class="cumulative-card">
+        <div class="cumulative-seq">
+          ${q.seq.map(x=>`<div class="cum-letter">${x}</div>`).join("")}
+        </div>
+      </div>
+      <div class="teacher-check-row cumulative-judge-row">
+        <button id="cumCorrectBtn" class="teacher-correct" onclick="markCumulative(true)">맞아요 👍</button>
+        <button id="cumWrongBtn" class="teacher-wrong" onclick="markCumulative(false)">틀렸어요 😰</button>
+      </div>
+      <div class="cumulative-graded-hint" id="cumulativeGradedHint" role="status" aria-live="polite"></div>
+      <button id="cumulativeSpeechBtn" class="speech-btn" onclick="startCumulativeSpeech()">🎙️ 읽기 확인</button>
+      <div id="cumulativeSpeechResult" class="speech-check-box ready">
+        음성인식은 참고용입니다. 최종 기록은 위의 맞아요/틀렸어요로 확인해 주세요.
+      </div>
+      <details class="permission-help">
+        <summary>마이크 사용 안내</summary>
+        음성인식이 안 되면 주소창 왼쪽 자물쇠/사이트 설정에서 <b>마이크 허용</b>을 확인해 주세요. 교사의 OX 기록은 마이크 없이도 사용할 수 있습니다.
+      </details>
+      <div class="cumulative-summary">
+        <div class="cum-stat"><div class="n">${q.cumulativeCorrect}</div><div class="muted">맞음</div></div>
+        <div class="cum-stat"><div class="n">${q.cumulativeWrong}</div><div class="muted">다시 지도</div></div>
+        <div class="cum-stat"><div class="n">${q.cumulativeTotal - q.cumulativeIndex - 1}</div><div class="muted">남은 문항</div></div>
+      </div>
+    </div>`;
+  }
+
+
   panel.innerHTML = html;
+  if(q.type==="assessment") renderAssessmentUI();
 }
 
 function escapeJS(s){ return String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'") }
 
 function playBoth(){
   const q = state.currentQuestion;
-  speakText(q.box1.speak);
-  setTimeout(()=>speakText(q.box2.speak), 1200);
+  if(!q || !q.box1 || !q.box2) return;
+  speakSequence([q.box1.speak, q.box2.speak], .74);
 }
 function playChoiceAudio(word){
   speakText(word);
 }
+
+function stretchKoreanSound(sound){
+  // "느" → "느으으", "그" → "그으으"처럼 길게 들리도록 보조
+  if(!sound) return "";
+  const last = sound[sound.length - 1];
+  if(last === "으") return sound + "으으";
+  if(last === "아") return sound + "아아";
+  if(last === "어") return sound + "어어";
+  if(last === "오") return sound + "오오";
+  if(last === "우") return sound + "우우";
+  if(last === "이") return sound + "이이";
+  return sound + "ㅡㅡ";
+}
+
+function speakSynthesisBlendSequence(parts, answer){
+  if(!Array.isArray(parts) || parts.length<2){ if(answer) speakText(answer); return; }
+  const first = parts[0]==="ㅇ" ? "" : soundForPhonemeUnit(parts[0], "initial");
+  const vowel = soundForPhonemeUnit(parts[1], "vowel");
+  const final = parts[2] ? soundForPhonemeUnit(parts[2],"final") : "";
+  const longFirst = first ? stretchKoreanSound(first) : "";
+  speakSequence([
+    [longFirst,vowel,final].filter(Boolean).join(" "),
+    [first,vowel,final].filter(Boolean).join(" "),
+    answer || ""
+  ], [.63,.72,.84]);
+}
+
+
 function speakBlend(){
   const q = state.currentQuestion;
-  if(!q || q.type!=="synthesis") return;
-  speakText(q.parts.join(" "));
-  setTimeout(()=>speakText(q.answer), 1500);
+  if(!q) return;
+
+  // 합성에서는 "느~~오 → 느~오 → 노!"처럼
+  // 소리값을 천천히 붙여 가며 들려줍니다.
+  if(Array.isArray(q.parts)){
+    speakSynthesisBlendSequence(q.parts, q.answer);
+  }else if(Array.isArray(q.split)){
+    speakPartsByRole(q.split);
+  }else if(q.answer){
+    speakText(q.answer);
+  }
 }
 function playMerge(){
   const stage = document.getElementById("mergeStage");
@@ -1536,16 +4451,63 @@ function playMerge(){
   stage.classList.add("play");
   setTimeout(()=>stage.classList.add("showResult"), 1000);
 }
+
+function soundForPhonemeUnit(sound, role){
+  const consonantSound = {
+    "ㄱ":"그","ㄲ":"끄","ㄴ":"느","ㄷ":"드","ㄸ":"뜨","ㄹ":"르","ㅁ":"므","ㅂ":"브","ㅃ":"쁘",
+    "ㅅ":"스","ㅆ":"쓰","ㅇ":"으","ㅈ":"즈","ㅉ":"쯔","ㅊ":"츠","ㅋ":"크","ㅌ":"트","ㅍ":"프","ㅎ":"흐"
+  };
+  const finalSound = {
+    "ㄱ":"윽","ㄲ":"윽","ㄳ":"윽","ㄴ":"은","ㄵ":"은","ㄶ":"은",
+    "ㄷ":"읃","ㄹ":"을","ㄺ":"을","ㄻ":"음","ㄼ":"을","ㄽ":"을","ㄾ":"을","ㄿ":"읍","ㅀ":"을",
+    "ㅁ":"음","ㅂ":"읍","ㅄ":"읍","ㅅ":"읃","ㅆ":"읃","ㅇ":"응","ㅈ":"읃","ㅊ":"읃","ㅋ":"윽","ㅌ":"읃","ㅍ":"읍","ㅎ":"읃"
+  };
+  const vowelSound = {
+    "ㅏ":"아","ㅐ":"애","ㅑ":"야","ㅒ":"얘","ㅓ":"어","ㅔ":"에","ㅕ":"여","ㅖ":"예","ㅗ":"오","ㅘ":"와","ㅙ":"왜","ㅚ":"외",
+    "ㅛ":"요","ㅜ":"우","ㅝ":"워","ㅞ":"웨","ㅟ":"위","ㅠ":"유","ㅡ":"으","ㅢ":"의","ㅣ":"이"
+  };
+
+  if(role === "final") return finalSound[sound] || consonantSound[sound] || sound;
+  if(role === "initial") return consonantSound[sound] || sound;
+  if(role === "vowel") return vowelSound[sound] || sound;
+
+  return consonantSound[sound] || vowelSound[sound] || finalSound[sound] || sound;
+}
+
+function speakPartsByRole(parts){
+  if(!Array.isArray(parts)) return;
+  const sequence = parts.map((sound,i)=>{
+    if(i===0 && sound==="ㅇ") return "";
+    return soundForPhonemeUnit(sound, i===0?"initial":i===1?"vowel":"final");
+  });
+  speakSequence(sequence,.7);
+}
+
+function playSegmentSounds(){
+  const q = state.currentQuestion;
+  if(!q || !Array.isArray(q.split)) return;
+  speakPartsByRole(q.split);
+}
+
+
+let splitAnimationTimer = null;
 function playSplit(){
   const stage = document.getElementById("splitStage");
   if(!stage) return;
-  stage.classList.remove("play");
+  if(splitAnimationTimer) clearTimeout(splitAnimationTimer);
+  stage.classList.remove("mid-split","play");
   void stage.offsetWidth;
-  stage.classList.add("play");
+  stage.classList.add("mid-split");
+  splitAnimationTimer=setTimeout(()=>{
+    if(stage.isConnected){ stage.classList.remove("mid-split"); stage.classList.add("play"); }
+    splitAnimationTimer=null;
+  },1800);
+  // 자동 소리 재생 없음.
 }
 
 function answerRecognition(selectedWord, btn){
   const q = state.currentQuestion;
+  if(!q || q._graded) return;
   const correctWord = q.choices.find(c=>c.isAnswer).word;
   document.querySelectorAll(".pic-card").forEach(card=>{
     const word = card.getAttribute("data-word");
@@ -1553,21 +4515,30 @@ function answerRecognition(selectedWord, btn){
   });
   const ok = selectedWord === correctWord;
   if(!ok) btn.classList.add("wrong");
-  showFeedback(ok, ok ? "잘했어요! 🌟" : `다시 해보자.`);
+  showFeedback(ok, ok ? "잘했어요!" : "다음 문항에서 다시 도전해요.");
   record(ok, selectedWord);
-  setTimeout(newQuestion, ok ? 2600 : 2600);
+  advanceAfterGrading(q);
 }
 function answerChoice(selected, btn){
   const q = state.currentQuestion;
+  if(!q || q._graded) return;
   const ok = selected === q.answer;
-  showFeedback(ok, ok ? "맞았어요 🌟" : `정답은 "${q.answer}"`);
+  if(btn){
+    btn.classList.add(ok ? "correct" : "wrong");
+    document.querySelectorAll(".clean-judge, .choice").forEach(b=>{
+      if(b.textContent.trim() === q.answer) b.classList.add("correct");
+    });
+  }
+  showFeedback(ok, ok ? "잘했어요!" : `정답은 "${q.answer}"`);
   record(ok, selected);
-  setTimeout(newQuestion, ok ? 900 : 1400);
+  advanceAfterGrading(q);
 }
 function markTeacher(ok, response){
-  showFeedback(ok, ok ? "좋아요! 교사 확인 완료 🌟" : "추가 지도가 필요해요.");
+  const q = state.currentQuestion;
+  if(!q || q._graded) return;
+  showFeedback(ok, ok ? "잘했어요!" : "다음 문항에서 다시 연습해요.");
   record(ok, response);
-  setTimeout(newQuestion, 1100);
+  advanceAfterGrading(q);
 }
 let feedbackTimer = null;
 function showFeedback(ok, message){
@@ -1578,24 +4549,38 @@ function showFeedback(ok, message){
   }
 
   const fb = document.getElementById("globalFeedback");
+  const guide = (message || "").trim();
+
   if(fb){
-    fb.textContent = message;
-    fb.className = "global-feedback show " + (ok ? "good":"bad");
+    if(ok){
+      fb.innerHTML = `
+        <div class="correct-visual-main">맞아요! <span>👍</span></div>
+        ${guide ? `<span class="correct-visual-sub">${guide}</span>` : ""}
+      `;
+      fb.className = "global-feedback show good";
+    }else{
+      fb.innerHTML = `<div class="wrong-visual-main">${guide || "다시 해볼까요?"}</div>`;
+      fb.className = "global-feedback show bad";
+    }
+
     clearTimeout(feedbackTimer);
     feedbackTimer = setTimeout(()=>{
       fb.className = "global-feedback";
-      fb.textContent = "";
-    }, 2300);
+      fb.innerHTML = "";
+    }, ok ? 2200 : 2600);
   }
 
-  if(ok && message.includes("잘했어요")){
-    setTimeout(()=>speakText("잘했어요"), 80);
+  if(ok){
+    celebrateCorrect();
   }
 }
 
 function record(ok, response){
   const student = getStudent();
-  if(!student){ return; }
+  if(!student) return false;
+  if(!state.currentQuestion || state.currentQuestion._graded) return false;
+  state.currentQuestion._graded = true;
+  const beforeGrowth = getGrowthInfo(student);
   const q = state.currentQuestion;
   const memo = document.getElementById("teacherMemo").value.trim();
   data.records.push({
@@ -1617,6 +4602,10 @@ function record(ok, response){
   saveData();
   renderProgress();
   renderRecords();
+  const afterGrowth = getGrowthInfo(student);
+  if(afterGrowth.level > beforeGrowth.level){
+    showGrowthLevelUp(student, afterGrowth);
+  }
 }
 
 function renderRecords(){
@@ -1638,13 +4627,32 @@ function renderRecords(){
     wrongBy[k] = (wrongBy[k] || 0) + 1;
   });
   const topWrong = Object.entries(wrongBy).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  const wrongByLessonId = {};
+  records.filter(r=>!r.isCorrect && r.lessonId).forEach(r=>{
+    const lessonObj = findLessonById(r.lessonId);
+    const label = lessonObj ? `${lessonObj.lesson} ${lessonObj.title}` : r.lesson;
+    if(!wrongByLessonId[r.lessonId]) wrongByLessonId[r.lessonId] = {label, count:0};
+    wrongByLessonId[r.lessonId].count += 1;
+  });
+  const topWrongLesson = Object.entries(wrongByLessonId).sort((a,b)=>b[1].count-a[1].count).slice(0,5);
+  const st = getStudent();
+  const basketCount = st && st.reviewLessonIds ? st.reviewLessonIds.length : 0;
+
   document.getElementById("recordSummary").innerHTML = `
     <div class="summary-item"><div class="muted">누적 시행</div><div class="num">${total}</div></div>
     <div class="summary-item"><div class="muted">누적 정답</div><div class="num">${correct}</div></div>
     <div class="summary-item"><div class="muted">누적 오답</div><div class="num">${wrong}</div></div>
     <div class="summary-item"><div class="muted">누적 정확도</div><div class="num">${acc}%</div></div>
+    <div class="summary-item"><div class="muted">누적학습 목록</div><div class="num">${basketCount}</div></div>
     <div class="summary-item" style="grid-column:1/-1"><div class="muted">혼동/오답이 많은 부분</div>
-    <div>${topWrong.length ? topWrong.map(([k,v])=>`<span class="tag">${k}: ${v}회</span>`).join(" ") : "아직 기록이 없습니다."}</div></div>`;
+    <div>${topWrong.length ? topWrong.map(([k,v])=>`<span class="tag">${k}: ${v}회</span>`).join(" ") : "아직 기록이 없습니다."}</div></div>
+    <div class="summary-item" style="grid-column:1/-1">
+      <div class="muted">추천 누적학습</div>
+      <div>${topWrongLesson.length ? topWrongLesson.map(([id,obj])=>`<span class="tag">${obj.label}: ${obj.count}회</span>`).join(" ") : "오답 기록이 쌓이면 자동 추천됩니다."}</div>
+      <div class="mini-actions"><button class="gray" onclick="addWrongTopToReview()">오답 많은 배움 담기</button></div>
+    </div>`;
+  renderReviewBasket();
+  renderAssessmentRecords();
 }
 
 function exportCSV(){
@@ -1661,10 +4669,78 @@ function downloadJSON(){
   const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "소리쏙쏙_전체백업_v2.json";
+  a.download = "소리쏙쏙_전체백업_v28.json";
   a.click();
 }
+function importJSON(event){
+  const file = event.target.files && event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const imported = JSON.parse(reader.result);
+      if(!imported || !Array.isArray(imported.students) || !Array.isArray(imported.records)){
+        alert("소리쏙쏙 백업 파일 형식이 아닙니다.");
+        return;
+      }
+      if(confirm("현재 브라우저의 학생/기록을 백업 파일 내용으로 바꿀까요?")){
+        data = imported;
+        ensureAllStudents();
+        if(!Array.isArray(data.assessments)) data.assessments=[];
+        saveData();
+        renderStudents();
+        renderLessons();
+        renderRecords();
+        resetToday();
+        newQuestion();
+        alert("백업을 불러왔습니다.");
+      }
+    }catch(e){
+      alert("백업 파일을 읽을 수 없습니다.");
+    }finally{
+      event.target.value = "";
+    }
+  };
+  reader.readAsText(file);
+}
 
+
+
+
+function applyScreenMode(){
+  document.body.classList.toggle("select-screen-on", state.screen !== "activity");
+  document.body.classList.toggle("activity-screen-on", state.screen === "activity");
+  if(state.screen === "activity" && typeof renderActivityModePanel === "function"){
+    renderActivityModePanel();
+  }
+}
+
+function goActivityScreen(){
+  cancelGradedAutoAdvance();
+  if(!state.selectedLesson){
+    alert("지도할 배움을 먼저 선택해 주세요.");
+    return;
+  }
+  if(!getStudent()){
+    alert("학생 등록 및 관리에서 학생을 먼저 등록하고 선택해 주세요.");
+    return;
+  }
+  state.screen = "activity";
+  applyScreenMode();
+  renderActivityModePanel();
+  resetToday();
+  newQuestion();
+  setTimeout(()=>document.getElementById("activityCard")?.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+}
+
+function goSelectScreen(){
+  assessmentStopClock();
+  cancelGradedAutoAdvance();
+  stopAllAppSounds();
+  state.screen = "select";
+  applyScreenMode();
+  setTimeout(()=>document.getElementById("lessonSelectCard")?.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+}
 
 
 function toggleActivitySummary(){
@@ -1675,20 +4751,42 @@ function toggleActivitySummary(){
   btn.textContent = isCollapsed ? "상세 기록 펼치기" : "상세 기록 접기";
 }
 
+let screenBeforeStudentManage = "select";
 function toggleTeacherMode(){
+  assessmentStopClock();
   const isOn = document.body.classList.toggle("teacher-mode");
   const btn = document.getElementById("teacherModeBtn");
+  if(isOn){
+    // 활동 중에도 관리 버튼을 누르면 학생 등록 양식이 보이도록 선택 화면으로 이동
+    screenBeforeStudentManage = state.screen || "select";
+    state.screen = "select";
+    applyScreenMode();
+    renderStudents();
+    requestAnimationFrame(()=>{
+      const manage = document.getElementById("studentManagePanel");
+      if(manage) manage.scrollIntoView({behavior:"smooth",block:"start"});
+    });
+  }else{
+    state.screen = screenBeforeStudentManage;
+    applyScreenMode();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
   if(btn){
-    btn.textContent = isOn ? "학생 화면으로 돌아가기" : "교사용 기록 보기";
+    btn.textContent = isOn ? "← 학생 학습 화면" : "학생 등록 및 관리";
+    btn.setAttribute("aria-expanded",String(isOn));
   }
 }
 
 renderStudents();
 updateActivityOptions();
 renderLessons();
+renderReviewBasket();
 renderProgress();
+renderGrowthPanel();
 renderRecords();
 if(!state.selectedLesson && lessons[state.tab].length) state.selectedLesson = lessons[state.tab][0];
+applyScreenMode();
+renderActivityModePanel();
 newQuestion();
 </script>
 </body>
