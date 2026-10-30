@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v83</title>
+<title>소리쏙쏙 음운인식 v84</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1891,11 +1891,54 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
 .assess-ready p{line-height:1.7;color:#486879;font-size:16px;font-weight:750}
 .assess-begin{padding:17px 32px!important;font-size:23px!important;background:#3d9bc4!important;color:white!important;border:0!important;border-radius:18px!important;min-width:200px}
 @media(max-width:650px){.hangul-mascot{min-width:0;min-height:0;border-width:3px;font-size:31px!important;padding:12px;box-shadow:0 4px 0 #24614b77}.confusion-panel{padding:14px}.confusion-heading h3{font-size:19px}.confusion-chip{min-width:48px;min-height:48px}.collection-top-action .home-confusion-go{width:100%}.collection-hero .collection-main-animal.hangul-mascot{font-size:30px!important;transform:rotate(8deg)}}
+
+/* v84: 홈 교사·학생 빠른 전환 + 학생용 숙제 딥링크 */
+.home-quick-switch{display:flex;align-items:center;flex-wrap:wrap;gap:13px;background:#fff;border:1px solid #d4e8d4;border-radius:17px;padding:15px 18px;box-shadow:0 2px 8px #255d3620}
+.home-quick-switch .switch-title{font-weight:1000;color:#385c46;font-size:16px;white-space:nowrap}
+.home-switch-field{display:flex;align-items:center;gap:7px;flex:1 1 180px;min-width:150px}
+.home-switch-field label{font-size:15px;font-weight:900;white-space:nowrap;color:#3d654d}
+.home-switch-field select{min-width:0;max-width:350px;width:100%;font-size:16px;padding:10px 12px;background:#f7fbf5;border:2px solid #cde0c9;border-radius:12px;color:#254b36;font-weight:850}
+.home-quick-switch .manage-mini{white-space:nowrap;border:1px solid #d7e5d2;background:#eff6ea;color:#43684d;font-size:13px;padding:10px 14px}
+.homework-link-btn{background:#f3edff!important;border:1px solid #d5c5f2!important;color:#6543a5!important;font-weight:950!important}
+.homework-task-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:13px 0 2px}
+.homework-dialog{position:fixed;inset:0;background:#172b276f;z-index:100020;display:flex;align-items:center;justify-content:center;padding:16px}
+.homework-dialog[hidden]{display:none!important}
+.homework-dialog-box{width:min(600px,100%);max-height:92vh;overflow:auto;background:white;border:4px solid #d3e6c0;border-radius:25px;padding:23px 25px;box-shadow:0 18px 45px #21382c4d}
+.homework-dialog h2{margin:0 0 9px;color:#365a44;font-weight:1000;font-size:25px}
+.homework-dialog .homework-detail{background:#f2f8eb;border:1px solid #dbe9cf;border-radius:14px;padding:12px;font-weight:850;line-height:1.6;margin:10px 0}
+.homework-dialog label{font-weight:900;margin:12px 0 6px;display:block;color:#42664a}
+.homework-dialog select,.homework-dialog input,.homework-dialog textarea{width:100%;box-sizing:border-box;font-size:17px;padding:12px;border:2px solid #d1e4c9;border-radius:12px}
+.homework-dialog textarea{font-size:13px;resize:vertical;word-break:break-all;min-height:80px}
+.homework-dialog-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.homework-dialog-actions button{flex:1 1 160px;min-height:49px}
+.homework-caution{font-size:13px;line-height:1.6;color:#715f41;background:#fff8ec;border-radius:12px;padding:10px 12px;margin:10px 0}
+.homework-landing-card{margin:26px auto;width:min(700px,95%);background:#fff;border-radius:26px;border:3px solid #d5e6c3;padding:30px 27px;text-align:center;box-shadow:0 10px 30px #3b6b3633}
+.homework-landing-card .homework-icon{font-size:65px}
+.homework-landing-card h1{font-size:clamp(26px,5vw,37px);margin:9px 0;color:#2c674c}
+.homework-landing-card p{color:#4e695a;line-height:1.7;font-size:17px;font-weight:750}
+.homework-landing-card input{max-width:350px;padding:15px;font-size:20px;border:2px solid #b8d5ad;border-radius:15px;text-align:center;margin:9px auto 15px;display:block}
+.homework-landing-card button{font-size:21px;background:#448965;color:#fff;padding:17px 35px;min-width:200px}
+.homework-assignment-strip{background:#f0faee;border:2px solid #c6deb9;padding:14px 18px;border-radius:16px;margin:0 0 15px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.homework-assignment-strip strong{color:#315d43}
+.homework-assignment-strip button{background:#fff;border-color:#bad3bb;color:#426f4e}
+.homework-done{border:4px solid #f1d075;border-radius:25px;background:#fffbeb;padding:28px 20px;margin:16px auto;text-align:center;max-width:700px}
+.homework-done h2{font-size:30px;color:#795c27}
+.homework-done p{font-size:19px;line-height:1.7;color:#5f6346}
+.homework-done button{font-size:19px;margin:7px}
+body.homework-landing #animalHome,body.homework-landing .layout,body.homework-landing .collection-dock,body.homework-landing header > div,
+body.homework-active #animalHome,body.homework-active .layout>aside,body.homework-active #lessonSelectCard,body.homework-active .teacher-only,body.homework-active header>div,body.homework-active .mode-grid,body.homework-active .mode-panel-top .home-direct,body.homework-active .mode-panel-top .small.gray{display:none!important}
+body.homework-active .layout{display:block;max-width:1050px;margin:0 auto}
+body.homework-active .layout>section{width:100%;max-width:none}
+body.homework-active .activity-screen{display:block!important}
+body.homework-landing #homeworkLanding{display:block}
+#homeworkLanding{display:none}
+body.homework-active header .brand-home-link{pointer-events:none}
+@media(max-width:600px){.home-quick-switch{gap:10px;padding:12px}.home-switch-field{flex:1 1 100%}.home-quick-switch .manage-mini{width:100%}.homework-dialog-box{padding:18px 15px}}
 </style>
 </head>
 <body>
 <header>
-  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v83</span><span class="brand-home-mark">⌂ 홈</span></button>
+  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v84</span><span class="brand-home-mark">⌂ 홈</span></button>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="small home-direct" type="button" onclick="goHomeScreen()" title="학습 홈으로 돌아가기">🏠 홈으로</button>
     <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
@@ -1907,6 +1950,22 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
   </div>
 </header>
 <div id="globalFeedback" class="global-feedback"></div>
+<div id="homeworkLanding" aria-live="polite"></div>
+<div id="homeworkShareDialog" class="homework-dialog" hidden onclick="if(event.target===this)closeHomeworkShare()">
+ <div class="homework-dialog-box" role="dialog" aria-modal="true" aria-labelledby="homeworkDialogTitle">
+  <h2 id="homeworkDialogTitle">🔗 숙제 링크 만들기</h2>
+  <div id="homeworkDialogLesson" class="homework-detail"></div>
+  <label for="homeworkTaskType">숙제로 낼 활동</label>
+  <select id="homeworkTaskType"></select>
+  <label for="homeworkTaskCount">숙제 문항 수</label>
+  <select id="homeworkTaskCount"><option value="5">5문항</option><option value="10" selected>10문항</option><option value="20">20문항</option><option value="30">30문항</option></select>
+  <div class="homework-caution">학생이 링크를 열고 이름을 입력해 시작합니다. 기록은 각 기기에만 저장되므로, 완료 후 <b>결과 복사</b>로 선생님께 보내야 합니다. 교사의 정오 판단이 필요한 활동은 보호자와 함께 해 주세요. 링크에는 학생 이름이 포함되지 않습니다.</div>
+  <label for="homeworkGeneratedUrl">숙제 주소</label>
+  <textarea id="homeworkGeneratedUrl" readonly placeholder="아래 '링크 만들기'를 눌러 주세요."></textarea>
+  <div class="homework-dialog-actions"><button type="button" class="primary" onclick="generateHomeworkLink()">🔗 링크 만들기</button><button type="button" class="blue" onclick="copyHomeworkLink()">📋 링크 복사</button><button type="button" class="gray" onclick="closeHomeworkShare()">닫기</button></div>
+ </div>
+</div>
+
 <!-- 학습 도중에도 수집 상태를 확인하며 같은 문제로 돌아옵니다. -->
 <button id="collectionDock" class="collection-dock" type="button" onclick="openCollectionDrawer()" aria-haspopup="dialog" aria-controls="collectionDrawer" aria-label="동물 도감 열기"></button>
 <div id="collectionDrawer" class="collection-drawer" hidden onclick="if(event.target===this)closeCollectionDrawer()">
@@ -1971,7 +2030,7 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
       <div class="field">
         <label>목표 시행 수</label>
         <select id="targetTrials" onchange="renderProgress()">
-          <option>5</option><option selected>10</option><option>20</option><option>40</option>
+          <option>5</option><option selected>10</option><option>20</option><option>30</option><option>40</option>
         </select>
       </div>
       <div class="field">
@@ -2200,6 +2259,11 @@ function loadData(){
   return {teachers:[],students:[],selectedTeacherId:null,selectedStudentId:null,records:[],assessments:[]};
 }
 function saveData(){ localStorage.setItem("soriAppDataV2", JSON.stringify(data)); }
+let homeworkActive=false;
+let homeworkStudent=null;
+let homeworkAssigned=null;
+let homeworkShareLesson=null;
+let homeworkCompleted=false;
 let data = loadData();
 normalizeTeacherData(data);
 
@@ -2239,8 +2303,8 @@ function normalizeTeacherData(target){
   }
   return target;
 }
-function getTeacher(){return data.teachers.find(t=>t.id===data.selectedTeacherId)||null;}
-function getTeacherStudents(){const t=getTeacher();return t?data.students.filter(st=>st.teacherId===t.id):[];}
+function getTeacher(){if(homeworkActive)return {id:"HOMEWORK",name:"가정 학습"};return data.teachers.find(t=>t.id===data.selectedTeacherId)||null;}
+function getTeacherStudents(){if(homeworkActive)return homeworkStudent?[homeworkStudent]:[];const t=getTeacher();return t?data.students.filter(st=>st.teacherId===t.id):[];}
 function getTeacherStudentIds(){return new Set(getTeacherStudents().map(s=>s.id));}
 function registerTeacher(){
   const input=document.getElementById('teacherNameInput');
@@ -2371,6 +2435,7 @@ function renderAnimalHome(){
       <div><div class="collection-eyebrow">🎧 듣고 · 찾고 · 합치고 · 읽어요</div>
         <h1>소리쏙쏙 음운인식 활동</h1><p class="learning-intro">소리를 재미있게 익히며 읽기 실력을 키워요!</p></div>
       <div class="collection-main-animal hangul-mascot" aria-hidden="true">가나다</div></div>
+      ${renderHomeQuickSwitch()}
       <div class="collection-empty"><div class="big">👩‍🏫</div><h2>교사와 학생을 먼저 등록해 주세요</h2>
       <p>학생을 선택하면 이름이 들어간 학습 홈이 열립니다.<br>학습하면서 동물과 아이템도 함께 모을 수 있어요.</p>
       <button onclick="openStudentManagement()">교사·학생 등록하러 가기 →</button></div></div>`;
@@ -2394,8 +2459,7 @@ function renderAnimalHome(){
         <div class="collection-top-action"><button type="button" onclick="goLessonSelectScreen()">📚 음소 고르고 공부 시작! →</button><button type="button" class="home-confusion-go" onclick="goConfusionSelectScreen()">🎯 혼동하는 글자 집중 연습</button></div>
       </div><div class="collection-main-animal hangul-mascot" aria-hidden="true">가나다</div>
     </div>
-    <div class="collection-student-row"><div class="subtitle">👩‍🏫 ${safeHTML(teacher?.name||'담당 교사')} · 함께 공부할 학생</div>
-      <div class="collection-student-buttons">${studentButtons}</div></div>
+    ${renderHomeQuickSwitch()}
     <section class="learning-steps" aria-label="음운인식 공부 순서">
       <div class="learning-step"><span class="step-icon">👂</span><div><strong>1. 소리를 골라요</strong><span>오늘 배울 모음·자음·받침 선택</span></div></div>
       <div class="learning-step"><span class="step-icon">🗣️</span><div><strong>2. 소리 공부를 해요</strong><span>찾기·합치기·나누기·읽기 연습</span></div></div>
@@ -2583,8 +2647,157 @@ function saveClassStudents(){
   alert(`${teacher.name} 교사의 학생 ${updated.length}명을 저장했어요.`);
 }
 function getStudent(){
+  if(homeworkActive)return homeworkStudent;
   return getTeacherStudents().find(st=>st.id===data.selectedStudentId)||null;
 }
+
+// 교사·학생 목록을 홈에서 직접 바꿀 수 있도록 합니다.
+function renderHomeQuickSwitch(){
+  const teacher=getTeacher(), student=getStudent();
+  const tOptions=(data.teachers||[]).map(t=>`<option value="${safeHTML(t.id)}" ${teacher?.id===t.id?'selected':''}>${safeHTML(t.name)}</option>`).join('');
+  const sOptions=getTeacherStudents().map(st=>`<option value="${safeHTML(st.id)}" ${student?.id===st.id?'selected':''}>${safeHTML(st.name)}</option>`).join('');
+  return `<div class="home-quick-switch" aria-label="홈 화면 교사와 학생 선택">
+    <strong class="switch-title">👩‍🏫 함께 공부할 사람</strong>
+    <div class="home-switch-field"><label for="homeTeacherPick">교사</label><select id="homeTeacherPick" onchange="selectTeacher(this.value)" ${!data.teachers.length?'disabled':''}>${tOptions||'<option>교사를 등록해 주세요</option>'}</select></div>
+    <div class="home-switch-field"><label for="homeStudentPick">학생</label><select id="homeStudentPick" onchange="selectStudent(this.value)" ${!sOptions?'disabled':''}>${sOptions||'<option>학생을 등록해 주세요</option>'}</select></div>
+    <button type="button" class="manage-mini" onclick="openStudentManagement()">+ 등록·관리</button>
+  </div>`;
+}
+
+// 숙제 링크는 배움/활동/문항 수만 담습니다. 이름과 학생 기록은 링크에 포함하지 않습니다.
+function homeworkBaseUrl(){
+  return location.protocol==='file:' ? 'https://atte871225-hub.github.io/atte19/' : location.origin+location.pathname;
+}
+function homeworkLessonInfo(){
+  const l=homeworkShareLesson||state.selectedLesson;
+  if(!l)return null;
+  if(l.isCustom)return {custom:true,focus:l.focus,phonemes:l.phonemes.slice(0,8)};
+  return {id:l.id};
+}
+function homeworkActivityAllowed(lesson,mode){
+  return !(mode==='multisyllableSynthesis' && (lesson?.isCustom ? lesson.focus==='vowel' :
+    ['vowels','complexVowels'].some(k=>lessons[k].some(x=>x.id===lesson?.id))));
+}
+function openHomeworkShare(lessonId){
+  if(homeworkActive){alert('숙제 학습 중에는 링크를 만들 수 없어요.');return;}
+  const lesson=typeof lessonId==='string' ? findLessonById(lessonId) : state.selectedLesson;
+  if(!lesson){alert('숙제로 낼 배움을 먼저 고르세요.');return;}
+  homeworkShareLesson=lesson;
+  const modal=document.getElementById('homeworkShareDialog');
+  document.getElementById('homeworkDialogLesson').textContent=`${lesson.lesson} · ${lesson.title}`;
+  const select=document.getElementById('homeworkTaskType');
+  const chosen=document.getElementById('activityType').value;
+  select.innerHTML=ACTIVITY_MODE_META.filter(m=>homeworkActivityAllowed(lesson,m.value)).map(m=>
+    `<option value="${m.value}" ${m.value===chosen?'selected':''}>${m.icon} ${m.label} · ${m.desc}</option>`).join('');
+  document.getElementById('homeworkGeneratedUrl').value='';
+  modal.hidden=false;
+  select.focus();
+}
+function closeHomeworkShare(){document.getElementById('homeworkShareDialog').hidden=true;}
+function generateHomeworkLink(){
+  const li=homeworkLessonInfo();
+  if(!li)return;
+  const mode=document.getElementById('homeworkTaskType').value;
+  const trials=Number(document.getElementById('homeworkTaskCount').value)||10;
+  const payload={v:1,...li,mode,trials};
+  const link=homeworkBaseUrl()+'#hw='+encodeURIComponent(JSON.stringify(payload));
+  document.getElementById('homeworkGeneratedUrl').value=link;
+}
+async function copyHomeworkLink(){
+  const box=document.getElementById('homeworkGeneratedUrl');
+  if(!box.value)generateHomeworkLink();
+  try{await navigator.clipboard.writeText(box.value);alert('숙제 링크를 복사했어요! 학생에게 문자나 메신저로 보내주세요.');}
+  catch(_){box.focus();box.select();document.execCommand('copy');alert('숙제 링크를 선택했습니다. 복사해서 보내주세요.');}
+}
+function parseHomeworkLink(){
+  const raw=location.hash.slice(4);
+  if(!location.hash.startsWith('#hw=')||raw.length>2500)return null;
+  try{
+    const v=JSON.parse(decodeURIComponent(raw));
+    if(v.v!==1||!ACTIVITY_MODE_META.some(x=>x.value===v.mode)||![5,10,20,30].includes(Number(v.trials)))return null;
+    if(v.custom){
+      if(!['initial','vowel','final'].includes(v.focus)||!Array.isArray(v.phonemes)||v.phonemes.length<2||v.phonemes.length>8)return null;
+      if(!v.phonemes.every(ch=>CONFUSION_CHOICES[v.focus].includes(ch)))return null;
+    }else if(!findLessonById(v.id))return null;
+    return v;
+  }catch(_){return null;}
+}
+function homeworkLessonFromPayload(payload){
+  if(payload.custom)return {id:`CONFUSION_${payload.focus}_${payload.phonemes.join('_')}`,lesson:'맞춤 연습',title:payload.phonemes.join(' · '),phonemes:payload.phonemes.slice(),...(payload.focus==='final'?{finals:payload.phonemes.slice()}:{}),focus:payload.focus,isCustom:true,tags:['혼동 글자']};
+  return findLessonById(payload.id);
+}
+function initializeHomeworkFromLink(){
+  const payload=parseHomeworkLink();if(!payload)return;
+  homeworkAssigned=payload;
+  const lesson=homeworkLessonFromPayload(payload);
+  document.body.classList.add('homework-landing');
+  const box=document.getElementById('homeworkLanding');
+  box.innerHTML=`<section class="homework-landing-card">
+    <div class="homework-icon">🏠📚</div><h1>소리쏙쏙 음운인식 숙제</h1>
+    <p>오늘의 과제: <b>${safeHTML(lesson.title)}</b><br><b>${safeHTML(ACTIVITY_MODE_META.find(m=>m.value===payload.mode).label)}</b> · ${payload.mode==='assessment'?'읽기 점검':payload.trials+'문항'}<br>이름을 적고 시작 버튼을 눌러 주세요.</p>
+    <label for="homeworkStudentName" style="display:block;font-weight:1000">학생 이름 또는 별명</label>
+    <input id="homeworkStudentName" maxlength="18" autocomplete="name" placeholder="예: 민준" onkeydown="if(event.key==='Enter')beginHomeworkFromLink()">
+    <button type="button" onclick="beginHomeworkFromLink()">▶ 숙제 시작하기</button>
+    <div class="homework-caution">정답 여부를 어른이 확인해야 하는 활동도 있어요. 숙제 기록은 이 기기에만 저장됩니다. 완료 후 결과를 복사해 선생님께 보내세요.</div>
+  </section>`;
+}
+function beginHomeworkFromLink(){
+  const name=document.getElementById('homeworkStudentName')?.value.trim().replace(/\s+/g,' ').slice(0,18);
+  if(!name){alert('학생 이름이나 별명을 적어 주세요.');return;}
+  const cfg=homeworkAssigned;if(!cfg)return;
+  const key=JSON.stringify(cfg)+'|'+name;
+  let h=2166136261;for(const c of key){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}
+  homeworkStudent={id:'hw_'+(h>>>0).toString(16),name,createdAt:todayStr(),reviewLessonIds:[]};
+  homeworkActive=true;homeworkCompleted=false;
+  document.body.classList.remove('teacher-mode');
+  state.selectedLesson=homeworkLessonFromPayload(cfg);
+  state.customMode=!!cfg.custom;
+  if(cfg.custom){state.tab=cfg.focus==='initial'?'consonants':cfg.focus==='vowel'?'vowels':'finals';state.reviewGroup=cfg.focus==='final'?'finals':cfg.focus==='initial'?'consonants':'vowels';}
+  else {state.tab=Object.keys(lessons).find(t=>lessons[t].some(l=>l.id===cfg.id))||'vowels';state.reviewGroup=null;}
+  document.getElementById('targetTrials').value=String(cfg.trials);
+  document.getElementById('activityType').value=cfg.mode;
+  document.body.classList.remove('homework-landing');document.body.classList.add('homework-active');
+  state.screen='activity';
+  updateActivityOptions();resetToday();applyScreenMode();newQuestion();
+  document.getElementById('activityCard').scrollIntoView({block:'start'});
+}
+function homeworkReportText(){
+  const l=state.selectedLesson, student=homeworkStudent;
+  const lines=[`📚 소리쏙쏙 음운인식 숙제 결과`,`학생: ${student?.name||''}`,`날짜: ${todayStr()}`,`배움: ${l?.title||''}`,`활동: ${ACTIVITY_MODE_META.find(m=>m.value===homeworkAssigned?.mode)?.label||''}`];
+  if(homeworkAssigned?.mode==='assessment'){
+    const a=data.assessments.filter(s=>s.studentId===student?.id && s.lessonId===l?.id).at(-1);
+    const count=a?.mode==='minute'?a.lastIndex+1:a?.results?.length||0;
+    const correct=a?.mode==='minute'?Math.max(0,count-(a.errors?.length||0)):(a?.results||[]).filter(x=>x.isCorrect).length;
+    lines.push(`읽은 글자: ${Math.max(0,count)}개`,`정확히 읽은 글자: ${correct}개`,`※ 교사가 확인한 결과입니다.`);
+  } else lines.push(`시도한 문항: ${state.todayTotal}/${homeworkAssigned?.trials}`,`맞힌 문항: ${state.todayCorrect}`,`다시 연습할 문항: ${state.todayWrong}`);
+  lines.push('※ 학생이 사용한 기기에 저장된 기록이며, 교사 화면으로 자동 전송되지 않습니다.');
+  return lines.join('\n');
+}
+async function copyHomeworkResults(){
+  const t=homeworkReportText();
+  try{await navigator.clipboard.writeText(t);alert('결과를 복사했어요! 선생님께 메시지로 보내주세요.');}
+  catch(_){prompt('아래 결과를 복사해 선생님께 보내세요.',t);}
+}
+function showHomeworkDone(){
+  if(!homeworkActive||homeworkAssigned.mode==='assessment')return;
+  const panel=document.getElementById('activityPanel');if(!panel)return;
+  panel.innerHTML=`<section class="homework-done" role="status"><div style="font-size:78px">🎉</div>
+   <h2>${safeHTML(homeworkStudent.name)}의 숙제 완료!</h2>
+   <p>총 ${state.todayTotal}문항을 풀었어요!<br>👍 맞힌 문항 <b>${state.todayCorrect}개</b> · 다시 연습 <b>${state.todayWrong}개</b></p>
+   <button type="button" class="primary" onclick="copyHomeworkResults()">📋 결과 복사해서 선생님께 보내기</button></section>`;
+  panel.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function showHomeworkResults(){
+  if(!homeworkActive)return;
+  const s=homeworkReportText();
+  const panel=document.getElementById('homeworkResultModal');
+  if(panel){panel.remove();}
+  const dialog=document.createElement('div');dialog.className='homework-dialog';dialog.id='homeworkResultModal';
+  dialog.onclick=e=>{if(e.target===dialog)dialog.remove();};
+  dialog.innerHTML=`<div class="homework-dialog-box" role="dialog" aria-modal="true"><h2>📋 현재 숙제 결과</h2><textarea readonly rows="9">${safeHTML(s)}</textarea><div class="homework-dialog-actions"><button onclick="copyHomeworkResults()">결과 복사</button><button class="gray" onclick="document.getElementById('homeworkResultModal').remove()">닫기</button></div></div>`;
+  document.body.appendChild(dialog);
+}
+
 function selectStudent(id){
   const student=getTeacherStudents().find(st=>st.id===id);
   if(!student)return;
@@ -2778,7 +2991,7 @@ function renderLessons(){
       <div class="lesson-actions">
         <button class="lesson-review-btn ${inReview ? "on" : ""}" onclick="toggleReviewLesson('${item.id}', event)">
           ${inReview ? "누적학습 담김" : "누적학습 담기"}
-        </button>
+        </button><button class="lesson-review-btn homework-link-btn" onclick="event.stopPropagation();openHomeworkShare('${item.id}')">🔗 숙제 링크</button>
       </div>`;
     box.appendChild(div);
   });
@@ -4209,6 +4422,7 @@ function clearGradingOverlay(){
 }
 function advanceAfterGrading(question){
   cancelGradedAutoAdvance();
+  if(homeworkActive && homeworkCompleted)return;
   // 정답·오답 화면을 약 1.1초 보여 준 뒤 자동 진행
   gradedAutoAdvanceTimer = setTimeout(()=>{
     gradedAutoAdvanceTimer = null;
@@ -4643,7 +4857,7 @@ function renderActivityModePanel(){
     <div class="mode-panel-top">
       <button class="small home-direct" onclick="goHomeScreen()">🏠 홈으로</button>
       <button class="small gray" onclick="goLessonSelectScreen()">↩ 배움 다시 고르기</button>
-      <div class="mode-panel-title">${state.selectedLesson?.isCustom?'🎯 혼동 글자 집중 연습':'연습 모드 선택'}</div>
+      <div class="mode-panel-title">${homeworkActive?'🏠 오늘의 숙제':state.selectedLesson?.isCustom?'🎯 혼동 글자 집중 연습':'연습 모드 선택'}</div>
       <div class="student-chip-line">${studentName} 학생</div>
     </div>
     <div class="mode-grid">
@@ -4654,6 +4868,7 @@ function renderActivityModePanel(){
       }).join("")}
     </div>
     <div class="mode-desc">${curMeta.desc}</div>
+    ${homeworkActive ? `<div class="homework-assignment-strip"><strong>🏠 ${safeHTML(homeworkStudent?.name||'학생')}의 숙제 · ${homeworkAssigned.trials}문항</strong><button type="button" onclick="showHomeworkResults()">📋 현재 결과 보기</button></div>` : `<div class="homework-task-actions"><button class="small homework-link-btn" type="button" onclick="openHomeworkShare()">🔗 지금 선택한 활동을 숙제로 내기</button></div>`}
   `;
 }
 
@@ -5194,6 +5409,10 @@ function record(ok, response){
   showGrowthLevelUp(student, beforeGrowth, afterGrowth);
   renderAnimalHome();
   updateCollectionDock();
+  if(homeworkActive && !homeworkCompleted && state.todayTotal >= homeworkAssigned.trials){
+    homeworkCompleted=true;
+    setTimeout(()=>showHomeworkDone(),550);
+  }
 }
 
 function renderRecords(){
@@ -5419,6 +5638,7 @@ if(!state.selectedLesson && lessons[state.tab].length) state.selectedLesson = le
 applyScreenMode();
 renderActivityModePanel();
 newQuestion();
+initializeHomeworkFromLink();
 </script>
 </body>
 </html>
