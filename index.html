@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v80</title>
+<title>소리쏙쏙 음운인식 v81</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1801,7 +1801,7 @@ body.home-screen-on main{max-width:1260px;padding-top:18px}
 
 /* v80: 학습이 주인공인 첫 화면 + 활동 중 언제든 꺼내보는 동물 도감 */
 .learning-hero{background:linear-gradient(120deg,#376e67,#4fa68f 58%,#91cf97);min-height:240px}
-.learning-hero::after{content:'🔤';opacity:.13;transform:rotate(-12deg)}
+.learning-hero::after{content:'가나다';opacity:.13;transform:rotate(-12deg);font-size:88px;font-weight:1000;color:#dfffe9}
 .learning-hero .collection-eyebrow{color:#eaffd6}
 .learning-hero .collection-main-animal{font-size:clamp(72px,10vw,115px)}
 .learning-hero .learning-intro{font-size:17px;max-width:640px;line-height:1.6;color:#fff;font-weight:850;margin:6px 0 0}
@@ -1864,12 +1864,40 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
  .learning-hero .collection-top-action button{font-size:17px;padding:12px 14px;white-space:nowrap;letter-spacing:-.6px}
 }
 @media(max-width:550px){.learning-hero .learning-intro{font-size:14px}.learning-hero .collection-top-action button{width:100%;padding:13px 16px;min-height:60px}.learning-hero .collection-main-animal{font-size:57px}.learning-reward-strip .reward-title{font-size:17px}.collection-album>summary{font-size:17px;padding:15px}.collection-album .album-inside{padding:0 9px 12px}.collection-dock{bottom:12px;right:12px;min-height:58px;padding:6px 10px;border-radius:18px}.collection-dock .dock-art{font-size:32px}.collection-dock .dock-name{font-size:14px}.collection-dock .dock-count{font-size:11px}.collection-drawer-panel{padding:16px 13px 25px}.drawer-heading h2{font-size:22px}}
+/* v81: 한글 마스코트 / 홈 이동 / 학생별 혼동 글자 선택 */
+.hangul-mascot{min-width:165px;min-height:142px;background:linear-gradient(150deg,#e9fff0,#a3e5ca);border:6px solid #fff4b1;border-radius:25px;display:flex;align-items:center;justify-content:center;padding:12px;color:#276b54!important;font-size:clamp(35px,4.8vw,57px)!important;font-weight:1000;letter-spacing:-.12em;text-shadow:0 2px 0 #fff;box-shadow:0 10px 0 #24614b77;transform:rotate(8deg)}
+.home-direct{background:#eff8e7!important;border:2px solid #bed6b2!important;color:#35613e!important;font-weight:1000!important;white-space:nowrap}
+.home-direct:hover{background:#d8f2d7!important}
+.confusion-panel{border:3px solid #e1c4f2;border-radius:23px;padding:20px;background:linear-gradient(180deg,#faf1ff,#fff);margin-top:22px}
+.confusion-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.confusion-heading h3{font-size:22px;color:#65439a;margin:0 0 7px;font-weight:1000}
+.confusion-heading p{margin:0 0 15px;font-size:15px;color:#6e6284;font-weight:750;line-height:1.5}
+.confusion-categories{display:flex;gap:9px;flex-wrap:wrap;margin:5px 0 12px}
+.confusion-category{padding:10px 22px;background:#fff;border:2px solid #cfb8e4;border-radius:13px;color:#674485;font-weight:900;font-size:17px}
+.confusion-category.active{background:#704a9b;color:#fff;border-color:#704a9b}
+.confusion-label{display:block;color:#544475;font-weight:1000;font-size:16px;margin:13px 0 8px}
+#confusionInput{font-size:23px!important;letter-spacing:.12em;font-weight:950;width:100%;padding:13px!important;border:2px solid #d2bce1;border-radius:15px;background:#fff}
+.confusion-chips{display:flex;flex-wrap:wrap;gap:8px;margin:13px 0 9px}
+.confusion-chip{font-size:22px;font-weight:1000;min-width:52px;min-height:52px;padding:7px 12px;border:2px solid #d8c7e5;border-radius:13px;background:#fff;color:#604482}
+.confusion-chip.on{background:#7954aa;border-color:#7954aa;color:#fff}
+.confusion-preview{font-size:16px;font-weight:850;color:#68448f;background:#f0e6fa;border-radius:12px;padding:10px 13px;margin:12px 0}
+.confusion-start{width:100%;padding:17px 14px;font-size:20px;font-weight:1000;background:#6842a1;color:white;border:0;border-radius:15px}
+.confusion-start:hover{background:#523183}
+.confusion-help{font-size:13px;color:#756d84;line-height:1.55;margin:10px 0 0;font-weight:750}
+.collection-top-action .home-confusion-go{background:#fff!important;color:#366b52!important;border:2px solid #b7e1cd!important;font-size:18px!important;box-shadow:0 3px 0 #27614a!important}
+.assess-ready{border:2px dashed #a2cadd;background:linear-gradient(145deg,#f3fbff,#fff);border-radius:24px;padding:26px;text-align:center;margin:17px 0}
+.assess-ready-icon{font-size:58px;margin-bottom:12px}
+.assess-ready-title{font-size:24px;font-weight:1000;color:#376378;margin-bottom:8px}
+.assess-ready p{line-height:1.7;color:#486879;font-size:16px;font-weight:750}
+.assess-begin{padding:17px 32px!important;font-size:23px!important;background:#3d9bc4!important;color:white!important;border:0!important;border-radius:18px!important;min-width:200px}
+@media(max-width:650px){.hangul-mascot{min-width:0;min-height:0;border-width:3px;font-size:31px!important;padding:12px;box-shadow:0 4px 0 #24614b77}.confusion-panel{padding:14px}.confusion-heading h3{font-size:19px}.confusion-chip{min-width:48px;min-height:48px}.collection-top-action .home-confusion-go{width:100%}.collection-hero .collection-main-animal.hangul-mascot{font-size:30px!important;transform:rotate(8deg)}}
 </style>
 </head>
 <body>
 <header>
-  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v80</span><span class="brand-home-mark">⌂ 홈</span></button>
+  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v81</span><span class="brand-home-mark">⌂ 홈</span></button>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="small home-direct" type="button" onclick="goHomeScreen()" title="학습 홈으로 돌아가기">🏠 홈으로</button>
     <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
     <button class="small gray teacher-action" onclick="window.print()">인쇄</button>
     <button class="small blue teacher-action" onclick="exportCSV()">기록 CSV 저장</button>
@@ -1888,7 +1916,7 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
 
 <main>
   <!-- 학생별 음운인식 학습 홈: 학습 시작이 중심이며 도감은 보상 영역 -->
-  <section id="animalHome" aria-label="나의 동물 도감" aria-live="polite"></section>
+  <section id="animalHome" aria-label="소리쏙쏙 학습 홈" aria-live="polite"></section>
   <div class="layout">
     <aside class="card">
       <h2 class="title green">교사·학생 선택</h2>
@@ -1956,6 +1984,7 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
       <div class="card" id="lessonSelectCard">
         <div class="lesson-select-topbar">
           <h2 class="title bluebg">1단계. 지도할 배움 고르기</h2>
+          <button class="small home-direct" type="button" onclick="goHomeScreen()">⌂ 홈으로</button>
           <button class="primary next-arrow-btn enter-activity-top" onclick="goActivityScreen()" title="선택한 음소로 활동 시작" aria-label="선택한 음소로 활동 시작">→</button>
         </div>
         <div class="tabs">
@@ -1967,6 +1996,23 @@ body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
           <button class="tab" data-tab="complexFinals" onclick="setTab('complexFinals')">다양한 받침</button>
         </div>
         <div id="lessonList" class="lesson-list"></div>
+        <section id="confusionPractice" class="confusion-panel" aria-label="혼동하는 글자 고르기">
+          <div class="confusion-heading"><div>
+            <h3>🎯 2단계. 혼동하는 글자 고르기</h3>
+            <p>배움 목록 대신, 헷갈리는 글자를 직접 골라 집중 연습할 수 있어요.</p>
+          </div><button class="small home-direct" onclick="goHomeScreen()">⌂ 홈</button></div>
+          <div class="confusion-categories" role="group" aria-label="혼동하는 글자 종류">
+            <button type="button" class="confusion-category active" data-focus="initial" onclick="setConfusionFocus('initial')">자음</button>
+            <button type="button" class="confusion-category" data-focus="vowel" onclick="setConfusionFocus('vowel')">모음</button>
+            <button type="button" class="confusion-category" data-focus="final" onclick="setConfusionFocus('final')">받침</button>
+          </div>
+          <label for="confusionInput" class="confusion-label">헷갈리는 글자 2~8개 (직접 입력하거나 아래에서 선택)</label>
+          <input type="text" id="confusionInput" autocomplete="off" spellcheck="false" placeholder="예: ㄱ ㅋ ㄲ" oninput="renderConfusionChips()" />
+          <div id="confusionChips" class="confusion-chips" aria-label="고를 수 있는 글자"></div>
+          <p class="confusion-preview" id="confusionPreview">헷갈리는 글자를 두 개 이상 골라 주세요.</p>
+          <button type="button" class="confusion-start" onclick="startConfusionPractice()">🎯 선택한 글자로 집중 연습 시작 →</button>
+          <p class="confusion-help">※ 선택한 글자는 학생별로 저장됩니다. 자음·모음은 글자 하나씩, 받침은 완성된 음절 중심으로 복습합니다. 그림 활동은 예시 단어를 사용합니다.</p>
+        </section>
         <div id="reviewBasket" class="review-basket"></div>
       </div>
 
@@ -2141,7 +2187,9 @@ let state = {
   recognitionPairs:[],
   recognitionTargets:[],
   cumulativeSession:null,
-  reviewGroup:null
+  reviewGroup:null,
+  customMode:false,
+  confusionFocus:"initial"
 };
 
 function loadData(){
@@ -2217,7 +2265,7 @@ function selectTeacher(id){
     ? teacher.selectedStudentId : (students[0]?.id||null);
   teacher.selectedStudentId=data.selectedStudentId;
   saveData();renderStudents();renderLessons();renderRecords();renderReviewBasket();
-  resetToday();renderGrowthPanel();newQuestion();renderAnimalHome();
+  resetToday();renderGrowthPanel();newQuestion();renderAnimalHome();resetConfusionForSelectedStudent();
   if(!document.body.classList.contains('teacher-mode')) goHomeScreen();
 }
 
@@ -2226,6 +2274,7 @@ function ensureStudentData(st){
   if(!st) return st;
   if(!Array.isArray(st.reviewLessonIds)) st.reviewLessonIds = [];
   if(!st.createdAt) st.createdAt = todayStr();
+  if(!st.confusionSets || typeof st.confusionSets!=="object") st.confusionSets={initial:[],vowel:[],final:[]};
   return st;
 }
 function ensureAllStudents(){
@@ -2321,7 +2370,7 @@ function renderAnimalHome(){
     container.innerHTML=`<div class="collection-home"><div class="collection-hero learning-hero">
       <div><div class="collection-eyebrow">🎧 듣고 · 찾고 · 합치고 · 읽어요</div>
         <h1>소리쏙쏙 음운인식 활동</h1><p class="learning-intro">소리를 재미있게 익히며 읽기 실력을 키워요!</p></div>
-      <div class="collection-main-animal" aria-hidden="true">🔤</div></div>
+      <div class="collection-main-animal hangul-mascot" aria-hidden="true">가나다</div></div>
       <div class="collection-empty"><div class="big">👩‍🏫</div><h2>교사와 학생을 먼저 등록해 주세요</h2>
       <p>학생을 선택하면 이름이 들어간 학습 홈이 열립니다.<br>학습하면서 동물과 아이템도 함께 모을 수 있어요.</p>
       <button onclick="openStudentManagement()">교사·학생 등록하러 가기 →</button></div></div>`;
@@ -2342,8 +2391,8 @@ function renderAnimalHome(){
       <div><div class="collection-eyebrow">🎧 ${safeHTML(teacher?.name||'우리 반')} · 듣고 찾고 합치는 재미있는 공부</div>
         <h1>${friendly} 함께하는<br>소리쏙쏙 음운인식 활동!</h1>
         <p class="learning-intro">소리를 듣고, 찾고, 합치고, 나누면서<br>차근차근 글자 읽기 실력을 키워요.</p>
-        <div class="collection-top-action"><button type="button" onclick="goLessonSelectScreen()">📚 음소 고르고 공부 시작! →</button></div>
-      </div><div class="collection-main-animal" aria-hidden="true">🔤</div>
+        <div class="collection-top-action"><button type="button" onclick="goLessonSelectScreen()">📚 음소 고르고 공부 시작! →</button><button type="button" class="home-confusion-go" onclick="goConfusionSelectScreen()">🎯 혼동하는 글자 집중 연습</button></div>
+      </div><div class="collection-main-animal hangul-mascot" aria-hidden="true">가나다</div>
     </div>
     <div class="collection-student-row"><div class="subtitle">👩‍🏫 ${safeHTML(teacher?.name||'담당 교사')} · 함께 공부할 학생</div>
       <div class="collection-student-buttons">${studentButtons}</div></div>
@@ -2529,7 +2578,7 @@ function saveClassStudents(){
   data.selectedStudentId=selected?.id||updated[0].id;
   teacher.selectedStudentId=data.selectedStudentId;
   saveData();renderStudents();renderLessons();renderRecords();renderReviewBasket();
-  resetToday();newQuestion();
+  resetToday();newQuestion();resetConfusionForSelectedStudent();
   goHomeScreen();
   alert(`${teacher.name} 교사의 학생 ${updated.length}명을 저장했어요.`);
 }
@@ -2543,7 +2592,7 @@ function selectStudent(id){
   data.selectedStudentId=student.id;
   const teacher=getTeacher();if(teacher)teacher.selectedStudentId=student.id;
   ensureAllStudents();saveData();renderStudents();renderRecords();renderReviewBasket();
-  resetToday();renderGrowthPanel();newQuestion();
+  resetToday();renderGrowthPanel();newQuestion();resetConfusionForSelectedStudent();
   goHomeScreen();
 }
 function renderStudents(){
@@ -2607,6 +2656,81 @@ function renderStudents(){
 }
 
 
+// 특정 학생의 혼동하는 글자를 별도 선택해 수업에 활용합니다.
+const CONFUSION_CHOICES={
+  initial:["ㄱ","ㅋ","ㄲ","ㄴ","ㄷ","ㅌ","ㄸ","ㅁ","ㅂ","ㅍ","ㅃ","ㅅ","ㅆ","ㅈ","ㅉ","ㅊ","ㅎ","ㄹ"],
+  vowel:["ㅏ","ㅓ","ㅗ","ㅜ","ㅡ","ㅣ","ㅐ","ㅔ","ㅑ","ㅕ","ㅛ","ㅠ","ㅖ","ㅒ","ㅘ","ㅙ","ㅚ","ㅝ","ㅞ","ㅟ","ㅢ"],
+  final:["ㄱ","ㅋ","ㄲ","ㄴ","ㄷ","ㄹ","ㅁ","ㅂ","ㅍ","ㅇ","ㅅ","ㅆ","ㅈ","ㅊ","ㅌ","ㅎ"]
+};
+function readConfusionInput(){
+  const value=document.getElementById('confusionInput')?.value || '';
+  return [...new Set(Array.from(value.replace(/[\s,，/·+|]+/g,'')))]
+    .filter(x=>CONFUSION_CHOICES[state.confusionFocus].includes(x));
+}
+function setConfusionFocus(focus){
+  if(!CONFUSION_CHOICES[focus])return;
+  state.confusionFocus=focus;
+  const st=getStudent();
+  const values=st?.confusionSets?.[focus] || [];
+  const input=document.getElementById('confusionInput');
+  if(input)input.value=values.join(' ');
+  renderConfusionChips();
+}
+function renderConfusionChips(){
+  const focus=state.confusionFocus;
+  document.querySelectorAll('.confusion-category').forEach(b=>b.classList.toggle('active',b.dataset.focus===focus));
+  const input=document.getElementById('confusionInput');
+  if(!input)return;
+  const picked=readConfusionInput();
+  const box=document.getElementById('confusionChips');
+  if(box)box.innerHTML=CONFUSION_CHOICES[focus].map(ch=>`<button type="button" class="confusion-chip ${picked.includes(ch)?'on':''}" onclick="toggleConfusionLetter('${ch}')" aria-pressed="${picked.includes(ch)}">${ch}</button>`).join('');
+  const preview=document.getElementById('confusionPreview');
+  const invalid=[...new Set([...input.value.replace(/[\s,，/·+|]+/g,'')].filter(ch=>!CONFUSION_CHOICES[focus].includes(ch)))];
+  if(preview)preview.textContent=invalid.length ? `⚠ 이 종류에 해당하지 않는 글자가 있어요: ${invalid.join(', ')}` :
+    picked.length>8 ? '⚠ 최대 8개까지 고를 수 있어요.' : picked.length<2 ? '혼동하는 글자를 2개 이상 고르세요.' :
+    `선택한 글자 ${picked.length}개: ${picked.join(' · ')} · 이 글자로 집중 연습해요!`;
+}
+function toggleConfusionLetter(ch){
+  const arr=readConfusionInput();
+  if(arr.includes(ch))arr.splice(arr.indexOf(ch),1);
+  else if(arr.length>=8){alert('혼동하는 글자는 최대 8개까지 고를 수 있어요.');return;}
+  else arr.push(ch);
+  document.getElementById('confusionInput').value=arr.join(' ');
+  renderConfusionChips();
+}
+function startConfusionPractice(){
+  const st=getStudent();if(!st){alert('교사와 학생을 먼저 선택해 주세요.');return;}
+  const raw=document.getElementById('confusionInput').value;
+  const picked=readConfusionInput();
+  const invalid=[...raw.replace(/[\s,，/·+|]+/g,'')].filter(c=>!CONFUSION_CHOICES[state.confusionFocus].includes(c));
+  if(invalid.length){alert('선택한 종류와 맞지 않는 글자가 있어요: '+[...new Set(invalid)].join(' '));return;}
+  if(picked.length<2||picked.length>8){alert('혼동하는 글자를 2~8개 골라 주세요.');return;}
+  ensureStudentData(st);
+  st.confusionSets[state.confusionFocus]=picked.slice();saveData();
+  const focus=state.confusionFocus;
+  state.tab=focus==='initial'?'consonants':focus==='final'?'finals':'vowels';
+  state.customMode=true;
+  state.selectedLesson={id:`CONFUSION_${focus}_${picked.join('_')}`,lesson:'맞춤 연습',
+    title:picked.join(' · '),phonemes:picked.slice(),
+    ...(focus==='final'?{finals:picked.slice()}:{ }),focus,isCustom:true,tags:['혼동 글자']};
+  state.reviewGroup=focus==='final'?'finals':focus==='initial'?'consonants':'vowels';
+  state.cumulativeSession=null;state.multiSession=null;
+  updateActivityOptions();renderLessons();
+  // 맞춤 글자 학습에서는 누적 연습도 선택한 글자로만 구성합니다.
+  goActivityScreen();
+}
+function goConfusionSelectScreen(){
+  goLessonSelectScreen();
+  setTimeout(()=>document.getElementById('confusionPractice')?.scrollIntoView({behavior:'smooth',block:'center'}),90);
+}
+function resetConfusionForSelectedStudent(){
+  const student=getStudent();
+  const set=student?.confusionSets?.[state.confusionFocus]||[];
+  const input=document.getElementById('confusionInput');
+  if(input)input.value=set.join(' ');
+  renderConfusionChips();
+}
+
 function updateActivityOptions(){
   const select = document.getElementById("activityType");
   if(!select) return;
@@ -2626,6 +2750,7 @@ function updateActivityOptions(){
 }
 
 function setTab(tab){
+  state.customMode=false;
   state.reviewGroup=null;
   state.tab = tab;
   state.selectedLesson = lessons[tab] && lessons[tab].length ? lessons[tab][0] : null;
@@ -2646,7 +2771,7 @@ function renderLessons(){
     const div = document.createElement("div");
     const inReview = reviewIds.includes(item.id);
     div.className = "lesson" + (state.selectedLesson && state.selectedLesson.id===item.id ? " selected" : "");
-    div.onclick = ()=>{ state.selectedLesson = item; state.multiSession = null; state.reviewGroup=null; state.screen = "select"; renderLessons(); resetToday(); applyScreenMode(); };
+    div.onclick = ()=>{ state.customMode=false;state.selectedLesson = item; state.multiSession = null; state.reviewGroup=null; state.screen = "select"; renderLessons(); resetToday(); applyScreenMode(); };
     div.innerHTML = `<span class="badge">${item.lesson}</span>
       <div style="font-size:20px;font-weight:1000">${item.title}</div>
       <div>${(item.tags||[]).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
@@ -2887,7 +3012,7 @@ function makeRecognitionQuestion(lesson){
       {word:"쿠키",emoji:"🍪"},{word:"눈",emoji:"👀"},{word:"물고기",emoji:"🐟"},{word:"분필",emoji:"🖍️"}
     ],
     "ㅡ":[
-      {word:"음표",emoji:"🎵"},{word:"은행",emoji:"🏦"},{word:"그릇",emoji:"🥣"},{word:"글자",emoji:"🔤"},
+      {word:"음표",emoji:"🎵"},{word:"은행",emoji:"🏦"},{word:"그릇",emoji:"🥣"},{word:"글자",emoji:"📖"},
       {word:"금",emoji:"🥇"},{word:"스키",emoji:"⛷️"},{word:"스웨터",emoji:"🧥"},{word:"트럭",emoji:"🚚"},
       {word:"브로콜리",emoji:"🥦"},{word:"크레파스",emoji:"🖍️"}
     ],
@@ -3652,6 +3777,12 @@ function makeLearnedSyllableCatalog(){
 // 읽기 '점검' 전용 간추림: 모음 1개 / 초성 2개 / 받침 2개.
 // 기존 누적학습 30문항의 어휘 목록과는 분리하여 연습량을 줄입니다.
 function makeAssessmentSyllableCatalog(){
+  if(state.selectedLesson?.isCustom){
+    const lesson=state.selectedLesson;
+    if(lesson.focus==='final')return lesson.phonemes.flatMap(f=>[finalReviewSyllable(f), ...[...new Set((FINAL_SYLLABLE_BANK[f]||[]).flatMap(w=>[...w]).filter(ch=>splitHangul(ch)[2]===f))].filter(x=>x!==finalReviewSyllable(f)).slice(0,1)]);
+    if(lesson.focus==='initial')return lesson.phonemes.flatMap(c=>[composeHangul(c,'ㅏ'),composeHangul(c,'ㅗ')]);
+    return lesson.phonemes.map(v=>composeHangul('ㅇ',v));
+  }
   const taughtVowels = [];
   const taughtInitials = [];
   const taughtFinals = [];
@@ -3778,6 +3909,10 @@ function reviewDefaultGroup(){
   return "vowels";
 }
 function reviewAvailableGroups(){
+  if(state.selectedLesson?.isCustom){
+    const key=state.selectedLesson.focus==='final'?'finals':state.selectedLesson.focus==='initial'?'consonants':'vowels';
+    return REVIEW_GROUPS.filter(g=>g.id===key);
+  }
   const catalog = makeLearnedJamoCatalog();
   return REVIEW_GROUPS.filter(g => (catalog[g.key || g.id] || []).length > 0);
 }
@@ -3826,9 +3961,10 @@ function makeCumulativeSession(){
   const group = currentReviewGroup();
   // 자음·모음 복습: 배운 낱자 그대로 제시합니다.
   // 받침 복습: ㅁ·ㅂ 같은 낱자 대신 암·압 등의 음절을 제시합니다.
-  const pool = group === "finals"
-    ? [...new Set(catalog.finals.map(finalReviewSyllable))]
-    : (catalog[group === "consonants" ? "initials" : group] || []).slice();
+  const pool = state.selectedLesson?.isCustom
+    ? (group==="finals" ? state.selectedLesson.phonemes.map(finalReviewSyllable) : state.selectedLesson.phonemes.slice())
+    : (group === "finals" ? [...new Set(catalog.finals.map(finalReviewSyllable))]
+      : (catalog[group === "consonants" ? "initials" : group] || []).slice());
   const questions=[];
   const seen=new Set();
   const seqKey = seq=>seq.join("|");
@@ -4150,14 +4286,20 @@ function assessmentStart(mode){
     id:uid(),date:todayStr(),studentId:student.id,studentName:student.name,
     lessonId:state.selectedLesson.id,lesson:state.selectedLesson.lesson+" "+state.selectedLesson.title,
     mode,items:makeAssessmentSyllableCatalog(),results:[],index:0,
-    status:mode==="minute"?"running":"running",lastIndex:-1,errors:[],
-    elapsedMs:0,startedAt:Date.now(),completedAt:null
+    status:"ready",lastIndex:-1,errors:[],
+    elapsedMs:0,startedAt:null,completedAt:null
   };
-  data.assessments.push(assessmentSession);
-  saveData();
   assessmentMarkMode="last";
   renderAssessmentUI();
-  if(mode==="minute")startMinuteClock();
+}
+function assessmentBegin(){
+  const s=assessmentSession;
+  if(!s || s.status!=="ready")return;
+  s.status="running";
+  s.startedAt=Date.now();
+  data.assessments.push(s);saveData();
+  renderAssessmentUI();
+  if(s.mode==="minute")startMinuteClock();
   else startSingleClock();
 }
 function startSingleClock(){
@@ -4257,6 +4399,16 @@ function renderAssessmentUI(){
       <div class="assess-help">1개씩 점검: 화면에 글자가 나타나는 순간부터 교사가 OX를 누르기까지의 시간을 측정합니다. <b>1초 초과</b>는 빨간색으로 기록됩니다.<br>1분 점검: 모든 글자를 한 페이지에 제시하고, 60초가 끝나면 마지막으로 읽은 글자와 틀린 글자를 표시합니다.</div>
     </div>`;return;
   }
+  if(s.status==="ready"){
+    host.innerHTML=`<div class="assess-shell">
+      <div class="assess-headline">⏱️ ${s.mode==="minute"?"1분 전체 읽기":"글자 1개씩"} 점검 준비</div>
+      <div class="assess-ready"><div class="assess-ready-icon">${s.mode==="minute"?"⏳":"👀"}</div>
+        <div class="assess-ready-title">준비가 되면 시작해요!</div>
+        <p>총 <b>${s.items.length}개 글자</b>를 점검해요.<br>${s.mode==="minute"?"1분 동안 왼쪽 위부터 순서대로 읽어요. 시작을 누른 뒤 60초가 흐릅니다.":"글자가 하나씩 나타나고 교사가 OX를 누르면 읽기 시간이 기록됩니다."}<br>지금은 시간이 흐르지 않아요.</p>
+        <button class="assess-action assess-begin" onclick="assessmentBegin()">▶ 점검 시작</button>
+      </div><button class="assess-action" onclick="assessmentResetOnExit();renderAssessmentUI()">← 방식 다시 고르기</button>
+    </div>`;return;
+  }
   if(s.status==="finished"){
     const attempted=s.results.length;
     const correct=s.results.filter(r=>r.isCorrect).length;
@@ -4325,6 +4477,37 @@ function exportAssessmentCSV(){
   const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="소리쏙쏙_읽기점검_기록.csv";link.click();URL.revokeObjectURL(link.href);
 }
 
+// 맞춤 집중 연습: 선택한 혼동 글자가 문항의 실제 목표가 되도록 생성합니다.
+function makeCustomSubstitutionQuestion(lesson){
+  const u=lesson.phonemes;
+  const from=sample(u);
+  const to=sample(u.filter(x=>x!==from));
+  const focus=lesson.focus;
+  const syllable=x=>focus==='initial'?composeHangul(x,'ㅏ')
+    :focus==='vowel'?composeHangul('ㄱ',x):composeHangul('ㄱ','ㅏ',x);
+  const before=syllable(from),answer=syllable(to);
+  const alternative=before;
+  return {type:'substitution',lesson,
+    prompt:'헷갈리는 두 글자의 소리를 바꿔 보세요.',
+    source:{word:before,emoji:before},from,to,role:focus,
+    answer,choices:shuffle([{word:answer,emoji:answer,isAnswer:true},{word:alternative,emoji:alternative,isAnswer:false}]),isLessonAligned:true};
+}
+function makeCustomDeletionQuestion(lesson){
+  const focus=lesson.focus;
+  const f=sample(lesson.phonemes);
+  const others=lesson.phonemes.filter(x=>x!==f);
+  const other=sample(others);
+  const before=focus==='final'?composeHangul('ㄱ','ㅏ',f)
+    :focus==='vowel'?composeHangul('ㄱ',f):composeHangul(f,'ㅏ');
+  const answer=focus==='final'?'가':focus==='vowel'?'ㄱ':'아';
+  const otherWord=focus==='final'?composeHangul('ㄱ','ㅏ',other)
+    :focus==='vowel'?composeHangul('ㄱ',other):composeHangul(other,'ㅏ');
+  return {type:'deletion',lesson,
+    prompt:'선택한 글자의 소리를 빼면 무엇이 남을까요?',
+    source:{word:before,emoji:before},removed:f,role:focus,answer,
+    choices:shuffle([{word:answer,isAnswer:true},{word:otherWord,isAnswer:false}]),isLessonAligned:true};
+}
+
 function makeQuestion(){
   let lesson = state.selectedLesson || lessons[state.tab][0];
   const mode = document.getElementById("activityType").value;
@@ -4334,6 +4517,8 @@ function makeQuestion(){
 }
 
 function makeSpecificQuestion(lesson, type){
+  if(lesson?.isCustom && type==="substitution") return makeCustomSubstitutionQuestion(lesson);
+  if(lesson?.isCustom && type==="deletion") return makeCustomDeletionQuestion(lesson);
   if(type==="recognition") return makeRecognitionQuestion(lesson);
   if(type==="substitution") return makeSubstitutionQuestion(lesson);
   if(type==="deletion") return makeDeletionQuestion(lesson);
@@ -4402,8 +4587,9 @@ function renderActivityModePanel(){
   const studentName = st ? st.name : "학생 미선택";
   panel.innerHTML = `
     <div class="mode-panel-top">
-      <button class="small gray" onclick="goSelectScreen()">⌂ 음소 다시 고르기 · 홈으로</button>
-      <div class="mode-panel-title">연습 모드 선택</div>
+      <button class="small home-direct" onclick="goHomeScreen()">🏠 홈으로</button>
+      <button class="small gray" onclick="goLessonSelectScreen()">↩ 배움 다시 고르기</button>
+      <div class="mode-panel-title">${state.selectedLesson?.isCustom?'🎯 혼동 글자 집중 연습':'연습 모드 선택'}</div>
       <div class="student-chip-line">${studentName} 학생</div>
     </div>
     <div class="mode-grid">
@@ -5085,6 +5271,12 @@ function goHomeScreen(){
 function goLessonSelectScreen(){
   if(!getStudent()){openStudentManagement();return;}
   assessmentStopClock();cancelGradedAutoAdvance();stopAllAppSounds();
+  if(state.selectedLesson?.isCustom){
+    state.customMode=false;
+    state.selectedLesson=lessons[state.tab]?.[0]||lessons.vowels[0];
+    renderLessons();
+  }
+  resetConfusionForSelectedStudent();
   state.screen='select';applyScreenMode();
   setTimeout(()=>document.getElementById('lessonSelectCard')?.scrollIntoView({behavior:'smooth',block:'start'}),30);
 }
@@ -5153,6 +5345,7 @@ function toggleTeacherMode(){
 
 if(data.teachers.length && getStudent()) state.screen='home';
 renderStudents();
+resetConfusionForSelectedStudent();
 if(!data.teachers.length){
   document.body.classList.add('teacher-mode');
   const managementBtn=document.getElementById('teacherModeBtn');
