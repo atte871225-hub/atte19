@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v77</title>
+<title>소리쏙쏙 음운인식 v78</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1719,16 +1719,25 @@ body.assessment-mode #growthPanel{display:none!important}
 .review-group-btn{border:2px solid #d8e6c6;background:#f8fbf4;color:#42632d;border-radius:15px;padding:10px 22px;min-width:88px;font-size:18px;font-weight:900}
 .review-group-btn.active{background:#3f6e6a;color:#fff;border-color:#3f6e6a}
 .review-group-btn:focus-visible{outline:3px solid #4aa3d8;outline-offset:3px}
+  /* v78: 교사별 학생 목록을 분리하는 선택/등록 UI */
+  .teacher-student-guide{background:#f1f8e8;border:1px solid #cbdcb5;border-radius:13px;padding:10px 12px;color:#47642a;font-size:13px;line-height:1.65;margin:10px 0}
+  .teacher-add-row{display:flex;gap:8px;align-items:stretch}
+  .teacher-add-row input{min-width:0;flex:1}
+  .teacher-add-row button{flex:0 0 auto;white-space:nowrap}
+  .teacher-manage-subhead{margin:12px 0 6px;color:#315516;font-size:16px;font-weight:900}
+  .teacher-student-count{font-weight:900;color:#437260;margin:7px 0}
+  .teacher-student-count.full{color:#ab4c28}
+  @media(max-width:480px){.teacher-add-row{flex-wrap:wrap}.teacher-add-row button{width:100%}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><div class="logo">쏙</div>소리쏙쏙 음운인식 v77</div>
+  <div class="brand"><div class="logo">쏙</div>소리쏙쏙 음운인식 v78</div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">학생 등록 및 관리</button>
+    <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
     <button class="small gray teacher-action" onclick="window.print()">인쇄</button>
     <button class="small blue teacher-action" onclick="exportCSV()">기록 CSV 저장</button>
-    <button class="small purple teacher-action" onclick="downloadJSON()">전체 백업</button>
+    <button class="small purple teacher-action" onclick="downloadJSON()">선택 교사 백업</button>
     <label class="small gray teacher-action import-label" for="jsonImportInput">백업 불러오기</label>
     <input id="jsonImportInput" class="hidden-file" type="file" accept=".json,application/json" onchange="importJSON(event)">
   </div>
@@ -1738,22 +1747,34 @@ body.assessment-mode #growthPanel{display:none!important}
 <main>
   <div class="layout">
     <aside class="card">
-      <h2 class="title green">학생 선택</h2>
+      <h2 class="title green">교사·학생 선택</h2>
+      <div class="field">
+        <label for="teacherSelect">교사 이름</label>
+        <select id="teacherSelect" onchange="selectTeacher(this.value)"></select>
+      </div>
       <div class="field">
         <label>현재 학생</label>
         <select id="studentSelect"></select>
       </div>
-      <div class="muted" id="studentGuide">학생을 등록하려면 상단의 ‘학생 등록 및 관리’를 눌러주세요.</div>
+      <div class="muted" id="studentGuide">교사를 먼저 선택해 주세요.</div>
 
       <div class="teacher-only student-manage" id="studentManagePanel">
-        <h3 class="student-manage-heading">학생 등록 및 관리</h3>
-        <hr style="border:0;border-top:1px solid #e7eedf;margin:14px 0">
-        <div class="field">
-          <label>우리 반 학생 목록</label>
-          <textarea id="classStudentNames" placeholder="학생 이름을 한 줄에 한 명씩 입력하세요.&#10;예:&#10;현렬&#10;서우&#10;민준"></textarea>
+        <h3 class="student-manage-heading">교사 및 학생 등록</h3>
+        <label for="teacherNameInput">① 교사 이름 등록</label>
+        <div class="teacher-add-row">
+          <input id="teacherNameInput" type="text" maxlength="24" autocomplete="off" placeholder="예: 김선생" onkeydown="if(event.key==='Enter')registerTeacher()">
+          <button class="primary" onclick="registerTeacher()">+ 교사 추가</button>
         </div>
-        <button class="primary" onclick="saveClassStudents()">학생 목록 저장</button>
-        <div class="muted" style="margin-top:8px">저장한 학생만 선택 목록에 보입니다. 학생 화면에서는 이름 추가 칸이 보이지 않습니다.</div>
+        <div class="teacher-student-guide">교사를 등록하면 위의 <b>교사 이름</b>에서 선택할 수 있어요. 선택한 교사의 학생과 기록만 표시됩니다. 별도 비밀번호는 없으며, 기록은 이 브라우저에만 저장됩니다.</div>
+        <hr style="border:0;border-top:1px solid #e7eedf;margin:14px 0">
+        <div class="teacher-manage-subhead" id="teacherManageSubhead">② 교사를 선택해 주세요</div>
+        <div class="field">
+          <label for="classStudentNames">학생 이름 (교사 1명당 최대 3명)</label>
+          <textarea id="classStudentNames" rows="3" placeholder="한 줄에 한 명씩 입력하세요.&#10;예:&#10;현렬&#10;서우&#10;민준"></textarea>
+          <div id="teacherStudentCount" class="teacher-student-count">0 / 3명</div>
+        </div>
+        <button class="primary" onclick="saveClassStudents()">이 교사의 학생 저장</button>
+        <div class="muted" style="margin-top:8px">이 교사의 학생만 수정합니다. 다른 교사의 학생과 학습 기록은 그대로 유지됩니다.</div>
       </div>
 
       <div id="studentList"></div>
@@ -1980,13 +2001,81 @@ let state = {
 };
 
 function loadData(){
-  const raw = localStorage.getItem("soriAppDataV2");
-  if(raw) return JSON.parse(raw);
-  return {students:[], selectedStudentId:null, records:[]};
+  try{
+    const raw=localStorage.getItem('soriAppDataV2');
+    if(raw)return JSON.parse(raw);
+  }catch(e){console.warn('기존 저장 정보를 읽지 못했습니다.',e);}
+  return {teachers:[],students:[],selectedTeacherId:null,selectedStudentId:null,records:[],assessments:[]};
 }
 function saveData(){ localStorage.setItem("soriAppDataV2", JSON.stringify(data)); }
 let data = loadData();
-if(!Array.isArray(data.assessments)) data.assessments=[];
+normalizeTeacherData(data);
+
+// v78 이전 학생 정보는 삭제하지 않고 '기존 교사' 소속으로 옮깁니다.
+function normalizeTeacherData(target){
+  if(!Array.isArray(target.students)) target.students=[];
+  if(!Array.isArray(target.records)) target.records=[];
+  if(!Array.isArray(target.assessments)) target.assessments=[];
+  if(!Array.isArray(target.teachers)) target.teachers=[];
+  const seenIds=new Set(target.teachers.map(t=>t.id));
+  const unassigned=target.students.filter(st=>!st.teacherId || !seenIds.has(st.teacherId));
+  if(unassigned.length){
+    // 예전 저장 정보가 3명 이상이어도 학습 기록이 유지되도록 3명씩 나누어 이전합니다.
+    for(let i=0;i<unassigned.length;i+=3){
+      const number=Math.floor(i/3)+1;
+      const id=uid();
+      const teacher={id,name:number===1?'기존 교사':`기존 교사 ${number}`,createdAt:todayStr()};
+      target.teachers.push(teacher);
+      unassigned.slice(i,i+3).forEach(st=>st.teacherId=id);
+    }
+  }
+  if(!target.teachers.some(t=>t.id===target.selectedTeacherId)){
+    // 기존에 선택해 둔 학생이 있다면 그 학생의 소속 교사를 우선 선택합니다.
+    const previousStudent=target.students.find(st=>st.id===target.selectedStudentId);
+    target.selectedTeacherId=previousStudent?.teacherId || (target.teachers[0]?.id||null);
+  }
+  for(const teacher of target.teachers){
+    const students=target.students.filter(st=>st.teacherId===teacher.id);
+    if(!students.some(st=>st.id===teacher.selectedStudentId)){
+      teacher.selectedStudentId=students.length?students[0].id:null;
+    }
+  }
+  const current=target.teachers.find(t=>t.id===target.selectedTeacherId);
+  const owned=target.students.filter(st=>current && st.teacherId===current.id);
+  if(!owned.some(st=>st.id===target.selectedStudentId)){
+    target.selectedStudentId=(current&&current.selectedStudentId)||null;
+  }
+  return target;
+}
+function getTeacher(){return data.teachers.find(t=>t.id===data.selectedTeacherId)||null;}
+function getTeacherStudents(){const t=getTeacher();return t?data.students.filter(st=>st.teacherId===t.id):[];}
+function getTeacherStudentIds(){return new Set(getTeacherStudents().map(s=>s.id));}
+function registerTeacher(){
+  const input=document.getElementById('teacherNameInput');
+  const name=(input?.value||'').trim().replace(/\s+/g,' ');
+  if(!name){alert('교사 이름을 입력해 주세요.');input?.focus();return;}
+  if(data.teachers.some(t=>t.name===name)){
+    alert('같은 이름의 교사가 이미 있습니다. 위에서 해당 교사를 선택해 주세요.');return;
+  }
+  const teacher={id:uid(),name,createdAt:todayStr(),selectedStudentId:null};
+  data.teachers.push(teacher);
+  input.value='';
+  selectTeacher(teacher.id);
+  alert(`${name} 교사를 등록했어요. 학생을 최대 3명까지 입력해 주세요.`);
+}
+function selectTeacher(id){
+  const teacher=data.teachers.find(t=>t.id===id);
+  if(!teacher)return;
+  assessmentStopClock();cancelGradedAutoAdvance();stopAllAppSounds();
+  data.selectedTeacherId=id;
+  const students=getTeacherStudents();
+  data.selectedStudentId=students.some(st=>st.id===teacher.selectedStudentId)
+    ? teacher.selectedStudentId : (students[0]?.id||null);
+  teacher.selectedStudentId=data.selectedStudentId;
+  saveData();renderStudents();renderLessons();renderRecords();renderReviewBasket();
+  resetToday();renderGrowthPanel();newQuestion();
+}
+
 
 function ensureStudentData(st){
   if(!st) return st;
@@ -2181,83 +2270,104 @@ function speakText(text){
 
 function addStudent(){
   // 학생 추가는 상단의 학생 등록 및 관리 화면에서만 진행합니다.
-  alert("상단의 학생 등록 및 관리에서 학생 목록을 저장해 주세요.");
+  alert("상단의 교사·학생 등록 및 관리에서 학생 목록을 저장해 주세요.");
 }
 
 function saveClassStudents(){
-  const textarea = document.getElementById("classStudentNames");
-  if(!textarea) return;
-  const names = textarea.value
-    .split(/\n|,/)
-    .map(n => n.trim())
-    .filter(Boolean);
-
-  if(names.length === 0){
-    alert("학생 이름을 한 명 이상 입력해 주세요.");
+  const teacher=getTeacher();
+  if(!teacher){alert('먼저 교사를 등록하거나 선택해 주세요.');return;}
+  const textarea=document.getElementById('classStudentNames');
+  if(!textarea)return;
+  const names=textarea.value.split(/\n|,/).map(n=>n.trim()).filter(Boolean);
+  const uniqueNames=[...new Set(names)];
+  if(!uniqueNames.length){alert('학생 이름을 1명 이상 입력해 주세요.');return;}
+  if(uniqueNames.length>3){
+    alert(`${teacher.name} 교사는 학생을 최대 3명까지만 등록할 수 있어요. 현재 ${uniqueNames.length}명입니다.`);
     return;
   }
-
-  const uniqueNames = [...new Set(names)];
-  const oldByName = {};
-  data.students.forEach(st => oldByName[st.name] = st);
-
-  data.students = uniqueNames.map(name => {
-    return ensureStudentData(oldByName[name] || {id:uid(), name, createdAt:todayStr(), reviewLessonIds:[]});
-  });
-
-  if(!data.students.find(st => st.id === data.selectedStudentId)){
-    data.selectedStudentId = data.students[0].id;
-  }
-
-  saveData();
-  renderStudents();
-  renderRecords();
-  resetToday();
-  newQuestion();
-  alert("우리 반 학생 목록을 저장했어요.");
+  const original=getTeacherStudents();
+  const oldByName=new Map(original.map(st=>[st.name,st]));
+  const updated=uniqueNames.map(name=>ensureStudentData(oldByName.get(name)||{
+    id:uid(),name,teacherId:teacher.id,createdAt:todayStr(),reviewLessonIds:[]
+  }));
+  // 이 교사의 활성 학생 목록만 교체합니다. 다른 교사의 데이터는 유지됩니다.
+  data.students=data.students.filter(st=>st.teacherId!==teacher.id).concat(updated);
+  const selected=updated.find(st=>st.id===data.selectedStudentId);
+  data.selectedStudentId=selected?.id||updated[0].id;
+  teacher.selectedStudentId=data.selectedStudentId;
+  saveData();renderStudents();renderLessons();renderRecords();renderReviewBasket();
+  resetToday();newQuestion();
+  alert(`${teacher.name} 교사의 학생 ${updated.length}명을 저장했어요.`);
 }
-function getStudent(){ return data.students.find(s=>s.id===data.selectedStudentId) || null }
+function getStudent(){
+  return getTeacherStudents().find(st=>st.id===data.selectedStudentId)||null;
+}
 function selectStudent(id){
-  cancelGradedAutoAdvance();
-  data.selectedStudentId = id;
-  ensureAllStudents();
-  saveData(); renderStudents(); renderRecords(); renderReviewBasket(); resetToday(); renderGrowthPanel(); newQuestion();
+  const student=getTeacherStudents().find(st=>st.id===id);
+  if(!student)return;
+  cancelGradedAutoAdvance();assessmentStopClock();
+  data.selectedStudentId=student.id;
+  const teacher=getTeacher();if(teacher)teacher.selectedStudentId=student.id;
+  ensureAllStudents();saveData();renderStudents();renderRecords();renderReviewBasket();
+  resetToday();renderGrowthPanel();newQuestion();
 }
 function renderStudents(){
   ensureAllStudents();
-  const sel = document.getElementById("studentSelect");
-  sel.innerHTML = "";
-
-  const textarea = document.getElementById("classStudentNames");
-  if(textarea){
-    textarea.value = data.students.map(st => st.name).join("\n");
-  }
-
-  const guide = document.getElementById("studentGuide");
-
-  if(data.students.length===0){
-    const opt = document.createElement("option");
-    opt.textContent = "학생 등록 및 관리에서 학생 목록 설정";
-    sel.appendChild(opt);
-    if(guide) guide.textContent = "아직 학생 목록이 없습니다. 상단의 학생 등록 및 관리에서 등록해 주세요.";
+  const teachers=data.teachers||[];
+  const teacher=getTeacher();
+  const students=getTeacherStudents();
+  const teacherSelect=document.getElementById('teacherSelect');
+  teacherSelect.replaceChildren();
+  if(!teachers.length){
+    const option=new Option('교사 등록이 필요해요','');teacherSelect.add(option);
   }else{
-    if(guide) guide.textContent = "저장된 우리 반 학생 중에서 선택하세요.";
-    data.students.forEach(st=>{
-      const opt = document.createElement("option");
-      opt.value = st.id; opt.textContent = st.name;
-      if(st.id===data.selectedStudentId) opt.selected = true;
-      sel.appendChild(opt);
+    teachers.forEach(t=>{
+      const option=new Option(t.name,t.id);
+      option.selected=t.id===data.selectedTeacherId;
+      teacherSelect.add(option);
     });
   }
-  sel.onchange = ()=>selectStudent(sel.value);
-  const list = document.getElementById("studentList");
-  list.innerHTML = "";
-  data.students.forEach(st=>{
-    const div = document.createElement("div");
-    div.className = "student-pill teacher-only" + (st.id===data.selectedStudentId ? " active":"");
-    div.innerHTML = `<div><div style="font-weight:900">${st.name}</div><div class="muted">등록: ${st.createdAt}</div></div>
-      <button class="small gray" onclick="selectStudent('${st.id}')">선택</button>`;
-    list.appendChild(div);
+  const studentSelect=document.getElementById('studentSelect');
+  studentSelect.replaceChildren();
+  if(!students.length){
+    studentSelect.add(new Option(teacher?'학생을 등록해 주세요':'교사부터 등록해 주세요',''));
+    studentSelect.disabled=true;
+  }else{
+    studentSelect.disabled=false;
+    students.forEach(st=>{
+      const option=new Option(st.name,st.id);
+      option.selected=st.id===data.selectedStudentId;
+      studentSelect.add(option);
+    });
+  }
+  studentSelect.onchange=()=>selectStudent(studentSelect.value);
+  const textarea=document.getElementById('classStudentNames');
+  if(textarea){
+    textarea.value=students.map(st=>st.name).join('\n');
+    textarea.disabled=!teacher;
+  }
+  const nameLabel=document.getElementById('teacherManageSubhead');
+  if(nameLabel)nameLabel.textContent=teacher?`② ${teacher.name} 교사의 학생 등록`:'② 교사를 먼저 등록해 주세요';
+  const count=document.getElementById('teacherStudentCount');
+  if(count){count.textContent=`${students.length} / 3명 등록`;
+    count.classList.toggle('full',students.length>=3);
+  }
+  const guide=document.getElementById('studentGuide');
+  if(guide)guide.textContent=!teacher
+    ?'교사를 등록하려면 상단의 「교사·학생 등록 및 관리」를 눌러주세요.'
+    :students.length?`${teacher.name} 교사 · 학생 ${students.length}/3명 · 교사를 바꾸면 학생 목록도 바뀝니다.`
+      :'아직 이 교사의 학생이 없습니다. 관리 화면에서 학생을 등록해 주세요.';
+  const list=document.getElementById('studentList');
+  list.replaceChildren();
+  students.forEach(st=>{
+    const div=document.createElement('div');div.className='student-pill teacher-only'+(st.id===data.selectedStudentId?' active':'');
+    const meta=document.createElement('div');
+    const name=document.createElement('div');name.style.fontWeight='900';name.textContent=st.name;
+    const date=document.createElement('div');date.className='muted';date.textContent=`등록: ${st.createdAt}`;
+    meta.append(name,date);
+    const btn=document.createElement('button');btn.className='small gray';btn.textContent='선택';
+    btn.addEventListener('click',()=>selectStudent(st.id));
+    div.append(meta,btn);list.appendChild(div);
   });
 }
 
@@ -3971,7 +4081,8 @@ function renderAssessmentRecords(){
 }
 function exportAssessmentCSV(){
   const rows=[["날짜","학생","배움","점검방식","순서","글자","정오답","읽기시간(초)","1초초과","시행상태","마지막으로읽은글자","시행시간(초)","정확글자/분"]];
-  (data.assessments||[]).forEach(s=>{
+  const teacherIds=getTeacherStudentIds();
+  (data.assessments||[]).filter(s=>teacherIds.has(s.studentId)).forEach(s=>{
     (s.results||[]).forEach((r,i)=>rows.push([s.date,s.studentName,s.lesson,s.mode==="single"?"1개씩":"1분",i+1,r.word,r.isCorrect?"맞음":"틀림",r.elapsedMs===null?"":(r.elapsedMs/1000).toFixed(2),r.elapsedMs>1000?"초과":"",s.status,s.lastIndex>=0?s.items[s.lastIndex]:"",(s.elapsedMs/1000).toFixed(2),s.mode==="minute"&&s.elapsedMs>=59900?s.results.filter(x=>x.isCorrect).length:""]));
   });
   const csv=rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\n");
@@ -4610,7 +4721,9 @@ function record(ok, response){
 
 function renderRecords(){
   const student = getStudent();
-  const records = student ? data.records.filter(r=>r.studentId===student.id) : data.records;
+  const teacherIds=getTeacherStudentIds();
+  const records=student?data.records.filter(r=>r.studentId===student.id)
+    :data.records.filter(r=>teacherIds.has(r.studentId));
   document.getElementById("recordTable").innerHTML = records.slice().reverse().slice(0,100).map(r=>`
     <tr>
       <td>${r.date}</td><td>${r.studentName}</td><td>${r.lesson}</td><td>${r.activity}</td><td>${r.prompt}</td><td>${r.answer}</td><td>${r.response}</td><td>${r.isCorrect?"○":"△"}</td><td>${r.memo||""}</td>
@@ -4656,50 +4769,57 @@ function renderRecords(){
 }
 
 function exportCSV(){
-  const rows = [["날짜","학생","배움","활동","문항","정답","반응","결과","메모"]];
-  data.records.forEach(r=>rows.push([r.date,r.studentName,r.lesson,r.activity,r.prompt,r.answer,r.response,r.isCorrect?"정답":"오답",r.memo||""]));
-  const csv = rows.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
-  const blob = new Blob(["\uFEFF"+csv], {type:"text/csv;charset=utf-8"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "소리쏙쏙_음운인식_기록_v2.csv";
-  a.click();
+  const teacher=getTeacher();
+  if(!teacher){alert('먼저 교사를 선택해 주세요.');return;}
+  const studentIds=getTeacherStudentIds();
+  const rows=[["날짜","교사","학생","배움","활동","문항","정답","반응","결과","메모"]];
+  data.records.filter(r=>studentIds.has(r.studentId)).forEach(r=>rows.push([
+    r.date,teacher.name,r.studentName,r.lesson,r.activity,r.prompt,r.answer,r.response,r.isCorrect?'정답':'오답',r.memo||''
+  ]));
+  const csv=rows.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download=`소리쏙쏙_${teacher.name}_학습기록.csv`;a.click();URL.revokeObjectURL(a.href);
 }
 function downloadJSON(){
-  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "소리쏙쏙_전체백업_v28.json";
-  a.click();
+  const teacher=getTeacher();
+  if(!teacher){alert('먼저 교사를 선택해 주세요.');return;}
+  const students=getTeacherStudents();
+  const studentIds=new Set(students.map(st=>st.id));
+  const backup={
+    backupVersion:78,teachers:[teacher],students,
+    selectedTeacherId:teacher.id,selectedStudentId:data.selectedStudentId,
+    records:data.records.filter(r=>studentIds.has(r.studentId)),
+    assessments:(data.assessments||[]).filter(s=>studentIds.has(s.studentId))
+  };
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`소리쏙쏙_${teacher.name}_백업_v78.json`;a.click();URL.revokeObjectURL(a.href);
 }
 function importJSON(event){
-  const file = event.target.files && event.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
+  const file=event.target.files?.[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
     try{
-      const imported = JSON.parse(reader.result);
-      if(!imported || !Array.isArray(imported.students) || !Array.isArray(imported.records)){
-        alert("소리쏙쏙 백업 파일 형식이 아닙니다.");
-        return;
+      const imported=JSON.parse(reader.result);
+      if(!imported||!Array.isArray(imported.students)||!Array.isArray(imported.records)){
+        alert('소리쏙쏙 백업 파일 형식이 아닙니다.');return;
       }
-      if(confirm("현재 브라우저의 학생/기록을 백업 파일 내용으로 바꿀까요?")){
-        data = imported;
-        ensureAllStudents();
-        if(!Array.isArray(data.assessments)) data.assessments=[];
-        saveData();
-        renderStudents();
-        renderLessons();
-        renderRecords();
-        resetToday();
-        newQuestion();
-        alert("백업을 불러왔습니다.");
+      normalizeTeacherData(imported);
+      if(!confirm('백업 파일의 교사·학생·기록을 현재 브라우저에 합칠까요? 기존 교사 기록은 유지됩니다.'))return;
+      for(const key of ['teachers','students','records','assessments']){
+        const merged=new Map((data[key]||[]).map(x=>[x.id,x]));
+        (imported[key]||[]).forEach(item=>merged.set(item.id,item));
+        data[key]=[...merged.values()];
       }
-    }catch(e){
-      alert("백업 파일을 읽을 수 없습니다.");
-    }finally{
-      event.target.value = "";
-    }
+      data.selectedTeacherId=imported.selectedTeacherId;
+      data.selectedStudentId=imported.selectedStudentId;
+      normalizeTeacherData(data);
+      saveData();renderStudents();renderLessons();renderRecords();renderReviewBasket();
+      resetToday();newQuestion();
+      alert('교사와 학생별 기록을 불러왔습니다.');
+    }catch(e){console.error(e);alert('백업 파일을 읽을 수 없습니다.');}
+    finally{event.target.value='';}
   };
   reader.readAsText(file);
 }
@@ -4722,7 +4842,7 @@ function goActivityScreen(){
     return;
   }
   if(!getStudent()){
-    alert("학생 등록 및 관리에서 학생을 먼저 등록하고 선택해 주세요.");
+    alert("교사·학생 등록 및 관리에서 학생을 먼저 등록하고 선택해 주세요.");
     return;
   }
   state.screen = "activity";
@@ -4772,12 +4892,18 @@ function toggleTeacherMode(){
     window.scrollTo({top:0,behavior:"smooth"});
   }
   if(btn){
-    btn.textContent = isOn ? "← 학생 학습 화면" : "학생 등록 및 관리";
+    btn.textContent = isOn ? "← 학생 학습 화면" : "교사·학생 등록 및 관리";
     btn.setAttribute("aria-expanded",String(isOn));
   }
 }
 
 renderStudents();
+if(!data.teachers.length){
+  document.body.classList.add('teacher-mode');
+  const managementBtn=document.getElementById('teacherModeBtn');
+  managementBtn.textContent='← 학생 학습 화면';
+  managementBtn.setAttribute('aria-expanded','true');
+}
 updateActivityOptions();
 renderLessons();
 renderReviewBasket();
