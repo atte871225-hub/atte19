@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v85</title>
+<title>소리쏙쏙 음운인식 v86</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1954,7 +1954,7 @@ body.homework-active .review-settings{display:none!important}
 </head>
 <body>
 <header>
-  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v85</span><span class="brand-home-mark">⌂ 홈</span></button>
+  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v86</span><span class="brand-home-mark">⌂ 홈</span></button>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="small home-direct" type="button" onclick="goHomeScreen()" title="학습 홈으로 돌아가기">🏠 홈으로</button>
     <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
@@ -4915,7 +4915,7 @@ const ACTIVITY_MODE_META = [
   {value:"substitution", icon:"🔄", label:"대치", desc:"단어에서 소리 하나를 다른 소리로 바꾸기"},
   {value:"deletion", icon:"➖", label:"탈락", desc:"낱말의 첫소리·모음·받침 중 소리 하나를 빼고 남는 소리 찾기"},
   {value:"multisyllableSynthesis", icon:"🧱", label:"다음절", desc:"엘코닌 소리상자를 한 칸씩 열며 다음절 단어 합성하기"},
-  {value:"review", icon:"🔁", label:"누적", desc:"선택한 모음·자음·음절을 2~4글자씩 이어 읽기"},
+  {value:"review", icon:"🔁", label:"연속 읽기", desc:"선택한 모음·자음·음절을 2~4글자씩 이어 읽기"},
   {value:"assessment", icon:"⏱️", label:"점검", desc:"1분 전체 읽기 또는 글자 1개씩 읽기를 점검하기"}
 ];
 
@@ -5027,7 +5027,7 @@ function renderQuestion(){
     <span class="tag">${q.lesson.lesson}</span>
     <span class="tag">${q.lesson.title}</span>
     <span class="tag">${activityName(q.type==="review" ? (q.baseType || "review") : q.type)}</span>
-    ${q.type==="review" && q.reviewLessonTitle ? `<span class="tag">누적: ${q.reviewLessonTitle}</span>` : ""}
+    ${q.type==="review" && q.reviewLessonTitle ? `<span class="tag">연속 읽기: ${q.reviewLessonTitle}</span>` : ""}
   </div>`;
 
   let html = `${topTags}<div class="teacher-note">
@@ -5242,7 +5242,7 @@ function renderQuestion(){
     const percent = Math.round((q.cumulativeIndex) / q.cumulativeTotal * 100);
     html += `
     <div class="cumulative-stage">
-      <div class="clean-prompt">연속 읽기 · ${REVIEW_GROUPS.find(g=>g.id===q.reviewGroup)?.name||"글자 읽기"}</div>
+      <div class="clean-prompt">연속 읽기</div>
       <div class="review-settings">
         <div class="review-settings-caption">① 읽기 종류 (한 가지 선택)</div>
         <div class="review-group-buttons" role="group" aria-label="연속 읽기 글자 종류 선택">
