@@ -4202,7 +4202,7 @@ function reviewDefaultGroup(){return reviewDefaultGroupForLesson(state.selectedL
 function reviewGroupsForLesson(lesson){
   if(!lesson)return [];
   if(lesson.isCustom){
-    const allowed=lesson.focus==='initial'?['consonants','syllables']:
+    const allowed=lesson.focus==='initial'?['vowels','consonants','syllables']:
       lesson.focus==='final'?['syllables']:['vowels'];
     return REVIEW_GROUPS.filter(g=>allowed.includes(g.id));
   }
@@ -4281,7 +4281,7 @@ function makeCumulativeSession(){
   const initials=isCustom&&lesson.focus==='initial'?lesson.phonemes:catalog.initials;
   const vowels=isCustom ? CONFUSION_ASSESSMENT_VOWELS : catalog.vowels;
   let pool=[];
-  if(group==='vowels')pool=isCustom?lesson.phonemes.slice():catalog.vowels.slice();
+  if(group==='vowels')pool=isCustom?(lesson.focus==='vowel'?lesson.phonemes.slice():CONFUSION_ASSESSMENT_VOWELS.slice()):catalog.vowels.slice();
   else if(group==='consonants')pool=isCustom?lesson.phonemes.slice():catalog.initials.slice();
   else if(group==='syllables'){
     if(isCustom && lesson.focus==='final'){
