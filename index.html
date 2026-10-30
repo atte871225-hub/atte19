@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v78</title>
+<title>소리쏙쏙 음운인식 v79</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1728,11 +1728,81 @@ body.assessment-mode #growthPanel{display:none!important}
   .teacher-student-count{font-weight:900;color:#437260;margin:7px 0}
   .teacher-student-count.full{color:#ab4c28}
   @media(max-width:480px){.teacher-add-row{flex-wrap:wrap}.teacher-add-row button{width:100%}}
+
+/* v79 동물 도감 홈 + 동물·아이템 수집 */
+.brand-home-link{border:0;background:transparent;box-shadow:none;border-radius:12px;padding:4px 6px;display:flex;align-items:center;gap:10px;color:var(--green2);font-size:22px;font-weight:1000;text-align:left;min-width:0}
+.brand-home-link:hover{background:#eef8e6;transform:none;box-shadow:none}
+.brand-home-link .brand-home-mark{font-size:12px;white-space:nowrap;color:#527a3a;background:#eef6e7;border-radius:999px;padding:5px 9px}
+body.home-screen-on #animalHome{display:block}
+#animalHome{display:none}
+body.home-screen-on .layout{display:none}
+body.home-screen-on main{max-width:1260px;padding-top:18px}
+.collection-home{display:flex;flex-direction:column;gap:16px}
+.collection-hero{position:relative;overflow:hidden;border-radius:26px;padding:26px 28px;background:linear-gradient(125deg,#3b7867,#67ac7e 55%,#b8d776);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 9px 25px #42765a33}
+.collection-hero::after{content:'🐾';font-size:160px;opacity:.11;position:absolute;right:28px;top:-44px;pointer-events:none;transform:rotate(-22deg)}
+.collection-hero h1{font-size:clamp(26px,4vw,40px);margin:3px 0 10px;line-height:1.27;font-weight:1000;position:relative;z-index:1}
+.collection-hero p{margin:0;line-height:1.55;color:#ecfff1;font-weight:700;position:relative;z-index:1}
+.collection-eyebrow{font-weight:1000;font-size:14px;letter-spacing:.03em;color:#e0ffce}
+.collection-hero .collection-main-animal{font-size:clamp(72px,10vw,132px);line-height:1.1;filter:drop-shadow(0 9px 5px #2b514233);flex:0 0 auto;z-index:1;animation:animalBounce 2.8s ease-in-out infinite}
+@keyframes animalBounce{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-9px) rotate(4deg)}}
+.collection-student-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:#fff;border:1px solid #d7e8ca;border-radius:18px;padding:13px 16px}
+.collection-student-row .subtitle{font-size:14px;font-weight:900;color:#527158}
+.collection-student-buttons{display:flex;gap:7px;flex-wrap:wrap}
+.collection-student-buttons button{border:2px solid #d9e9d3;background:#f7fbf5;color:#315f3c;border-radius:12px;padding:8px 16px;font-size:15px}
+.collection-student-buttons button.active{background:#427b5c;color:#fff;border-color:#427b5c}
+.collection-student-buttons button:focus-visible{outline:3px solid #ffc84e}
+.collection-top-action{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.collection-top-action button{background:#fff;color:#386c40;border:0;min-height:51px;padding:13px 24px;font-size:18px;box-shadow:0 4px 12px #193c2433;position:relative;z-index:2}
+.collection-top-action button:hover{background:#f4fff0}
+.collection-progress-card{background:#fff;border:1px solid #dfe9d7;border-radius:18px;padding:17px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+.collection-next{font-size:16px;color:#3f6246;font-weight:900;margin-bottom:8px}
+.collection-bar{height:17px;border-radius:20px;background:#e5eedd;overflow:hidden}
+.collection-bar>div{background:linear-gradient(90deg,#70bb7b,#e9c75d);height:100%;border-radius:20px;transition:width .35s ease}
+.collection-points{font-weight:1000;color:#376b44;font-size:16px}
+.collection-stats{display:flex;flex-wrap:wrap;gap:8px}
+.collection-stats span{background:#eaf5e7;border-radius:999px;padding:9px 14px;font-weight:900;color:#3e714a}
+.collection-section{padding:18px 20px 21px;background:#fff;border:1px solid #e2ebdc;box-shadow:var(--shadow);border-radius:23px}
+.collection-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px}
+.collection-heading h2{font-size:clamp(21px,3vw,29px);color:#315e44;margin:0;font-weight:1000}
+.collection-heading .col-count{font-size:15px;background:#e9f6ed;border-radius:999px;padding:7px 13px;color:#3a714c;font-weight:1000}
+.collection-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.collect-card{min-width:0;background:linear-gradient(#f7fff4,#eff8eb);border:2px solid #bbd9ab;box-shadow:0 4px 0 #d9e9d2;border-radius:19px;min-height:155px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:13px 7px;position:relative}
+.collect-card .collect-art{font-size:clamp(41px,5vw,59px);line-height:1.15}
+.collect-card .collect-name{font-size:16px;color:#35553b;font-weight:1000}
+.collect-card .collect-caption{font-size:12px;color:#52725e;font-weight:800}
+.collect-card.locked{background:#f6f7f5;border:2px dashed #d6ddd3;box-shadow:none}
+.collect-card.locked .collect-art{filter:grayscale(1);opacity:.23}
+.collect-card.locked .collect-name{color:#8d9890}
+.collect-card .collection-lock{position:absolute;inset:0;display:grid;place-items:center;font-size:30px;color:#748777;pointer-events:none}
+.collect-card.newest{border:3px solid #e5b54f;background:#fff9e9;box-shadow:0 4px 0 #f3db9d}
+.collection-item-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px}
+.collection-item-grid .collect-card{min-height:126px;background:linear-gradient(#fffcf4,#fff8e8);border-color:#f0dca3}
+.collection-item-grid .collect-card.locked{background:#f6f7f5;border-color:#dadfdb}
+.collection-how{font-weight:800;color:#607360;font-size:14px;margin:2px 0 0;line-height:1.6}
+.collection-empty{padding:25px;border-radius:20px;text-align:center;background:#fff;color:#466c52;box-shadow:var(--shadow)}
+.collection-empty .big{font-size:70px}
+.collection-empty p{line-height:1.7}
+.collection-empty button{font-size:18px;background:#4c8d69;border-color:#4c8d69;color:#fff}
+.collection-mini{background:#f4fdf1;border:2px solid #b2d6ad;border-radius:18px;padding:14px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.collection-mini .mini-icons{display:flex;gap:8px;align-items:center;font-weight:1000;color:#396c4a}
+.collection-mini .mini-icons .animal{font-size:46px}
+.collection-mini button{background:#fff;border-color:#d4e9c5;padding:8px 14px}
+.collection-unlock-overlay{position:fixed;z-index:100000;inset:0;display:grid;place-items:center;background:#103c3173;padding:20px;animation:collectIntro .2s ease}
+.collection-unlock-box{background:#fff;border:6px solid #f0c857;box-shadow:0 18px 65px #19382c55;border-radius:32px;padding:26px 32px;max-width:min(460px,95vw);text-align:center;animation:collectPop .55s both}
+.collection-unlock-box h2{font-size:26px;color:#3c704f;margin:6px 0 10px}
+.collection-unlock-box .unlocked-art{font-size:100px;line-height:1.25}
+.collection-unlock-box p{font-size:18px;font-weight:900;color:#516d51}
+.collection-unlock-box button{background:#4c8d69;border-color:#4c8d69;color:#fff;font-size:17px}
+@keyframes collectIntro{from{opacity:0}to{opacity:1}}
+@keyframes collectPop{from{transform:scale(.6) rotate(-5deg);opacity:0}to{transform:scale(1);opacity:1}}
+@media(max-width:900px){.collection-grid,.collection-item-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:550px){.collection-hero{padding:22px 17px;gap:5px}.collection-hero .collection-main-animal{font-size:70px}.collection-hero h1{font-size:25px}.collection-grid,.collection-item-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.collect-card{min-height:122px;padding:10px 4px}.collect-card .collect-art{font-size:43px}.collect-card .collect-name{font-size:14px}.collection-item-grid .collect-card{min-height:110px}.collection-section{padding:15px 12px}.collection-progress-card{grid-template-columns:1fr}.brand-home-link{font-size:16px;gap:5px}.brand-home-link .logo{width:37px;height:37px}.brand-home-link .brand-home-mark{font-size:10px}.collection-hero::after{display:none}}
+@media(prefers-reduced-motion:reduce){.collection-hero .collection-main-animal,.collection-unlock-box{animation:none!important}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand"><div class="logo">쏙</div>소리쏙쏙 음운인식 v78</div>
+  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="동물 도감 홈으로" aria-label="소리쏙쏙 홈으로 이동"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v79</span><span class="brand-home-mark">⌂ 홈</span></button>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
     <button class="small gray teacher-action" onclick="window.print()">인쇄</button>
@@ -1745,6 +1815,8 @@ body.assessment-mode #growthPanel{display:none!important}
 <div id="globalFeedback" class="global-feedback"></div>
 
 <main>
+  <!-- 학생을 선택하면 가장 먼저 보이는 동물/아이템 도감 홈 화면 -->
+  <section id="animalHome" aria-label="나의 동물 도감" aria-live="polite"></section>
   <div class="layout">
     <aside class="card">
       <h2 class="title green">교사·학생 선택</h2>
@@ -2073,7 +2145,8 @@ function selectTeacher(id){
     ? teacher.selectedStudentId : (students[0]?.id||null);
   teacher.selectedStudentId=data.selectedStudentId;
   saveData();renderStudents();renderLessons();renderRecords();renderReviewBasket();
-  resetToday();renderGrowthPanel();newQuestion();
+  resetToday();renderGrowthPanel();newQuestion();renderAnimalHome();
+  if(!document.body.classList.contains('teacher-mode')) goHomeScreen();
 }
 
 
@@ -2105,115 +2178,132 @@ function isVowelOnlyLesson(lesson){
 }
 
 
-const GROWTH_STAGES = [
-  {emoji:"🌱", name:"씨앗"},
-  {emoji:"🌿", name:"새싹"},
-  {emoji:"🪴", name:"튼튼한 화분"},
-  {emoji:"🌷", name:"꽃봉오리"},
-  {emoji:"🌸", name:"활짝 핀 꽃"},
-  {emoji:"🌳", name:"배움 나무"},
-  {emoji:"⭐", name:"반짝 별"}
+// 아이의 수집 보상은 학생 개인의 기존 학습 기록으로 계산합니다.
+// 시도 +1점, 정답 +2점. 업그레이드 시 기존 데이터가 그대로 반영됩니다.
+const ANIMAL_COLLECTION = [
+  {emoji:"🐥",name:"병아리",points:0},
+  {emoji:"🐰",name:"토끼",points:12},
+  {emoji:"🐻",name:"곰",points:24},
+  {emoji:"🦊",name:"여우",points:36},
+  {emoji:"🐼",name:"판다",points:48},
+  {emoji:"🐸",name:"개구리",points:60},
+  {emoji:"🐧",name:"펭귄",points:72},
+  {emoji:"🦁",name:"사자",points:84},
+  {emoji:"🦄",name:"유니콘",points:96},
+  {emoji:"🐉",name:"용",points:108},
+  {emoji:"🐬",name:"돌고래",points:120},
+  {emoji:"🦋",name:"나비",points:132}
 ];
-
+const ITEM_COLLECTION = [
+  {emoji:"🎀",name:"리본",points:6},
+  {emoji:"🧢",name:"모자",points:18},
+  {emoji:"⚽",name:"공",points:30},
+  {emoji:"🎒",name:"가방",points:42},
+  {emoji:"🧸",name:"인형",points:54},
+  {emoji:"🎈",name:"풍선",points:66},
+  {emoji:"👑",name:"왕관",points:78},
+  {emoji:"🪄",name:"마법봉",points:90},
+  {emoji:"🚀",name:"로켓",points:102},
+  {emoji:"💎",name:"보석",points:114},
+  {emoji:"🏆",name:"트로피",points:126},
+  {emoji:"🎁",name:"선물",points:138}
+];
+function safeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
 function getStudentRecordsForGrowth(student){
-  if(!student) return [];
-  return data.records.filter(r => r.studentId === student.id);
+  return student ? data.records.filter(r=>r.studentId===student.id) : [];
 }
-
 function getGrowthInfo(student){
-  const records = getStudentRecordsForGrowth(student);
-  const total = records.length;
-  const correct = records.filter(r => r.isCorrect).length;
-  const acc = total ? Math.round(correct / total * 100) : 0;
-
-  // 수행률과 성공률을 모두 강화: 모든 시도 +1, 정답은 +2 추가
-  const exp = total + correct * 2;
-  const expPerLevel = 12;
-  const level = Math.floor(exp / expPerLevel);
-  const currentExp = exp % expPerLevel;
-  const pct = Math.min(100, Math.round(currentExp / expPerLevel * 100));
-  const stage = GROWTH_STAGES[Math.min(level, GROWTH_STAGES.length - 1)];
-
-  let badge = "첫 씨앗";
-  let badgeEmoji = "🌱";
-  if(total >= 30 && acc >= 90){ badge = "정확도 왕관"; badgeEmoji = "👑"; }
-  else if(total >= 20 && acc >= 80){ badge = "쑥쑥 성장"; badgeEmoji = "🌸"; }
-  else if(total >= 10 && acc >= 70){ badge = "튼튼한 연습"; badgeEmoji = "💪"; }
-  else if(total >= 10){ badge = "도전 중"; badgeEmoji = "🔥"; }
-
-  const targetEl = document.getElementById("targetTrials");
-  const target = targetEl ? parseInt(targetEl.value || 10) : 10;
-  const performance = target ? Math.min(100, Math.round(state.todayTotal / target * 100)) : 0;
-  const todayAcc = state.todayTotal ? Math.round(state.todayCorrect / state.todayTotal * 100) : 0;
-
-  return {records,total,correct,acc,exp,level,currentExp,expPerLevel,pct,stage,badge,badgeEmoji,performance,todayAcc};
+  const records=getStudentRecordsForGrowth(student);
+  const total=records.length;
+  const correct=records.filter(r=>r.isCorrect).length;
+  const acc=total?Math.round(correct/total*100):0;
+  const exp=total+correct*2;
+  const animals=ANIMAL_COLLECTION.filter(a=>exp>=a.points);
+  const items=ITEM_COLLECTION.filter(i=>exp>=i.points);
+  const remaining=[...ANIMAL_COLLECTION,...ITEM_COLLECTION].filter(r=>r.points>exp).sort((a,b)=>a.points-b.points);
+  const next=remaining[0]||null;
+  const previousThreshold=Math.max(0,...[...ANIMAL_COLLECTION,...ITEM_COLLECTION].filter(r=>r.points<=exp).map(r=>r.points));
+  const pct=next?Math.max(0,Math.min(100,Math.round((exp-previousThreshold)/(next.points-previousThreshold)*100))):100;
+  return {records,total,correct,acc,exp,animals,items,next,pct,level:Math.floor(exp/12),
+          stage:{emoji:animals.at(-1)?.emoji||"🐥",name:animals.at(-1)?.name||"병아리"}};
 }
-
-function renderGrowthPanel(){
-  const box = document.getElementById("growthPanel");
-  if(!box) return;
-  const student = getStudent();
+function collectionCard(obj,earned,newest=false){
+  return `<div class="collect-card ${earned?'':'locked'} ${newest?'newest':''}" aria-label="${earned?safeHTML(obj.name)+' 수집 완료':safeHTML(obj.points+'점에 열리는 보상')}" title="${earned?safeHTML(obj.name):obj.points+'점에 획득'}">
+    <div class="collect-art">${obj.emoji}</div>
+    ${earned?'':`<div class="collection-lock" aria-hidden="true">🔒</div>`}
+    <div class="collect-name">${earned?safeHTML(obj.name):'???'}</div>
+    <div class="collect-caption">${earned?'✓ 수집 완료':obj.points+'점에 만나요'}</div>
+  </div>`;
+}
+function renderAnimalHome(){
+  const container=document.getElementById('animalHome');if(!container)return;
+  const teacher=getTeacher(), student=getStudent();
   if(!student){
-    box.innerHTML = "";
+    container.innerHTML=`<div class="collection-home"><div class="collection-hero">
+      <div><div class="collection-eyebrow">✨ 소리쏙쏙의 신나는 보상</div><h1>🐾 나의 동물 도감</h1><p>동물도 모으고 아이템도 모아요!</p></div>
+      <div class="collection-main-animal" aria-hidden="true">🐻</div></div>
+      <div class="collection-empty"><div class="big">🧩</div><h2>교사와 학생을 등록해 주세요</h2>
+      <p>교사를 등록하고 학생을 선택하면 동물 도감이 나타나요.<br>학생마다 수집한 동물과 아이템이 따로 기록됩니다.</p>
+      <button onclick="openStudentManagement()">교사·학생 등록하러 가기 →</button></div></div>`;
     return;
   }
-
-  const g = getGrowthInfo(student);
-  const targetEl = document.getElementById("targetTrials");
-  const target = targetEl ? parseInt(targetEl.value || 10) : 10;
-  const flowerCount = Math.min(5, Math.floor((state.todayTotal / Math.max(1,target)) * 5));
-  const flowers = Array.from({length:5}, (_,i)=>`<span class="${i<flowerCount ? "" : "empty"}">🌼</span>`).join("");
-
-  let note = "시도하면 씨앗이 자라고, 맞게 읽으면 더 빨리 자라요.";
-  if(state.todayTotal >= target && g.todayAcc >= 80) note = "오늘 미션 성공! 정확하게 많이 읽었어요.";
-  else if(state.todayTotal >= target) note = "오늘 미션 완료! 끝까지 도전했어요.";
-  else if(state.todayTotal > 0) note = "좋아요. 조금씩 배움 나무가 자라고 있어요.";
-
-  box.innerHTML = `
-    <div class="growth-card" id="growthCard">
-      <div class="growth-character" aria-label="${g.stage.name}">${g.stage.emoji}</div>
-      <div class="growth-info">
-        <div class="growth-title-line">
-          <div class="growth-title">${student.name}의 성장 ${g.stage.name} · Lv.${g.level}</div>
-          <div class="growth-badge">${g.badgeEmoji} ${g.badge}</div>
-        </div>
-        <div class="growth-exp-bar">
-          <div class="growth-exp-fill" style="width:${g.pct}%"></div>
-          <div class="growth-exp-text">성장 ${g.currentExp} / ${g.expPerLevel}</div>
-        </div>
-        <div class="growth-stats teacher-growth-detail">
-          <div class="growth-stat"><div class="n">${g.acc}%</div><div class="t">누적 성공률</div></div>
-          <div class="growth-stat"><div class="n">${state.todayTotal}/${target}</div><div class="t">이번 활동 수행률</div></div>
-          <div class="growth-stat"><div class="n">${g.todayAcc}%</div><div class="t">이번 활동 성공률</div></div>
-        </div>
-        <div class="growth-flowers" title="이번 활동 꽃">${flowers}</div>
-        <div class="growth-note">${note}</div>
-      </div>
+  const g=getGrowthInfo(student);
+  const label=safeHTML(student.name);
+  const studentButtons=getTeacherStudents().map(st=>`<button type="button" onclick="selectStudent('${st.id}')" class="${student.id===st.id?'active':''}" aria-pressed="${student.id===st.id}">${safeHTML(st.name)}</button>`).join('');
+  const newestAnimal=g.animals[g.animals.length-1];
+  const animalCards=ANIMAL_COLLECTION.map(a=>collectionCard(a,g.exp>=a.points,a===newestAnimal)).join('');
+  const itemCards=ITEM_COLLECTION.map(i=>collectionCard(i,g.exp>=i.points)).join('');
+  const nextLabel=g.next?`${g.next.emoji} ${safeHTML(g.next.name)}까지 ${g.next.points-g.exp}점!`:'모든 동물과 아이템을 모았어요! 🎉';
+  container.innerHTML=`<div class="collection-home">
+    <div class="collection-hero">
+      <div><div class="collection-eyebrow">🐾 ${safeHTML(teacher?.name||'우리 반')} · 나만의 수집 도감</div>
+        <h1>${label}의 동물 도감!</h1><p>읽고 도전할 때마다 새로운 동물과 아이템이 나타나요.</p>
+        <div class="collection-top-action" style="margin-top:18px"><button onclick="goLessonSelectScreen()">📚 음소 고르고 공부하기 →</button></div>
+      </div><div class="collection-main-animal" aria-label="최근 수집한 ${safeHTML(newestAnimal.name)}">${newestAnimal.emoji}</div>
     </div>
-  `;
-}
-
-function showGrowthLevelUp(student, growth){
-  if(!student || !growth) return;
-  const card = document.getElementById("growthCard");
-  if(card){
-    card.classList.add("level-pop");
-    setTimeout(()=>card.classList.remove("level-pop"), 900);
-  }
-
-  const layer = document.createElement("div");
-  layer.className = "growth-levelup-layer";
-  layer.innerHTML = `
-    <div class="growth-levelup-card">
-      <div class="char">${growth.stage.emoji}</div>
-      <div class="msg">${student.name} 성장 레벨 업!</div>
-      <div class="growth-note">새로운 모습: ${growth.stage.name}</div>
+    <div class="collection-student-row"><div class="subtitle">👩‍🏫 ${safeHTML(teacher?.name||'담당 교사')} · 학생 바꾸기</div>
+      <div class="collection-student-buttons">${studentButtons}</div></div>
+    <div class="collection-progress-card">
+      <div><div class="collection-next">✨ 다음 보상: ${nextLabel}</div>
+      <div class="collection-bar" role="progressbar" aria-valuenow="${g.pct}" aria-valuemin="0" aria-valuemax="100" aria-label="다음 보상까지 진행률"><div style="width:${g.pct}%"></div></div>
+      <p class="collection-how">도전하면 1점, 정답을 맞히면 2점을 더 받아요! (정답 총 3점) · 기존 학습 기록도 반영돼요.</p></div>
+      <div class="collection-points">⭐ ${g.exp}점</div>
     </div>
-  `;
-  document.body.appendChild(layer);
-  setTimeout(()=>{ if(layer.parentNode) layer.remove(); }, 2800);
+    <section class="collection-section"><div class="collection-heading"><h2>🐾 동물 도감</h2><span class="col-count">${g.animals.length} / ${ANIMAL_COLLECTION.length}마리 수집!</span></div>
+      <div class="collection-grid">${animalCards}</div></section>
+    <section class="collection-section"><div class="collection-heading"><h2>🎒 나의 아이템 보관함</h2><span class="col-count">${g.items.length} / ${ITEM_COLLECTION.length}개 수집!</span></div>
+      <div class="collection-item-grid">${itemCards}</div></section>
+    <p class="collection-how" style="text-align:center;margin-bottom:20px">※ 이 도감과 학습 기록은 현재 기기의 브라우저에 저장됩니다. 교사 간 자동 동기화는 되지 않아요.</p>
+  </div>`;
 }
-
+function renderGrowthPanel(){
+  const panel=document.getElementById('growthPanel');if(!panel)return;
+  const student=getStudent();
+  if(!student){panel.innerHTML='';return;}
+  const g=getGrowthInfo(student);
+  const nextText=g.next?`${g.next.points-g.exp}점 더 모으면 ${g.next.emoji} ${safeHTML(g.next.name)} 획득!`:'모든 보상을 모았어요!';
+  panel.innerHTML=`<div class="collection-mini">
+    <div class="mini-icons"><span class="animal">${g.stage.emoji}</span><span>${safeHTML(student.name)}의 동물 수집<br><small>🐾 ${g.animals.length}/${ANIMAL_COLLECTION.length} · 🎒 ${g.items.length}/${ITEM_COLLECTION.length} · ⭐ ${g.exp}점</small></span></div>
+    <div><div class="muted" style="margin-bottom:7px">${nextText}</div><button onclick="goHomeScreen()">📖 내 동물 도감 보기</button></div>
+  </div>`;
+}
+function showGrowthLevelUp(student, before, after){
+  if(!student||!before||!after)return;
+  const unlocked=[...ANIMAL_COLLECTION,...ITEM_COLLECTION].filter(r=>r.points>before.exp&&r.points<=after.exp).sort((a,b)=>a.points-b.points);
+  if(!unlocked.length)return;
+  const reward=unlocked[unlocked.length-1];
+  document.querySelector('.collection-unlock-overlay')?.remove();
+  const overlay=document.createElement('div');overlay.className='collection-unlock-overlay';
+  overlay.innerHTML=`<div class="collection-unlock-box" role="dialog" aria-modal="true" aria-label="새로운 수집 보상">
+      <h2>🎉 새 보상 획득!</h2><div class="unlocked-art">${reward.emoji}</div>
+      <p>${safeHTML(student.name)}의 ${safeHTML(reward.name)} 수집 성공!</p>
+      <p style="font-size:14px">${unlocked.length>1?'새 보상 '+unlocked.length+'개를 얻었어요!':'동물 도감에서 확인해 보세요!'}</p>
+      <button type="button" onclick="this.closest('.collection-unlock-overlay').remove()">신난다! ✨</button>
+    </div>`;
+  overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove()});
+  document.body.appendChild(overlay);
+  setTimeout(()=>{if(overlay.isConnected)overlay.remove()},3500);
+}
 
 
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7) }
@@ -2297,6 +2387,7 @@ function saveClassStudents(){
   teacher.selectedStudentId=data.selectedStudentId;
   saveData();renderStudents();renderLessons();renderRecords();renderReviewBasket();
   resetToday();newQuestion();
+  goHomeScreen();
   alert(`${teacher.name} 교사의 학생 ${updated.length}명을 저장했어요.`);
 }
 function getStudent(){
@@ -2310,6 +2401,7 @@ function selectStudent(id){
   const teacher=getTeacher();if(teacher)teacher.selectedStudentId=student.id;
   ensureAllStudents();saveData();renderStudents();renderRecords();renderReviewBasket();
   resetToday();renderGrowthPanel();newQuestion();
+  goHomeScreen();
 }
 function renderStudents(){
   ensureAllStudents();
@@ -3888,7 +3980,7 @@ function showCumulativeFinish(){
       </div>
       <div class="footer-actions">
         <button class="primary" onclick="state.cumulativeSession=null; state.currentQuestion=makeCumulativeQuestion(); renderQuestion();">새 30문항 시작</button>
-        <button class="gray" onclick="goSelectScreen()">음소 다시 고르기</button>
+        <button class="gray" onclick="goSelectScreen()">⌂ 음소 다시 고르기 · 홈으로</button>
       </div>
     </div>`;
 }
@@ -4167,7 +4259,7 @@ function renderActivityModePanel(){
   const studentName = st ? st.name : "학생 미선택";
   panel.innerHTML = `
     <div class="mode-panel-top">
-      <button class="small gray" onclick="goSelectScreen()">← 음소 다시 고르기</button>
+      <button class="small gray" onclick="goSelectScreen()">⌂ 음소 다시 고르기 · 홈으로</button>
       <div class="mode-panel-title">연습 모드 선택</div>
       <div class="student-chip-line">${studentName} 학생</div>
     </div>
@@ -4714,9 +4806,8 @@ function record(ok, response){
   renderProgress();
   renderRecords();
   const afterGrowth = getGrowthInfo(student);
-  if(afterGrowth.level > beforeGrowth.level){
-    showGrowthLevelUp(student, afterGrowth);
-  }
+  showGrowthLevelUp(student, beforeGrowth, afterGrowth);
+  renderAnimalHome();
 }
 
 function renderRecords(){
@@ -4828,11 +4919,32 @@ function importJSON(event){
 
 
 function applyScreenMode(){
+  document.body.classList.toggle("home-screen-on", state.screen === "home");
   document.body.classList.toggle("select-screen-on", state.screen !== "activity");
   document.body.classList.toggle("activity-screen-on", state.screen === "activity");
-  if(state.screen === "activity" && typeof renderActivityModePanel === "function"){
-    renderActivityModePanel();
+  if(state.screen === "home") renderAnimalHome();
+  if(state.screen === "activity" && typeof renderActivityModePanel === "function") renderActivityModePanel();
+}
+function goHomeScreen(){
+  assessmentStopClock();cancelGradedAutoAdvance();stopAllAppSounds();
+  state.screen='home';
+  if(document.body.classList.contains('teacher-mode')){
+    document.body.classList.remove('teacher-mode');
+    const btn=document.getElementById('teacherModeBtn');
+    if(btn){btn.textContent='교사·학생 등록 및 관리';btn.setAttribute('aria-expanded','false');}
   }
+  applyScreenMode();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goLessonSelectScreen(){
+  if(!getStudent()){openStudentManagement();return;}
+  assessmentStopClock();cancelGradedAutoAdvance();stopAllAppSounds();
+  state.screen='select';applyScreenMode();
+  setTimeout(()=>document.getElementById('lessonSelectCard')?.scrollIntoView({behavior:'smooth',block:'start'}),30);
+}
+function openStudentManagement(){
+  if(!document.body.classList.contains('teacher-mode')) toggleTeacherMode();
+  else {state.screen='select';applyScreenMode();}
 }
 
 function goActivityScreen(){
@@ -4854,12 +4966,8 @@ function goActivityScreen(){
 }
 
 function goSelectScreen(){
-  assessmentStopClock();
-  cancelGradedAutoAdvance();
-  stopAllAppSounds();
-  state.screen = "select";
-  applyScreenMode();
-  setTimeout(()=>document.getElementById("lessonSelectCard")?.scrollIntoView({behavior:"smooth", block:"start"}), 50);
+  // 기존 음소 다시 고르기 버튼의 목적지는 홈(동물 도감)입니다.
+  goHomeScreen();
 }
 
 
@@ -4897,6 +5005,7 @@ function toggleTeacherMode(){
   }
 }
 
+if(data.teachers.length && getStudent()) state.screen='home';
 renderStudents();
 if(!data.teachers.length){
   document.body.classList.add('teacher-mode');
@@ -4909,6 +5018,7 @@ renderLessons();
 renderReviewBasket();
 renderProgress();
 renderGrowthPanel();
+renderAnimalHome();
 renderRecords();
 if(!state.selectedLesson && lessons[state.tab].length) state.selectedLesson = lessons[state.tab][0];
 applyScreenMode();
