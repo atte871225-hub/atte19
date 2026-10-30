@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>소리쏙쏙 음운인식 v79</title>
+<title>소리쏙쏙 음운인식 v80</title>
 <style>
   :root{
     --bg:#f3f8e8;
@@ -1798,11 +1798,70 @@ body.home-screen-on main{max-width:1260px;padding-top:18px}
 @media(max-width:900px){.collection-grid,.collection-item-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:550px){.collection-hero{padding:22px 17px;gap:5px}.collection-hero .collection-main-animal{font-size:70px}.collection-hero h1{font-size:25px}.collection-grid,.collection-item-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.collect-card{min-height:122px;padding:10px 4px}.collect-card .collect-art{font-size:43px}.collect-card .collect-name{font-size:14px}.collection-item-grid .collect-card{min-height:110px}.collection-section{padding:15px 12px}.collection-progress-card{grid-template-columns:1fr}.brand-home-link{font-size:16px;gap:5px}.brand-home-link .logo{width:37px;height:37px}.brand-home-link .brand-home-mark{font-size:10px}.collection-hero::after{display:none}}
 @media(prefers-reduced-motion:reduce){.collection-hero .collection-main-animal,.collection-unlock-box{animation:none!important}}
+
+/* v80: 학습이 주인공인 첫 화면 + 활동 중 언제든 꺼내보는 동물 도감 */
+.learning-hero{background:linear-gradient(120deg,#376e67,#4fa68f 58%,#91cf97);min-height:240px}
+.learning-hero::after{content:'🔤';opacity:.13;transform:rotate(-12deg)}
+.learning-hero .collection-eyebrow{color:#eaffd6}
+.learning-hero .collection-main-animal{font-size:clamp(72px,10vw,115px)}
+.learning-hero .learning-intro{font-size:17px;max-width:640px;line-height:1.6;color:#fff;font-weight:850;margin:6px 0 0}
+.learning-hero .collection-top-action{margin-top:20px!important}
+.learning-hero .collection-top-action button{background:#ffed95;color:#235547;font-size:clamp(19px,3vw,24px);font-weight:1000;min-height:64px;padding:16px 26px;border:2px solid #fff9d4;box-shadow:0 5px 0 #226052}
+.learning-hero .collection-top-action button:hover{background:#fff6bb}
+.learning-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.learning-step{background:white;border:1px solid #dcebd8;border-radius:19px;padding:16px 18px;display:flex;gap:12px;align-items:center}
+.learning-step .step-icon{font-size:35px;flex:0 0 auto}
+.learning-step strong{display:block;font-size:17px;color:#345945;margin-bottom:3px}
+.learning-step span{font-size:13px;color:#63766a;line-height:1.5;font-weight:750}
+.learning-reward-strip{background:#fff9ee;border:2px solid #ead6a8;border-radius:21px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.learning-reward-strip .reward-summary{display:flex;align-items:center;gap:12px;min-width:0}
+.learning-reward-strip .reward-art{font-size:49px}
+.learning-reward-strip .reward-title{font-size:19px;font-weight:1000;color:#715324;margin-bottom:2px}
+.learning-reward-strip .reward-note{font-size:14px;color:#806a45;font-weight:800;line-height:1.5}
+.learning-reward-strip button{background:#fff;border:2px solid #e5c989;color:#73551d;font-size:15px;padding:12px 18px}
+.collection-album{border-radius:23px;border:1px solid #dce8d3;background:white;overflow:hidden;box-shadow:var(--shadow)}
+.collection-album>summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 21px;font-size:20px;font-weight:1000;color:#365e41;list-style:none}
+.collection-album>summary::-webkit-details-marker{display:none}
+.collection-album>summary::after{content:'⌄';font-size:22px;margin-left:auto;transition:transform .2s}
+.collection-album[open]>summary::after{transform:rotate(180deg)}
+.collection-album .album-inside{padding:0 16px 18px;display:grid;gap:14px}
+.collection-album .collection-section{box-shadow:none;background:#fbfdf9}
+.collection-album .collection-heading h2{font-size:21px}
+/* 학습 화면 오른쪽 아래에 고정된 도감 미리보기 */
+.collection-dock{position:fixed;bottom:19px;right:19px;z-index:3800;border:2px solid #b9d8b1;background:#fffef8;color:#315d43;border-radius:22px;box-shadow:0 7px 27px rgba(22,55,36,.22);display:none;align-items:center;gap:9px;padding:8px 12px;text-align:left;max-width:min(245px,calc(100vw - 25px));transition:transform .15s ease;min-height:69px}
+.collection-dock:hover{transform:translateY(-3px)}
+.collection-dock .dock-art{font-size:40px;line-height:1}
+.collection-dock .dock-name{font-weight:1000;font-size:17px}
+.collection-dock .dock-count{font-weight:850;font-size:12px;color:#65846e;display:block;margin-top:2px}
+body.select-screen-on:not(.home-screen-on):not(.teacher-mode) .collection-dock:not([hidden]),
+body.activity-screen-on:not(.teacher-mode) .collection-dock:not([hidden]){display:flex}
+body.activity-screen-on:not(.teacher-mode) #growthPanel{display:none}
+.collection-drawer{position:fixed;inset:0;z-index:12000;background:rgba(16,38,30,.55);display:grid;justify-items:end}
+.collection-drawer[hidden]{display:none!important}
+.collection-drawer-panel{background:#fbfff9;width:min(540px,100vw);height:100%;overflow-y:auto;padding:22px 22px 35px;box-shadow:-10px 0 30px #142c2866;outline:none}
+.drawer-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.drawer-heading h2{font-size:26px;color:#356748;margin:0}
+.drawer-close{border:2px solid #dce5d4;background:white;color:#416950;border-radius:14px;padding:9px 15px;font-size:16px;font-weight:900}
+.drawer-top{border-radius:18px;background:#edf8ec;border:1px solid #cee5c8;padding:15px;display:flex;align-items:center;gap:13px;margin-bottom:15px}
+.drawer-top .drawer-animal{font-size:62px}
+.drawer-top .drawer-meta{font-weight:900;line-height:1.6;color:#3d6446}
+.drawer-top .drawer-meta b{font-size:22px;color:#2c6042}
+.drawer-progress{height:12px;background:#dcebd7;border-radius:999px;overflow:hidden;margin:10px 0 5px}
+.drawer-progress>div{background:#62b97d;height:100%;border-radius:999px}
+.drawer-section{border:1px solid #dfe8d9;background:white;border-radius:19px;padding:14px;margin-top:14px}
+.drawer-section h3{margin:0 0 12px;color:#37664a;font-size:20px}
+.drawer-section .collection-grid,.drawer-section .collection-item-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.drawer-section .collect-card{min-height:115px;box-shadow:none}
+.drawer-section .collect-art{font-size:40px}
+.drawer-section .collect-name{font-size:14px}
+.drawer-section .collect-caption{font-size:11px}
+@media(max-width:720px){.learning-steps{grid-template-columns:1fr}.learning-step{padding:12px 14px}.learning-hero{min-height:0}}
+@media(max-width:550px){.learning-hero .learning-intro{font-size:14px}.learning-hero .collection-top-action button{width:100%;padding:13px 16px;min-height:60px}.learning-hero .collection-main-animal{font-size:57px}.learning-reward-strip .reward-title{font-size:17px}.collection-album>summary{font-size:17px;padding:15px}.collection-album .album-inside{padding:0 9px 12px}.collection-dock{bottom:12px;right:12px;min-height:58px;padding:6px 10px;border-radius:18px}.collection-dock .dock-art{font-size:32px}.collection-dock .dock-name{font-size:14px}.collection-dock .dock-count{font-size:11px}.collection-drawer-panel{padding:16px 13px 25px}.drawer-heading h2{font-size:22px}}
 </style>
 </head>
 <body>
 <header>
-  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="동물 도감 홈으로" aria-label="소리쏙쏙 홈으로 이동"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v79</span><span class="brand-home-mark">⌂ 홈</span></button>
+  <button type="button" class="brand brand-home-link" onclick="goHomeScreen()" title="소리쏙쏙 학습 홈으로" aria-label="학습 홈으로 돌아가기"><div class="logo">쏙</div><span>소리쏙쏙 음운인식 v80</span><span class="brand-home-mark">⌂ 홈</span></button>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="small mint" id="teacherModeBtn" onclick="toggleTeacherMode()" aria-expanded="false">교사·학생 등록 및 관리</button>
     <button class="small gray teacher-action" onclick="window.print()">인쇄</button>
@@ -1813,9 +1872,15 @@ body.home-screen-on main{max-width:1260px;padding-top:18px}
   </div>
 </header>
 <div id="globalFeedback" class="global-feedback"></div>
+<!-- 학습 도중에도 수집 상태를 확인하며 같은 문제로 돌아옵니다. -->
+<button id="collectionDock" class="collection-dock" type="button" onclick="openCollectionDrawer()" aria-haspopup="dialog" aria-controls="collectionDrawer" aria-label="동물 도감 열기"></button>
+<div id="collectionDrawer" class="collection-drawer" hidden onclick="if(event.target===this)closeCollectionDrawer()">
+  <div class="collection-drawer-panel" id="collectionDrawerPanel" role="dialog" aria-modal="true" aria-label="나의 동물과 아이템 도감" tabindex="-1"></div>
+</div>
+
 
 <main>
-  <!-- 학생을 선택하면 가장 먼저 보이는 동물/아이템 도감 홈 화면 -->
+  <!-- 학생별 음운인식 학습 홈: 학습 시작이 중심이며 도감은 보상 영역 -->
   <section id="animalHome" aria-label="나의 동물 도감" aria-live="polite"></section>
   <div class="layout">
     <aside class="card">
@@ -2235,47 +2300,118 @@ function collectionCard(obj,earned,newest=false){
     <div class="collect-caption">${earned?'✓ 수집 완료':obj.points+'점에 만나요'}</div>
   </div>`;
 }
+function friendlyStudentWith(student){
+  if(!student)return '학생';
+  const name=String(student.name||'학생');
+  const last=name.charCodeAt(name.length-1);
+  const hasBatchim=last>=0xAC00 && last<=0xD7A3 && ((last-0xAC00)%28!==0);
+  return name+(hasBatchim?'이와':'와');
+}
 function renderAnimalHome(){
   const container=document.getElementById('animalHome');if(!container)return;
   const teacher=getTeacher(), student=getStudent();
   if(!student){
-    container.innerHTML=`<div class="collection-home"><div class="collection-hero">
-      <div><div class="collection-eyebrow">✨ 소리쏙쏙의 신나는 보상</div><h1>🐾 나의 동물 도감</h1><p>동물도 모으고 아이템도 모아요!</p></div>
-      <div class="collection-main-animal" aria-hidden="true">🐻</div></div>
-      <div class="collection-empty"><div class="big">🧩</div><h2>교사와 학생을 등록해 주세요</h2>
-      <p>교사를 등록하고 학생을 선택하면 동물 도감이 나타나요.<br>학생마다 수집한 동물과 아이템이 따로 기록됩니다.</p>
+    container.innerHTML=`<div class="collection-home"><div class="collection-hero learning-hero">
+      <div><div class="collection-eyebrow">🎧 듣고 · 찾고 · 합치고 · 읽어요</div>
+        <h1>소리쏙쏙 음운인식 활동</h1><p class="learning-intro">소리를 재미있게 익히며 읽기 실력을 키워요!</p></div>
+      <div class="collection-main-animal" aria-hidden="true">🔤</div></div>
+      <div class="collection-empty"><div class="big">👩‍🏫</div><h2>교사와 학생을 먼저 등록해 주세요</h2>
+      <p>학생을 선택하면 이름이 들어간 학습 홈이 열립니다.<br>학습하면서 동물과 아이템도 함께 모을 수 있어요.</p>
       <button onclick="openStudentManagement()">교사·학생 등록하러 가기 →</button></div></div>`;
+    updateCollectionDock();
     return;
   }
   const g=getGrowthInfo(student);
   const label=safeHTML(student.name);
+  const friendly=safeHTML(friendlyStudentWith(student));
   const studentButtons=getTeacherStudents().map(st=>`<button type="button" onclick="selectStudent('${st.id}')" class="${student.id===st.id?'active':''}" aria-pressed="${student.id===st.id}">${safeHTML(st.name)}</button>`).join('');
   const newestAnimal=g.animals[g.animals.length-1];
   const animalCards=ANIMAL_COLLECTION.map(a=>collectionCard(a,g.exp>=a.points,a===newestAnimal)).join('');
   const itemCards=ITEM_COLLECTION.map(i=>collectionCard(i,g.exp>=i.points)).join('');
   const nextLabel=g.next?`${g.next.emoji} ${safeHTML(g.next.name)}까지 ${g.next.points-g.exp}점!`:'모든 동물과 아이템을 모았어요! 🎉';
+  const previouslyOpen=Boolean(container.querySelector('#collectionAlbum')?.open);
   container.innerHTML=`<div class="collection-home">
-    <div class="collection-hero">
-      <div><div class="collection-eyebrow">🐾 ${safeHTML(teacher?.name||'우리 반')} · 나만의 수집 도감</div>
-        <h1>${label}의 동물 도감!</h1><p>읽고 도전할 때마다 새로운 동물과 아이템이 나타나요.</p>
-        <div class="collection-top-action" style="margin-top:18px"><button onclick="goLessonSelectScreen()">📚 음소 고르고 공부하기 →</button></div>
-      </div><div class="collection-main-animal" aria-label="최근 수집한 ${safeHTML(newestAnimal.name)}">${newestAnimal.emoji}</div>
+    <div class="collection-hero learning-hero">
+      <div><div class="collection-eyebrow">🎧 ${safeHTML(teacher?.name||'우리 반')} · 듣고 찾고 합치는 재미있는 공부</div>
+        <h1>${friendly} 함께하는<br>소리쏙쏙 음운인식 활동!</h1>
+        <p class="learning-intro">소리를 듣고, 찾고, 합치고, 나누면서<br>차근차근 글자 읽기 실력을 키워요.</p>
+        <div class="collection-top-action"><button type="button" onclick="goLessonSelectScreen()">📚 음소 고르고 공부 시작! →</button></div>
+      </div><div class="collection-main-animal" aria-hidden="true">🔤</div>
     </div>
-    <div class="collection-student-row"><div class="subtitle">👩‍🏫 ${safeHTML(teacher?.name||'담당 교사')} · 학생 바꾸기</div>
+    <div class="collection-student-row"><div class="subtitle">👩‍🏫 ${safeHTML(teacher?.name||'담당 교사')} · 함께 공부할 학생</div>
       <div class="collection-student-buttons">${studentButtons}</div></div>
-    <div class="collection-progress-card">
-      <div><div class="collection-next">✨ 다음 보상: ${nextLabel}</div>
-      <div class="collection-bar" role="progressbar" aria-valuenow="${g.pct}" aria-valuemin="0" aria-valuemax="100" aria-label="다음 보상까지 진행률"><div style="width:${g.pct}%"></div></div>
-      <p class="collection-how">도전하면 1점, 정답을 맞히면 2점을 더 받아요! (정답 총 3점) · 기존 학습 기록도 반영돼요.</p></div>
-      <div class="collection-points">⭐ ${g.exp}점</div>
-    </div>
-    <section class="collection-section"><div class="collection-heading"><h2>🐾 동물 도감</h2><span class="col-count">${g.animals.length} / ${ANIMAL_COLLECTION.length}마리 수집!</span></div>
-      <div class="collection-grid">${animalCards}</div></section>
-    <section class="collection-section"><div class="collection-heading"><h2>🎒 나의 아이템 보관함</h2><span class="col-count">${g.items.length} / ${ITEM_COLLECTION.length}개 수집!</span></div>
-      <div class="collection-item-grid">${itemCards}</div></section>
-    <p class="collection-how" style="text-align:center;margin-bottom:20px">※ 이 도감과 학습 기록은 현재 기기의 브라우저에 저장됩니다. 교사 간 자동 동기화는 되지 않아요.</p>
+    <section class="learning-steps" aria-label="음운인식 공부 순서">
+      <div class="learning-step"><span class="step-icon">👂</span><div><strong>1. 소리를 골라요</strong><span>오늘 배울 모음·자음·받침 선택</span></div></div>
+      <div class="learning-step"><span class="step-icon">🗣️</span><div><strong>2. 소리 공부를 해요</strong><span>찾기·합치기·나누기·읽기 연습</span></div></div>
+      <div class="learning-step"><span class="step-icon">🌟</span><div><strong>3. 실력을 확인해요</strong><span>읽기 점검을 하고 보상도 모아요</span></div></div>
+    </section>
+    <section class="learning-reward-strip" aria-label="학습 보상 미리보기">
+      <div class="reward-summary"><span class="reward-art">${g.stage.emoji}</span><div>
+        <div class="reward-title">${label}의 칭찬 선물 🎁</div>
+        <div class="reward-note">동물 ${g.animals.length}/${ANIMAL_COLLECTION.length}마리 · 아이템 ${g.items.length}/${ITEM_COLLECTION.length}개 · ⭐ ${g.exp}점</div>
+      </div></div><button type="button" onclick="toggleCollectionAlbum()">🐾 동물 도감 열어보기</button>
+    </section>
+    <details id="collectionAlbum" class="collection-album" ${previouslyOpen?'open':''}>
+      <summary>🐾 동물·아이템 도감 <span class="col-count">${g.animals.length+g.items.length}/${ANIMAL_COLLECTION.length+ITEM_COLLECTION.length}개 수집</span></summary>
+      <div class="album-inside">
+        <div class="collection-progress-card"><div><div class="collection-next">✨ 다음 보상: ${nextLabel}</div>
+          <div class="collection-bar" role="progressbar" aria-valuenow="${g.pct}" aria-valuemin="0" aria-valuemax="100" aria-label="다음 보상까지 진행률"><div style="width:${g.pct}%"></div></div>
+          <p class="collection-how">도전하면 1점, 정답은 추가 2점! 공부할수록 수집할 수 있어요.</p></div>
+          <div class="collection-points">⭐ ${g.exp}점</div></div>
+        <section class="collection-section"><div class="collection-heading"><h2>🐾 동물 도감</h2><span class="col-count">${g.animals.length}/${ANIMAL_COLLECTION.length}마리</span></div>
+          <div class="collection-grid">${animalCards}</div></section>
+        <section class="collection-section"><div class="collection-heading"><h2>🎒 아이템 보관함</h2><span class="col-count">${g.items.length}/${ITEM_COLLECTION.length}개</span></div>
+          <div class="collection-item-grid">${itemCards}</div></section>
+      </div>
+    </details>
+    <p class="collection-how" style="text-align:center;margin-bottom:20px">※ 수집 상태와 학습 기록은 현재 브라우저에 저장됩니다. 교사 간 자동 동기화는 되지 않아요.</p>
   </div>`;
+  updateCollectionDock();
 }
+function toggleCollectionAlbum(){
+  const album=document.getElementById('collectionAlbum');if(!album)return;
+  album.open=!album.open;
+  if(album.open)album.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function updateCollectionDock(){
+  const dock=document.getElementById('collectionDock');if(!dock)return;
+  const st=getStudent();
+  if(!st){dock.hidden=true;closeCollectionDrawer();return;}
+  const g=getGrowthInfo(st);
+  dock.hidden=false;
+  dock.innerHTML=`<span class="dock-art" aria-hidden="true">${g.stage.emoji}</span><span><span class="dock-name">🐾 동물 도감</span><span class="dock-count">${g.animals.length}마리 · 아이템 ${g.items.length}개 · ⭐ ${g.exp}점</span></span>`;
+  dock.setAttribute('aria-label',`${st.name}의 동물 도감 열기, 동물 ${g.animals.length}마리, 아이템 ${g.items.length}개`);
+  if(!document.getElementById('collectionDrawer').hidden)renderCollectionDrawer();
+}
+function renderCollectionDrawer(){
+  const panel=document.getElementById('collectionDrawerPanel');
+  const student=getStudent();
+  if(!panel||!student)return;
+  const g=getGrowthInfo(student);
+  const nextText=g.next?`다음 선물 ${g.next.emoji} ${safeHTML(g.next.name)}까지 ${g.next.points-g.exp}점 남았어요.`:'모든 보상을 모았어요! 🎉';
+  panel.innerHTML=`<div class="drawer-heading"><h2>🐾 ${safeHTML(student.name)}의 동물 도감</h2>
+    <button class="drawer-close" type="button" onclick="closeCollectionDrawer()" aria-label="동물 도감 닫기">✕ 닫기</button></div>
+    <div class="drawer-top"><span class="drawer-animal">${g.stage.emoji}</span><div class="drawer-meta"><b>⭐ ${g.exp}점</b><br>${nextText}
+      <div class="drawer-progress"><div style="width:${g.pct}%"></div></div><small>정답을 맞히면 새로운 동물과 아이템을 모아요!</small></div></div>
+    <section class="drawer-section"><h3>🐾 동물 ${g.animals.length}/${ANIMAL_COLLECTION.length}</h3>
+      <div class="collection-grid">${ANIMAL_COLLECTION.map(a=>collectionCard(a,g.exp>=a.points)).join('')}</div></section>
+    <section class="drawer-section"><h3>🎒 아이템 ${g.items.length}/${ITEM_COLLECTION.length}</h3>
+      <div class="collection-item-grid">${ITEM_COLLECTION.map(i=>collectionCard(i,g.exp>=i.points)).join('')}</div></section>
+    <p class="collection-how">도감만 닫으면 풀던 학습 화면으로 그대로 돌아가요.</p>`;
+}
+function openCollectionDrawer(){
+  if(!getStudent())return;
+  const drawer=document.getElementById('collectionDrawer');if(!drawer)return;
+  renderCollectionDrawer();drawer.hidden=false;
+  document.getElementById('collectionDrawerPanel')?.focus();
+}
+function closeCollectionDrawer(){
+  const drawer=document.getElementById('collectionDrawer');if(drawer)drawer.hidden=true;
+}
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape' && !document.getElementById('collectionDrawer')?.hidden)closeCollectionDrawer();
+});
+
 function renderGrowthPanel(){
   const panel=document.getElementById('growthPanel');if(!panel)return;
   const student=getStudent();
@@ -2284,7 +2420,7 @@ function renderGrowthPanel(){
   const nextText=g.next?`${g.next.points-g.exp}점 더 모으면 ${g.next.emoji} ${safeHTML(g.next.name)} 획득!`:'모든 보상을 모았어요!';
   panel.innerHTML=`<div class="collection-mini">
     <div class="mini-icons"><span class="animal">${g.stage.emoji}</span><span>${safeHTML(student.name)}의 동물 수집<br><small>🐾 ${g.animals.length}/${ANIMAL_COLLECTION.length} · 🎒 ${g.items.length}/${ITEM_COLLECTION.length} · ⭐ ${g.exp}점</small></span></div>
-    <div><div class="muted" style="margin-bottom:7px">${nextText}</div><button onclick="goHomeScreen()">📖 내 동물 도감 보기</button></div>
+    <div><div class="muted" style="margin-bottom:7px">${nextText}</div><button onclick="openCollectionDrawer()">🐾 동물 도감 보기</button></div>
   </div>`;
 }
 function showGrowthLevelUp(student, before, after){
@@ -4808,6 +4944,7 @@ function record(ok, response){
   const afterGrowth = getGrowthInfo(student);
   showGrowthLevelUp(student, beforeGrowth, afterGrowth);
   renderAnimalHome();
+  updateCollectionDock();
 }
 
 function renderRecords(){
@@ -4919,6 +5056,8 @@ function importJSON(event){
 
 
 function applyScreenMode(){
+  closeCollectionDrawer();
+  updateCollectionDock();
   document.body.classList.toggle("home-screen-on", state.screen === "home");
   document.body.classList.toggle("select-screen-on", state.screen !== "activity");
   document.body.classList.toggle("activity-screen-on", state.screen === "activity");
@@ -4966,7 +5105,7 @@ function goActivityScreen(){
 }
 
 function goSelectScreen(){
-  // 기존 음소 다시 고르기 버튼의 목적지는 홈(동물 도감)입니다.
+  // 음소 다시 고르기는 학생별 음운인식 학습 홈으로 돌아갑니다.
   goHomeScreen();
 }
 
